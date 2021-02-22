@@ -1,0 +1,23 @@
+﻿@page
+@model Bakdelar.Pages.Admin.Category.DeleteModel
+@{
+    Layout = "Admin_Layout";
+}
+
+<h1>Delete Category</h1>
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayTextFor(model => model.Category.CategoryName)
+        </dt>
+        
+    </dl>
+
+    <form method="post">
+        <input type="hidden" asp-for="Category.CategoryId" />
+        <input type="submit" value="Delete" class="btn btn-danger" /> |
+        <a asp-page="./Index">Back to List</a>
+    </form>
+</div>

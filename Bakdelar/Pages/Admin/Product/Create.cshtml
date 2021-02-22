@@ -1,0 +1,73 @@
+﻿@page
+@model Bakdelar.Pages.Admin.Product.CreateModel
+
+@{
+    Layout = "Admin_Layout";
+}
+
+
+<h1>Add Product</h1>
+
+<h4>Product</h4>
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Product.ProductName" class="control-label"></label>
+                <input asp-for="Product.ProductName" class="form-control" />
+                <span asp-validation-for="Product.ProductName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Product.ProductDescription" class="control-label"></label>
+                <input asp-for="Product.ProductDescription" class="form-control" />
+                <span asp-validation-for="Product.ProductDescription" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Product.ProductPrice" class="control-label"></label>
+                <input asp-for="Product.ProductPrice" class="form-control" />
+                <span asp-validation-for="Product.ProductPrice" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Product.ProductWeight" class="control-label"></label>
+                <input asp-for="Product.ProductWeight" class="form-control" />
+                <span asp-validation-for="Product.ProductWeight" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Product.AvailableQuantity" class="control-label"></label>
+                <input asp-for="Product.AvailableQuantity" class="form-control" />
+                <span asp-validation-for="Product.AvailableQuantity" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label for="productCategory">Välj en kategori:</label>
+                @*<select asp-for="Product.CategoryId" name="productCategory">
+            @foreach (var category in Model.Categories)
+            {
+                <option style="width: 15rem;" value="@category.CategoryId">@category.CategoryName</option>
+            }
+        </select>*@
+                @Html.DropDownListFor(x => x.Product.CategoryId, new SelectList(Model.Categories, "CategoryId", "CategoryName"), htmlAttributes: new { @class = "form-control", id = "CategoryId" })
+                @Html.ValidationMessageFor(x => x.Product.CategoryId, "", new { @class = "text-danger" })
+                <span asp-validation-for="Product.CategoryId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label>Välj produkt bild:</label>
+
+                <input type="file" id="fileUpload" name="files" multiple />
+
+            </div>
+
+
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" id="btnCreateProduct1" />
+            </div>
+        </form>
+    </div>
+</div>
+
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

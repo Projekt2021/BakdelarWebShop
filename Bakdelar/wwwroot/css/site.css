@@ -1,0 +1,157 @@
+﻿/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
+for details on configuring this project to bundle and minify static web assets. */
+
+@font-face {
+    font-family: 'Coustad';
+    src: url('../fonts/Coustard-Regular.ttf')
+}
+
+@font-face {
+    font-family: 'Barlow Condensed';
+    src: url('../fonts/BarlowCondensed-Regular.ttf')
+}
+
+#banner-image {
+    /*background-image: inherit;*/
+    background-attachment: fixed;
+}
+
+#slogan-font {
+    font-family: 'Barlow Condensed' !important, sans-serif;
+    font-size: 2rem;
+    color: #abd0b9 !important;
+}
+
+#brand-font {
+    color: #dac5ce !important;
+    font-size: 4rem;
+    font-family: 'Coustard' !important, serif;
+}
+#body {
+    /*background-image: url('../images/body_bg.gif');*/
+    background: rgb(218,197,206);
+    background: radial-gradient(circle, rgba(218,197,206,1) 0%, rgba(171,208,185,1) 100%);
+    width: 100%;
+    height: auto;
+    background-size: cover;
+    background-repeat: repeat
+}
+span{
+    cursor: default;
+}
+.logo {
+    position: absolute;
+    z-index: 1000;
+    max-height: 60px;
+    max-width: 100%;
+    overflow: hidden;
+}
+/*body {
+    background-color: #eefbf5;
+    padding-top: 5.1rem;
+}
+*/
+body {
+    background-image: url("../images/cooking.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+
+/*.navbar {*/
+    /*background-image: url("../images/banner.jpg");*/
+    /*background-repeat: no-repeat;*/ /* Determine what direction the image will repeat */
+    /*background-position: left;*/ /* Where the image will be positioned relative to "top, right, bottom, and/or left */
+    /*background-attachment: fixed;*/ /* use with "fixed" to make it scroll with page */
+    /*margin-bottom: 50px !important;
+}*/
+
+.navbar {
+    border-top-left-radius: calc(.25rem - 1px);
+    border-top-right-radius: calc(.25rem - 1px);
+    /*background-image: inherit;
+    background-repeat: inherit;*/ /* Determine what direction the image will repeat */
+    /*background-position: inherit;*/ /* Where the image will be positioned relative to "top, right, bottom, and/or left */
+    /*background-attachment: fixed;*/ /* use with "fixed" to make it scroll with page */
+    /*margin-bottom: 50px !important;*/
+}
+nav {
+    font-size: x-large;
+
+}
+
+a.navbar-brand {
+  white-space: normal;
+  text-align: center;
+  word-break: break-all;
+}
+
+/* Provide sufficient contrast against white background */
+a {
+  color: #0366d6;
+}
+
+.material-icons{
+    font-size: 25px;
+}
+
+#dropdown-basket:hover > .dropdown-menu {
+    display: block;
+}
+
+.btn-primary {
+  color: #fff;
+  background-color: #1b6ec2;
+  border-color: #1861ac;
+}
+
+.nav-pills .nav-link.active, .nav-pills .show > .nav-link {
+  color: #fff;
+  background-color: #1b6ec2;
+  border-color: #1861ac;
+}
+
+.linkcolor {
+    color: #ffffff !important;
+}
+
+.card {
+    border-radius: 1.25rem;
+    border: 5px solid #c7c7c7;
+    padding: 25px;
+}
+
+/* Sticky footer styles
+-------------------------------------------------- */
+html {
+  font-size: 14px;
+}
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+.border-top {
+  border-top: 1px solid #e5e5e5;
+}
+.border-bottom {
+  border-bottom: 1px solid #e5e5e5;
+}
+
+.box-shadow {
+  box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
+}
+
+button.accept-policy {
+  font-size: 1rem;
+  line-height: inherit;
+}
+
+/* Sticky footer styles
+-------------------------------------------------- */
+html {
+  position: relative;
+  min-height: 100%;
+}
+

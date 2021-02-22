@@ -1,0 +1,79 @@
+﻿@page
+@model Bakdelar.Pages.Admin.Product.IndexModel
+@{
+    Layout = "Admin_Layout";
+}
+
+<h1>Produkt</h1>
+
+<p>
+    <a asp-page="Create">Skapa Ny</a>
+</p>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Product[0].ProductName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Product[0].ProductDescription)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Product[0].ProductPrice)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Product[0].ProductWeight)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Product[0].AvailableQuantity)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Product[0].Category)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Product[0].ProductImageView)
+            </th>
+        </tr>
+    </thead>
+    <ul>
+        @foreach (var item in Model.Product)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ProductName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ProductDescription)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ProductPrice)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ProductWeight)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.AvailableQuantity)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Category.CategoryName)
+                </td>
+                <td>
+                    <ul>
+                        @foreach (var imageObj in item.ProductImageView)
+                        {
+                            <li><img src="@imageObj.ImageURL" width="50" height="50"/></li>
+                        }
+                    </ul>
+                    @*@Html.DisplayFor(modelItem => item.ProductImageView)*@
+                </td>
+                <td>
+                    <a asp-page="./Edit" asp-route-id="@item.ProductId">Edit</a> |
+                    <a asp-page="./Details" asp-route-id="@item.ProductId">Details</a> |
+                    <a asp-page="./Delete" asp-route-id="@item.ProductId">Delete</a>
+                </td>
+            </tr>
+        }
+        </tbody>
+
+</table>

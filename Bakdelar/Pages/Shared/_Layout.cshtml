@@ -1,0 +1,54 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>@ViewData["Title"] - Bakdelar</title>
+
+    <link href="~/css/bootstrap-social.css" rel="stylesheet" />
+    <link href="~/fontawesome/all.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed&family=Coustard&display=swap" rel="stylesheet">
+</head>
+
+<body class="d-flex flex-column min-vh-100">
+    <partial name="Banner.cshtml" />
+    <partial name="_Navbar.cshtml" />
+
+    <div id="body" class="container-fluid">
+        <div class="row">
+            <div class="col p-0 m-0 mb-1 justify-content-center">
+                <partial name="_Sidemenu.cshtml" />
+            </div>
+            <div class="col-lg-9 container justify-content-center align-items-center" style="margin-top: -0.5rem;">
+                <div class="row justify-content-center shadow-sm px-2 p-3 mb-5 bg-white rounded min-vh-100">
+
+                    <main role="main">
+                        @RenderBody()
+                    </main>
+                </div>
+            </div>
+            <div class="col"></div>
+        </div>
+    </div>
+    <footer class="border-top footer justify-content-center align-items-center bg-dark">
+       <div class="container text-light">
+
+            <a href="#">Customer information</a>
+            <a href="#">GDPR</a>
+            
+            &copy; 2021 - Bakdelar.se - <a asp-area="" asp-page="/Privacy">Privacy</a>
+        </div>
+    </footer>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

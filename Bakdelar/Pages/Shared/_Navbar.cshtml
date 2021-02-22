@@ -1,0 +1,61 @@
+﻿<nav class="navbar navbar-expand navbar-dark bg-dark shadow-sm sticky-top">
+
+    <div class="container-fluid">
+        <div class="row" style="width: 100%">
+
+            <div class="col justify-content-start">
+
+                <ul class="navbar-nav ml-auto">
+                    <li class="navbar">
+                       
+                        <button class="btn navbar-dark btn-secondary" type="button" data-toggle="collapse" data-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">
+                            <span class="navbar-toggler-icon"></span>
+                        </button>
+                    </li>
+                </ul>
+            </div>
+            <div class="col">
+                <ul class="navbar-nav mr-auto justify-content-center" id="navbarNavAltMarkup">
+                    <li class="navbar-nav">
+                        <a class="nav-item nav-link active navbar-text" href="/">Hem</a>
+                    </li>
+                    @*<li class="navbar-nav">
+                            <a class="nav-item nav-link navbar-text" href="Categories">Kategorier</a>
+                        </li>*@
+                    <li class="navbar-nav">
+                        <a class="nav-item nav-link navbar-text" href="Checkout">Kassa</a>
+                    </li>
+                </ul>
+
+            </div>
+            <div class="col d-flex justify-content-end">
+
+                <form class="form-inline my-2 my-lg-0">
+                    <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                </form>
+                <ul class="navbar-nav ml-auto">
+                    <li class="navbar">
+                        <div class="btn-group dropleft">
+                            <button class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <span class="material-icons" id="dropdown_basket">
+                                    shopping_basket
+                                </span>
+                            </button>
+
+                            <div class="dropdown-menu">
+                                <h6 class="dropdown-header">Varukorg</h6>
+                                @*<div class="dropdown-divider"></div>*@
+                                @*<partial name="_ShoppingBasket.cshtml" />*@
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="Checkout">Till kassan</a>
+                            </div>
+                        </div>
+
+                    </li>
+                </ul>
+                <partial name="_LoginPartial" />
+            </div>            
+        </div>
+    </div>
+</nav>
