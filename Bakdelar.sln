@@ -14,6 +14,28 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		README.md = README.md
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ProductImages", "ProductImages", "{3B36DB9E-FD48-4360-946B-3F22A715B800}"
+	ProjectSection(SolutionItems) = preProject
+		..\ProductImages\Ingredienser.Bakpulver.png = ..\ProductImages\Ingredienser.Bakpulver.png
+		..\ProductImages\Ingredienser.GrönKaramellfärg.png = ..\ProductImages\Ingredienser.GrönKaramellfärg.png
+		..\ProductImages\Ingredienser.Mjöl.png = ..\ProductImages\Ingredienser.Mjöl.png
+		..\ProductImages\Ingredienser.Strössel.png = ..\ProductImages\Ingredienser.Strössel.png
+		..\ProductImages\Ingredienser.Vaniljstång.png = ..\ProductImages\Ingredienser.Vaniljstång.png
+		..\ProductImages\Köksmakiner.Stavmixer.png = ..\ProductImages\Köksmakiner.Stavmixer.png
+		..\ProductImages\Köksmaskiner.Baktermometer.png = ..\ProductImages\Köksmaskiner.Baktermometer.png
+		..\ProductImages\Köksmaskiner.Köksassistent.png = ..\ProductImages\Köksmaskiner.Köksassistent.png
+		..\ProductImages\Köksmaskiner.Mixer.png = ..\ProductImages\Köksmaskiner.Mixer.png
+		..\ProductImages\Köksmaskiner.Våg.png = ..\ProductImages\Köksmaskiner.Våg.png
+		..\ProductImages\Redskap.Bunke.png = ..\ProductImages\Redskap.Bunke.png
+		..\ProductImages\Redskap.BunkeMåttSet.png = ..\ProductImages\Redskap.BunkeMåttSet.png
+		..\ProductImages\Redskap.Kavel.png = ..\ProductImages\Redskap.Kavel.png
+		..\ProductImages\Redskap.Mått.png = ..\ProductImages\Redskap.Mått.png
+		..\ProductImages\Redskap.Siktare.png = ..\ProductImages\Redskap.Siktare.png
+		..\ProductImages\Redskap.Sil.png = ..\ProductImages\Redskap.Sil.png
+		..\ProductImages\Redskap.Visp.png = ..\ProductImages\Redskap.Visp.png
+		..\ProductImages\Redskap.Vispar.png = ..\ProductImages\Redskap.Vispar.png
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
