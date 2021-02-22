@@ -9,10 +9,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Remove="Pages\Shared\_ShoppingBasket.cshtml" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Folder Include="Classes\Customer\" />
     <Folder Include="wwwroot\images\product\" />
   </ItemGroup>
