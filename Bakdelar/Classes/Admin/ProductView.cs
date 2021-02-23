@@ -30,6 +30,13 @@ namespace Bakdelar.Classes
         [Display(Name = "Weight")]
         public double? ProductWeight { get; set; }
 
+        public DateTime DateEntered { get; set; }
+        public double? SpecialPrice { get; set; }
+        public bool IsSelected { get; set; }
+        public int NumberOfSold { get; set; }
+
+
+
         [Required]
         [Display(Name = "Category")]
         public int CategoryId { get; set; }
