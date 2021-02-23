@@ -22,6 +22,9 @@ namespace Bakdelar.Classes
         [Display(Name = "Price")]
         public decimal ProductPrice { get; set; }
 
+        [Display(Name = "Special Price")]
+        public double? SpecialPrice { get; set; }
+
         //[Required]
         [Display(Name = "Available Quantity")]
         public int? AvailableQuantity { get; set; }
@@ -30,12 +33,15 @@ namespace Bakdelar.Classes
         [Display(Name = "Weight")]
         public double? ProductWeight { get; set; }
 
+        [Display(Name = "Created At")]
+        [DisplayFormat(DataFormatString = "{0:d}")]
         public DateTime DateEntered { get; set; }
-        public double? SpecialPrice { get; set; }
+
+        [Display(Name = "Latest")]
         public bool IsSelected { get; set; }
+
+        [Display(Name = "Sold Count")]
         public int NumberOfSold { get; set; }
-
-
 
         [Required]
         [Display(Name = "Category")]
