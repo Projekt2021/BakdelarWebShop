@@ -1,0 +1,13 @@
+﻿@page
+@model Bakdelar.Pages.SearchModel
+@{
+   
+
+    
+}
+
+@foreach(var product in Model.Products)
+{
+    <h1>@product.ProductName</h1>
+    <img src="@product.ProductImageView.FirstOrDefault().ImageURL" />
+}

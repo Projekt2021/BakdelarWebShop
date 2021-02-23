@@ -37,26 +37,52 @@ namespace Bakdelar_API.Controllers
 
         //// GET: api/Products
         [HttpGet]
-        public async Task<object> GetAllProductsAsync()
+        public async Task<object> GetAllProductsAsync(string Name)
         {
-            var productList = _context.Products.Select(p => new ProductView
+            if (!string.IsNullOrWhiteSpace(Name))
             {
-                ProductId = p.ProductId,
-                ProductName = p.ProductName,
-                ProductDescription = p.ProductDescription,
-                ProductPrice = p.ProductPrice,
-                AvailableQuantity = p.AvailableQuantity,
-                ProductWeight = p.ProductWeight,
-                //Cascade insert
-                Category = new CategoryView
-                {
-                    CategoryId = p.Category.CategoryId,
-                    CategoryName = p.Category.CategoryName
-                },
-                ProductImageView = p.ProductImages.Select(x => new ProductImageView { ImageId = x.ImageId, ImageURL = x.ImageURL }).ToList()
-            }).ToList();
+                Name = Name.ToLower();
+                return _context.Products.Where(product => product.ProductName.Contains(Name) || product.ProductDescription.Contains(Name))
+                                                     .Include(product => product.ProductImages)
+                                                 .Select(product => new ProductView
+                                                 {
+                                                     ProductId = product.ProductId,
+                                                     ProductName = product.ProductName,
+                                                     ProductDescription = product.ProductDescription,
+                                                     ProductPrice = product.ProductPrice,
+                                                     AvailableQuantity = product.AvailableQuantity,
+                                                     ProductWeight = product.ProductWeight,
+                                                     //Cascade insert
+                                                     Category = new CategoryView
+                                                     {
+                                                         CategoryId = product.Category.CategoryId,
+                                                         CategoryName = product.Category.CategoryName
+                                                     },
+                                                     ProductImageView = product.ProductImages.Select(x => new ProductImageView { ImageId = x.ImageId, ImageURL = x.ImageURL }).ToList()
+                                                 }).ToList();
 
-            return productList;
+            }
+            else
+            {
+                var productList = _context.Products.Select(p => new ProductView
+                {
+                    ProductId = p.ProductId,
+                    ProductName = p.ProductName,
+                    ProductDescription = p.ProductDescription,
+                    ProductPrice = p.ProductPrice,
+                    AvailableQuantity = p.AvailableQuantity,
+                    ProductWeight = p.ProductWeight,
+                    //Cascade insert
+                    Category = new CategoryView
+                    {
+                        CategoryId = p.Category.CategoryId,
+                        CategoryName = p.Category.CategoryName
+                    },
+                    ProductImageView = p.ProductImages.Select(x => new ProductImageView { ImageId = x.ImageId, ImageURL = x.ImageURL }).ToList()
+                }).ToList();
+
+                return productList;
+            }
         }
 
         // GET: api/Products/5

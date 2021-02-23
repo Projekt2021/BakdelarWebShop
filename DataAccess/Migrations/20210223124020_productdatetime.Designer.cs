@@ -99,7 +99,9 @@ namespace DataAccess.Migrations
                         .HasColumnType("int");
 
                     b.Property<DateTime>("DateAdded")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("datetime2")
+                        .HasDefaultValueSql("getdate()");
+
 
                     b.Property<decimal?>("DiscountPrice")
                         .HasColumnType("decimal(5,2)");
