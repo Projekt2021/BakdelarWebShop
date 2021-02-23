@@ -34,34 +34,27 @@ namespace Bakdelar.Pages.Admin.Product
 
         [BindProperty]
         public ProductView Product { get; set; }
+        public List<CategoryView> Categories { get; set; }
 
         public async Task<IActionResult> OnGet(int? id)
         {
-            var user = await _userManager.GetUserAsync(User);
             var token = HttpContext.Request.Cookies["access_token"];
 
-            if (user == null || string.IsNullOrEmpty(token))
+            if (string.IsNullOrEmpty(token))
             {
                 return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
             }
+            using HttpClient client = new HttpClient();
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
-            using (HttpClient client = new HttpClient())
+            Product = await client.GetFromJsonAsync<ProductView>($"{_configuration.GetValue<String>("APIEndpoint")}api/product/{id.Value}");
+            Categories = await client.GetFromJsonAsync<List<CategoryView>>($"{_configuration.GetValue<String>("APIEndpoint")}api/category");
+
+            if (Product == null)
             {
-                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
-
-                HttpResponseMessage response = await client.GetAsync($"{_configuration.GetValue<String>("APIEndpoint")}api/product/{id.Value}");
-
-                if (response.IsSuccessStatusCode)
-                {
-                    Product = JsonConvert.DeserializeObject<ProductView>(await response.Content.ReadAsStringAsync());
-                }
-
-                if (Product == null)
-                {
-                    return NotFound();
-                }
-                return Page();
+                return NotFound();
             }
+            return Page();
         }
 
         // To protect from overposting attacks, enable the specific properties you want to bind to.

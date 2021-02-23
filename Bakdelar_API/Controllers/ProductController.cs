@@ -3,6 +3,7 @@ using DataAccess;
 using DataAccess.DataModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -23,34 +24,55 @@ namespace Bakdelar_API.Controllers
 
         // GET: api/Products/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Product>> GetProducts(int id)
+        public async Task<ActionResult<ProductView>> GetProducts(int id)
         {
-            var products = await _context.Products.FindAsync(id);
+            var productView = await _context.Products.Where(x => x.ProductId == id).Select(product =>
+                          new ProductView
+                          {
+                              ProductId = product.ProductId,
+                              ProductName = product.ProductName,
+                              ProductDescription = product.ProductDescription,
+                              ProductPrice = product.ProductPrice,
+                              SpecialPrice = product.SpecialPrice,
+                              AvailableQuantity = product.AvailableQuantity,
+                              ProductWeight = product.ProductWeight,
+                              DateEntered = product.DateEntered,
+                              IsSelected = product.IsSelected,
+                              //NumberOfSold = product.NumberOfSold,                         
+                              CategoryId = product.CategoryId,
+                              Category = new CategoryView
+                              {
+                                  CategoryId = product.Category.CategoryId,
+                                  CategoryName = product.Category.CategoryName
+                              },
+                              ProductImageView = product.ProductImages.Select(x => new ProductImageView { ImageId = x.ImageId, ImageURL = x.ImageURL }).ToList()
+                          }).FirstOrDefaultAsync();
 
-            if (products == null)
+            // Get product from database
+            if (productView == null)
             {
                 return NotFound();
             }
-
-            return products;
+            return productView;
         }
 
         //// GET: api/Products
         [HttpGet]
-        public async Task<object> GetAllProductsAsync()
+        public async Task<List<ProductView>> GetAllProductsAsync()
         {
-            var productList = _context.Products.Select(p => new ProductView
+            var productList = await _context.Products.Select(p => new ProductView
             {
                 ProductId = p.ProductId,
                 ProductName = p.ProductName,
                 ProductDescription = p.ProductDescription,
                 ProductPrice = p.ProductPrice,
+                SpecialPrice = p.SpecialPrice,
                 AvailableQuantity = p.AvailableQuantity,
                 ProductWeight = p.ProductWeight,
                 DateEntered = p.DateEntered,
                 IsSelected = p.IsSelected,
-                NumberOfSold = p.NumberOfSold,
-                SpecialPrice = p.SpecialPrice,
+                //NumberOfSold = p.NumberOfSold,
+               
                 //Cascade insert
                 Category = new CategoryView
                 {
@@ -58,7 +80,7 @@ namespace Bakdelar_API.Controllers
                     CategoryName = p.Category.CategoryName
                 },
                 ProductImageView = p.ProductImages.Select(x => new ProductImageView { ImageId = x.ImageId, ImageURL = x.ImageURL }).ToList()
-            }).ToList();
+            }).ToListAsync();
 
             return productList;
         }
@@ -78,13 +100,13 @@ namespace Bakdelar_API.Controllers
                 productDB.ProductName = product.ProductName;
                 productDB.ProductDescription = product.ProductDescription ?? productDB.ProductDescription;
                 productDB.ProductPrice = product.ProductPrice;
+                productDB.SpecialPrice = product.SpecialPrice;
                 productDB.AvailableQuantity = product.AvailableQuantity;
                 productDB.ProductWeight = product.ProductWeight;
                 productDB.CategoryId = product.CategoryId;
                 productDB.DateEntered = product.DateEntered;
                 productDB.IsSelected = product.IsSelected;
-                productDB.NumberOfSold = product.NumberOfSold;
-                productDB.SpecialPrice = product.SpecialPrice;
+               
             }
 
             _context.Entry(productDB).State = EntityState.Modified;
@@ -148,11 +170,10 @@ namespace Bakdelar_API.Controllers
                 ProductDescription = productView.ProductDescription,
                 ProductName = productView.ProductName,
                 ProductPrice = productView.ProductPrice,
-                ProductWeight = productView.ProductWeight,
-                DateEntered = productView.DateEntered,
-                IsSelected = productView.IsSelected,
-                NumberOfSold = productView.NumberOfSold,
                 SpecialPrice = productView.SpecialPrice,
+                ProductWeight = productView.ProductWeight,
+                DateEntered = DateTime.Now,
+                IsSelected = productView.IsSelected,
                 ProductImages = productView.ProductImageView.Select(x => new ProductImage
                 {
                     ImageURL = x.ImageURL
@@ -168,20 +189,19 @@ namespace Bakdelar_API.Controllers
 
         // DELETE: api/TodoItems/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteProduct(long id)
+        public async Task<IActionResult> DeleteProduct(int id)
         {
-            var products = await _context.Products.FindAsync(id);
-            if (products == null)
+            var product = await _context.Products.FindAsync(id);
+            if (product == null)
             {
                 return NotFound();
             }
 
-            _context.Products.Remove(products);
+            _context.Products.Remove(product);
             await _context.SaveChangesAsync();
 
             return NoContent();
         }
-
 
         private bool ProductExists(int id)
         {
