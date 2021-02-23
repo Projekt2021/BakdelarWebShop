@@ -24,6 +24,13 @@ namespace DataAccess.DataModels
         public int? AvailableQuantity { get; set; }
         public double? ProductWeight { get; set; }
 
+        [DataType(DataType.Date)]
+        public DateTime DateEntered { get; set; }
+
+        [Column(TypeName = "decimal(5, 2)")]
+        public double? SpecialPrice { get; set; }
+        public bool IsSelected { get; set; }
+        public int NumberOfSold { get; set; }
 
         public ICollection<ProductImage> ProductImages { get; set; }
         public ICollection<Cart> Carts { get; set; }
