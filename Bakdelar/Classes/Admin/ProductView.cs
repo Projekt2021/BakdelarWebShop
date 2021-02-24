@@ -40,6 +40,9 @@ namespace Bakdelar.Classes
         [Display(Name = "Sold Count")]
         public int NumberOfSold { get; set; }
 
+        [Display(Name = "Date Entered")]
+        public DateTime DateEntered { get; set; }
+
         [Required]
         [Display(Name = "Category")]
         public int CategoryId { get; set; }
