@@ -104,6 +104,7 @@ namespace Bakdelar_API.Controllers
                 productDB.AvailableQuantity = product.AvailableQuantity;
                 productDB.ProductWeight = product.ProductWeight;
                 productDB.CategoryId = product.CategoryId;
+                //productDB.DateEntered = DateTime.Now.Date;
                 productDB.DateEntered = product.DateEntered;
                 productDB.IsSelected = product.IsSelected;
                

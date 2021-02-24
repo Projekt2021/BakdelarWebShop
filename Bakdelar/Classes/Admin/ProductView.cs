@@ -33,9 +33,6 @@ namespace Bakdelar.Classes
         [Display(Name = "Weight")]
         public double? ProductWeight { get; set; }
 
-        [Display(Name = "Created At")]
-        [DisplayFormat(DataFormatString = "{0:d}")]
-        public DateTime DateEntered { get; set; }
 
         [Display(Name = "Latest")]
         public bool IsSelected { get; set; }
