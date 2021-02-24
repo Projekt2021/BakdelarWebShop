@@ -19,28 +19,19 @@ namespace DataAccess
                 context.Categories.AddRange(
                      new Category
                      {
-                         CategoryName = "Födelsedag"
+                         CategoryName = "Redskap"
                      },
 
                      new Category
                      {
-                         CategoryName = "Valentine"
+                         CategoryName = "Köksmaskiner"
                      },
 
                      new Category
                      {
-                         CategoryName = "Anniversary"
-                     },
-
-                     new Category
-                     {
-                         CategoryName = "Bakverktyg"
-                     },
-
-                     new Category
-                     {
-                         CategoryName = "Apparater"
+                         CategoryName = "Ingredienser"
                      });
+
                 context.SaveChanges();
             }
         }
