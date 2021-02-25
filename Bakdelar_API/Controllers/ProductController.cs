@@ -35,6 +35,52 @@ namespace Bakdelar_API.Controllers
             return products;
         }
 
+
+
+
+        //// GET: api/Products
+        [HttpGet("Search")]
+        public async Task<object> SearchProducts(string Name)
+        {
+            if (!string.IsNullOrWhiteSpace(Name))
+            {
+                Name = Name.ToLower();
+                return _context.Products.Where(product => product.ProductName.Contains(Name) || product.ProductDescription.Contains(Name))
+                                                 .Include(product => product.ProductImages)
+                                                 .Select(product => new ProductView
+                                                 {
+                                                     ProductId = product.ProductId,
+                                                     ProductName = product.ProductName,
+                                                     ProductDescription = product.ProductDescription,
+                                                     ProductPrice = product.ProductPrice,
+                                                     AvailableQuantity = product.AvailableQuantity,
+                                                     ProductWeight = product.ProductWeight,
+                                                     //Cascade insert
+                                                     Category = new CategoryView
+                                                     {
+                                                         CategoryId = product.Category.CategoryId,
+                                                         CategoryName = product.Category.CategoryName
+                                                     },
+                                                     ProductImageView = product.ProductImages.Select(x => new ProductImageView { ImageId = x.ImageId, ImageURL = x.ImageURL }).ToList()
+                                                 }).ToList();
+
+            }
+            else
+            {
+                return NoContent();
+            }
+
+            
+        }
+
+
+
+
+
+
+
+
+
         //// GET: api/Products
         [HttpGet]
         public async Task<object> GetAllProductsAsync(string Name)
