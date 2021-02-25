@@ -1,4 +1,5 @@
-﻿using DataAccess;
+﻿using Bakdelar_API.ViewModels;
+using DataAccess;
 using DataAccess.DataModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -27,6 +28,44 @@ namespace Bakdelar_API.Controllers
         {
             return await _context.Categories.ToListAsync();
         }
+
+
+
+        // GET: api/Categories/5
+        [HttpGet("Search")]
+        public async Task<List<ProductView>> GetProductsInCategory(int id)
+        {
+            if(!_context.Categories.Any(category => category.CategoryId == id))
+            {
+                return new List<ProductView>();
+            }
+            var result = await _context.Products
+                                       .Where(product => product.Category.CategoryId == id)
+                                       .Include(prod => prod.ProductImages)
+                                       .Select(p => new ProductView
+                                       {
+                                           ProductId = p.ProductId,
+                                           ProductName = p.ProductName,
+                                           ProductDescription = p.ProductDescription,
+                                           ProductImageView = p.ProductImages
+                                                               .Select(pi => new ProductImageView
+                                                               {
+                                                                   ImageId = pi.ImageId,
+                                                                   ImageURL = pi.ImageURL
+                                                               }).ToList(),
+                                           ProductPrice = p.ProductPrice,
+                                           CategoryId = p.CategoryId,
+                                           ProductWeight = p.ProductWeight,
+                                           AvailableQuantity = p.AvailableQuantity
+                                       })
+                                       .ToListAsync();
+
+            return result;
+        }
+
+
+
+
 
         // GET: api/Categories/5
         [HttpGet("{id}")]        

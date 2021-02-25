@@ -1,0 +1,28 @@
+﻿@page
+@model Bakdelar.Pages.SearchModel
+@{
+
+
+
+}
+<div class="d-flex flex-wrap justify-content-center">
+    @if (!Model.Products.Any())
+    {
+        <h1>No items found</h1>
+    }
+    else
+    {
+    foreach (var product in Model.Products) // lägger till kort med varor på hemskärmen
+        {
+            <div class="card mx-4 my-2" style="width: 15rem; ">
+                <img class="card-img-top" src="@product.ProductImageView.FirstOrDefault().ImageURL" alt="Product image" style="height: 10vw;">
+                <div class="card-body d-flex flex-column">
+                    <p class="card-title">@product.ProductName</p>
+                    <p class="card-text">@product.ProductDescription</p>
+                    <a href="~/Item/@product.ProductId" class="btn btn-primary mt-auto">Visa detaljer</a>
+                </div>
+            </div>
+        
+        }
+    }
+</div>
