@@ -9,6 +9,27 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="ProductImages\Ingredienser.Bakpulver.png" />
+    <None Remove="ProductImages\Ingredienser.GrönKaramellfärg.png" />
+    <None Remove="ProductImages\Ingredienser.Mjöl.png" />
+    <None Remove="ProductImages\Ingredienser.Strössel.png" />
+    <None Remove="ProductImages\Ingredienser.Vaniljstång.png" />
+    <None Remove="ProductImages\Köksmakiner.Stavmixer.png" />
+    <None Remove="ProductImages\Köksmaskiner.Baktermometer.png" />
+    <None Remove="ProductImages\Köksmaskiner.Köksassistent.png" />
+    <None Remove="ProductImages\Köksmaskiner.Mixer.png" />
+    <None Remove="ProductImages\Köksmaskiner.Våg.png" />
+    <None Remove="ProductImages\Redskap.Bunke.png" />
+    <None Remove="ProductImages\Redskap.BunkeMåttSet.png" />
+    <None Remove="ProductImages\Redskap.Kavel.png" />
+    <None Remove="ProductImages\Redskap.Mått.png" />
+    <None Remove="ProductImages\Redskap.Siktare.png" />
+    <None Remove="ProductImages\Redskap.Sil.png" />
+    <None Remove="ProductImages\Redskap.Visp.png" />
+    <None Remove="ProductImages\Redskap.Vispar.png" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Folder Include="Classes\Customer\" />
     <Folder Include="wwwroot\images\product\" />
   </ItemGroup>
@@ -32,6 +53,27 @@
     </PackageReference>
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="5.0.2" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="ProductImages\Ingredienser.Bakpulver.png" />
+    <Resource Include="ProductImages\Ingredienser.GrönKaramellfärg.png" />
+    <Resource Include="ProductImages\Ingredienser.Mjöl.png" />
+    <Resource Include="ProductImages\Ingredienser.Strössel.png" />
+    <Resource Include="ProductImages\Ingredienser.Vaniljstång.png" />
+    <Resource Include="ProductImages\Köksmakiner.Stavmixer.png" />
+    <Resource Include="ProductImages\Köksmaskiner.Baktermometer.png" />
+    <Resource Include="ProductImages\Köksmaskiner.Köksassistent.png" />
+    <Resource Include="ProductImages\Köksmaskiner.Mixer.png" />
+    <Resource Include="ProductImages\Köksmaskiner.Våg.png" />
+    <Resource Include="ProductImages\Redskap.Bunke.png" />
+    <Resource Include="ProductImages\Redskap.BunkeMåttSet.png" />
+    <Resource Include="ProductImages\Redskap.Kavel.png" />
+    <Resource Include="ProductImages\Redskap.Mått.png" />
+    <Resource Include="ProductImages\Redskap.Siktare.png" />
+    <Resource Include="ProductImages\Redskap.Sil.png" />
+    <Resource Include="ProductImages\Redskap.Visp.png" />
+    <Resource Include="ProductImages\Redskap.Vispar.png" />
   </ItemGroup>
 
 </Project>

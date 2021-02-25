@@ -1,7 +1,22 @@
-﻿<div class="collapse bg-light" id="navbarToggleExternalContent">
-    <form method="get" action="#">
+﻿@using System.Net.Http;
+@using System.Net.Http.Json;
+@using Classes;
+@using Microsoft.Extensions.Configuration
+@inject IConfiguration _configuration
+@inject HttpClient httpClient;
+
+
+@{
+    string apiEndpoint = $"{_configuration.GetValue<String>("APIEndpoint")}api/Category";
+    List<CategoryView> categories = await httpClient.GetFromJsonAsync<List<CategoryView>>(apiEndpoint);
+
+}
+
+
+<div class="collapse bg-light" id="navbarToggleExternalContent">
+    @*<form method="get" action="Search">
         <div class="input-group">
-            <input type="text" class="form-control" placeholder="Sök..." />
+            <input type="text" name="Name" class="form-control" placeholder="Sök..." />
             <span class="input-group-btn">
                 <button class="btn" type="submit">
                     <i class="material-icons">
@@ -10,22 +25,16 @@
                 </button>
             </span>
         </div>
-    </form>
-    <div class="ml-3 pb-3">
+    </form>*@
+    <div class="ml-3 pt-3 pb-3">
         <div class="ml-3">
-            <h1 style="font-size: 1rem;">Kategorier</h1>
-            <div class="ml-7">
-                Alla
-            </div>
-            <div class="ml-7">
-                Redskap
-            </div>
-            <div class="ml-7">
-                Köksmaskiner
-            </div>
-            <div class="ml-7">
-                Ingredienser
-            </div>
+            <h1 style="font-size: 1.5rem;">Kategorier</h1>
+            @foreach (var category in categories)
+            {
+                <div class="ml-7">
+                    <a href="@Url.Content($"~/Category?id={category.CategoryId}")" >@category.CategoryName</a>
+                </div>
+            }
         </div>
     </div>
 </div>

@@ -95,7 +95,7 @@ namespace DataAccess.Migrations
 
                     b.Property<int>("CategoryId")
                         .HasColumnType("int");
-
+                        
                     b.Property<DateTime>("DateEntered")
                         .HasColumnType("datetime2");
 

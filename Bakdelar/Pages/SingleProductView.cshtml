@@ -1,0 +1,23 @@
+﻿@page "{Id:int}"
+@model Bakdelar.Pages.Shared.SingleProductViewModel
+@{
+}
+
+<style>
+    img {
+        max-width: 300px;
+        max-height: 200px;
+    }
+</style>
+
+@*@if (Model.Error)
+{
+    <div class="bg-warning">Error! Invalid product id</div>
+}
+else
+{
+    <img src="@Model.Product.ProductImage.ImageUrl" />
+    <h1>Vara: @Model.Product.ProductName</h1>
+    <h2>@Model.Product.ProductDescription</h2>
+    <h3>Pris: @Model.Product.SalePrice</h3>
+}*@
