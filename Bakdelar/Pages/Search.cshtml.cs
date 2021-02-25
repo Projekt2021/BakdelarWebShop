@@ -37,9 +37,9 @@ namespace Bakdelar.Pages
             {
                 using var httpClient = new HttpClient();
                 Products = await httpClient.GetFromJsonAsync<List<Classes.ProductView>>($"{_configuration.GetValue<String>("APIEndpoint")}api/Product/Search?Name={Name}");
-                Products = Products.Skip(12 * PageNo - 1)
-                                   .Take(12)
-                                   .ToList();
+                //Products = Products.Skip(12 * PageNo - 1)
+                //                   .Take(12)
+                //                   .ToList();
 
             }
         }

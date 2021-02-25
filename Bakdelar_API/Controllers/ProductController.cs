@@ -45,29 +45,48 @@ namespace Bakdelar_API.Controllers
             if (!string.IsNullOrWhiteSpace(Name))
             {
                 Name = Name.ToLower();
-                return _context.Products.Where(product => product.ProductName.Contains(Name) || product.ProductDescription.Contains(Name))
-                                                 .Include(product => product.ProductImages)
-                                                 .Select(product => new ProductView
-                                                 {
-                                                     ProductId = product.ProductId,
-                                                     ProductName = product.ProductName,
-                                                     ProductDescription = product.ProductDescription,
-                                                     ProductPrice = product.ProductPrice,
-                                                     AvailableQuantity = product.AvailableQuantity,
-                                                     ProductWeight = product.ProductWeight,
-                                                     //Cascade insert
-                                                     Category = new CategoryView
-                                                     {
-                                                         CategoryId = product.Category.CategoryId,
-                                                         CategoryName = product.Category.CategoryName
-                                                     },
-                                                     ProductImageView = product.ProductImages.Select(x => new ProductImageView { ImageId = x.ImageId, ImageURL = x.ImageURL }).ToList()
-                                                 }).ToList();
+                string[] searchQuery = Name.Split(" ");
 
+
+                List<ProductView> result = new();
+                foreach (var word in searchQuery)
+                {   
+                    List<ProductView> productViews = _context.Products.Where(product => product.ProductName.Contains(word) || product.ProductDescription.Contains(word))
+                                                     .Include(product => product.ProductImages)
+                                                     .Select(product => new ProductView
+                                                     {
+                                                         ProductId = product.ProductId,
+                                                         ProductName = product.ProductName,
+                                                         ProductDescription = product.ProductDescription,
+                                                         ProductPrice = product.ProductPrice,
+                                                         AvailableQuantity = product.AvailableQuantity,
+                                                         ProductWeight = product.ProductWeight,
+                                                         //Cascade insert
+                                                         Category = new CategoryView
+                                                         {
+                                                             CategoryId = product.Category.CategoryId,
+                                                             CategoryName = product.Category.CategoryName
+                                                         },
+                                                         ProductImageView = product.ProductImages.Select(x => new ProductImageView { ImageId = x.ImageId, ImageURL = x.ImageURL }).ToList()
+                                                     }).ToList();
+                    foreach(var product in productViews)
+                    {
+                        bool alreadyInList = result.Any(prod => prod.ProductId == product.ProductId);
+                        if (alreadyInList)
+                        {
+                            continue;
+                        }
+                        else
+                        {
+                            result.Add(product);
+                        }
+                    }
+                }
+                return result;
             }
             else
             {
-                return NoContent();
+                return new List<ProductView>();
             }
 
             
