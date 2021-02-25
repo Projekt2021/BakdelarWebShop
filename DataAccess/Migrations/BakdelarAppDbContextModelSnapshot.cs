@@ -95,12 +95,12 @@ namespace DataAccess.Migrations
 
                     b.Property<int>("CategoryId")
                         .HasColumnType("int");
-
-                    b.Property<DateTime>("DateAdded")
+                        
+                    b.Property<DateTime>("DateEntered")
                         .HasColumnType("datetime2");
 
-                    b.Property<decimal?>("DiscountPrice")
-                        .HasColumnType("decimal(5,2)");
+                    b.Property<bool>("IsSelected")
+                        .HasColumnType("bit");
 
                     b.Property<string>("ProductDescription")
                         .IsRequired()
@@ -117,6 +117,9 @@ namespace DataAccess.Migrations
 
                     b.Property<double?>("ProductWeight")
                         .HasColumnType("float");
+
+                    b.Property<decimal?>("SpecialPrice")
+                        .HasColumnType("decimal(5,2)");
 
                     b.HasKey("ProductId");
 

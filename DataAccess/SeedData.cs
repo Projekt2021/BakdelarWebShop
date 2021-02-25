@@ -1,5 +1,6 @@
 ﻿using DataAccess.DataModels;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography;
 
@@ -19,28 +20,44 @@ namespace DataAccess
                 context.Categories.AddRange(
                      new Category
                      {
-                         CategoryName = "Födelsedag"
+                         CategoryName = "Redskap"
                      },
 
                      new Category
                      {
-                         CategoryName = "Valentine"
+                         CategoryName = "Köksmaskiner"
                      },
 
                      new Category
                      {
-                         CategoryName = "Anniversary"
-                     },
-
-                     new Category
-                     {
-                         CategoryName = "Bakverktyg"
-                     },
-
-                     new Category
-                     {
-                         CategoryName = "Apparater"
+                         CategoryName = "Ingredienser"
                      });
+
+                context.SaveChanges();
+            }
+        }
+        //public IList<Category> Category { get; set; }
+
+        public static void SeedingProducts(BakdelarAppDbContext context)
+        {
+            if (!context.Products.Any())
+            {
+                context.Products.AddRange(
+                     new Product
+                     {
+                         ProductName = "Stavmixer",
+                         ProductDescription = "Stavmixer",
+                         ProductPrice = 30,
+                         AvailableQuantity = 10,
+                         DateEntered = new DateTime(2021, 02, 23),
+                         CategoryId = context.Categories.Where(x => x.CategoryName == "Köksmaskiner").Select(x => x.CategoryId).FirstOrDefault(),
+                         ProductImages = new List<ProductImage> { new ProductImage { ImageURL = "\\images\\product\\Köksmakiner.Stavmixer.png" },
+                         new ProductImage { ImageURL = "\\images\\product\\Köksmaskiner.Baktermometer.png" }}
+
+                     });
+
+
+
                 context.SaveChanges();
             }
         }

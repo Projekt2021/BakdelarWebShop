@@ -35,31 +35,23 @@ namespace Bakdelar.Pages.Admin.Category
         public CategoryView Category { get; set; }
         public async Task<IActionResult> OnGet(int? id)
         {
-            var user = await _userManager.GetUserAsync(User);
             var token = HttpContext.Request.Cookies["access_token"];
 
-            if (user == null || string.IsNullOrEmpty(token))
+            if (string.IsNullOrEmpty(token))
             {
                 return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
             }
 
-            using (HttpClient client = new HttpClient())
+            using HttpClient client = new HttpClient();
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+            Category = await client.GetFromJsonAsync<CategoryView>($"{_configuration.GetValue<String>("APIEndpoint")}api/category/{id.Value}");
+
+            if (Category == null)
             {
-                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
-
-                HttpResponseMessage response = await client.GetAsync($"{_configuration.GetValue<String>("APIEndpoint")}api/category/{id.Value}");
-
-                if (response.IsSuccessStatusCode)
-                {
-                    Category = JsonConvert.DeserializeObject<CategoryView>(await response.Content.ReadAsStringAsync());
-                }
-
-                if (Category == null)
-                {
-                    return NotFound();
-                }
-                return Page();
+                return NotFound();
             }
+            return Page();
         }
 
         // To protect from overposting attacks, enable the specific properties you want to bind to.

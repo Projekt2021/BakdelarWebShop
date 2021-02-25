@@ -20,6 +20,8 @@ namespace Bakdelar_API
                 var context = services.GetRequiredService<BakdelarAppDbContext>();
 
                 SeedData.Seeding(context);
+                SeedData.SeedingProducts(context);
+
             }
             catch (Exception ex)
             {
