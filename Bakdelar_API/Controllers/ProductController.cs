@@ -70,9 +70,7 @@ namespace Bakdelar_API.Controllers
                 AvailableQuantity = p.AvailableQuantity,
                 ProductWeight = p.ProductWeight,
                 DateEntered = p.DateEntered,
-                IsSelected = p.IsSelected,
-                //NumberOfSold = p.NumberOfSold,
-               
+                IsSelected = p.IsSelected,               
                 //Cascade insert
                 Category = new CategoryView
                 {
@@ -104,10 +102,8 @@ namespace Bakdelar_API.Controllers
                 productDB.AvailableQuantity = product.AvailableQuantity;
                 productDB.ProductWeight = product.ProductWeight;
                 productDB.CategoryId = product.CategoryId;
-                //productDB.DateEntered = DateTime.Now.Date;
-                productDB.DateEntered = product.DateEntered;
-                productDB.IsSelected = product.IsSelected;
-               
+                //productDB.DateEntered = product.DateEntered;  //DateEntered should not be changed
+                productDB.IsSelected = product.IsSelected;               
             }
 
             _context.Entry(productDB).State = EntityState.Modified;

@@ -41,6 +41,7 @@ namespace Bakdelar.Classes
         public int NumberOfSold { get; set; }
 
         [Display(Name = "Date Entered")]
+        [DisplayFormat(DataFormatString = "{0:yyyy/MM/dd}")]
         public DateTime DateEntered { get; set; }
 
         [Required]
