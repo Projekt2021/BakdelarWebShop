@@ -78,7 +78,7 @@ a.navbar-brand {
 
 /* Provide sufficient contrast against white background */
 a {
-    color: #0366d6;
+    color: black;
 }
 
 .material-icons {
@@ -144,4 +144,9 @@ html {
 
 .footer_background {
     background-color: floralwhite;
+}
+
+a:hover {
+    color: gray;
+    text-decoration: none;                            
 }

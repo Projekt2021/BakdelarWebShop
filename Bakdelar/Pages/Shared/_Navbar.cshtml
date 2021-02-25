@@ -22,16 +22,18 @@
                     @*<li class="navbar-nav">
                             <a class="nav-item nav-link navbar-text" href="Categories">Kategorier</a>
                         </li>*@
-                    <li class="navbar-nav">
-                        <a class="nav-item nav-link navbar-text" href="Checkout">Kassa</a>
+                    <li class="navbar-nav nav-link navbar-text">
+                        @*<a class="nav-item nav-link navbar-text" href="Checkout">*@
+                        Kassa
+                        @*</a>*@
                     </li>
                 </ul>
 
             </div>
             <div class="col d-flex justify-content-end">
 
-                <form class="form-inline my-2 my-lg-0">
-                    <input class="form-control mr-sm-2" type="search" placeholder="Sök..." aria-label="Search">
+                <form class="form-inline my-2 my-lg-0" action="@Url.Content("~/Search")" method="get">
+                    <input class="form-control mr-sm-2" type="search" placeholder="Sök..." aria-label="Search" name="Name">
                     <span class="input-group-btn">
                         <button class="btn text-white" type="submit">
                             <i class="material-icons">
@@ -40,7 +42,7 @@
                         </button>
                     </span>
                 </form>
-                <ul class="navbar-nav ml-auto">
+                @*<ul class="navbar-nav ml-auto">
                     <li class="navbar">
                         <div class="btn-group dropleft">
                             <button class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -59,7 +61,7 @@
                         </div>
 
                     </li>
-                </ul>
+                </ul>*@
                 <partial name="_LoginPartial" />
             </div>            
         </div>
