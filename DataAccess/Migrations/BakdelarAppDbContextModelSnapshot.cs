@@ -95,7 +95,7 @@ namespace DataAccess.Migrations
 
                     b.Property<int>("CategoryId")
                         .HasColumnType("int");
-                        
+
                     b.Property<DateTime>("DateEntered")
                         .HasColumnType("datetime2");
 
@@ -214,13 +214,11 @@ namespace DataAccess.Migrations
 
             modelBuilder.Entity("DataAccess.DataModels.ProductImage", b =>
                 {
-                    b.HasOne("DataAccess.DataModels.Product", "Product")
+                    b.HasOne("DataAccess.DataModels.Product", null)
                         .WithMany("ProductImages")
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Product");
                 });
 
             modelBuilder.Entity("DataAccess.DataModels.Purchase", b =>
