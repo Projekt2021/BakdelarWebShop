@@ -34,7 +34,7 @@ namespace Bakdelar.Classes
         public double? ProductWeight { get; set; }
 
 
-        [Display(Name = "Latest")]
+        [Display(Name = "Selected")]
         public bool IsSelected { get; set; }
 
         [Display(Name = "Sold Count")]
