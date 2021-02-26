@@ -1,6 +1,7 @@
 ﻿using Bakdelar_API.ViewModels;
 using DataAccess;
 using DataAccess.DataModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -9,9 +10,10 @@ using System.Linq;
 using System.Threading.Tasks;
 
 namespace Bakdelar_API.Controllers
-{
+{    
+    [AllowAnonymous]
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api/[controller]")]    
     public class ProductController : ControllerBase
     {
         private readonly BakdelarAppDbContext _context;
@@ -20,7 +22,6 @@ namespace Bakdelar_API.Controllers
         {
             _context = context;
         }
-
 
         // GET: api/Products/5
         [HttpGet("{id}")]
@@ -55,9 +56,6 @@ namespace Bakdelar_API.Controllers
             }
             return productView;
         }
-
-
-
 
         //// GET: api/Products
         [HttpGet("Search")]
@@ -114,14 +112,6 @@ namespace Bakdelar_API.Controllers
             
         }
 
-
-
-
-
-
-
-
-
         //// GET: api/Products
         [HttpGet]
         public async Task<List<ProductView>> GetAllProductsAsync()
@@ -150,6 +140,7 @@ namespace Bakdelar_API.Controllers
         }
 
         // GET: api/Products/5
+        [Authorize(Policy = "RequireAdministratorRole")]
         [HttpPut("{id}")]
         public async Task<ActionResult> PutProduct(int id, ProductView product)
         {
@@ -192,37 +183,7 @@ namespace Bakdelar_API.Controllers
             return NoContent();
         }
 
-
-        //public async Task<ActionResult<Product>> PutProduct(int id, Product product)
-        //{
-        //    if (id != product.ProductId)
-        //    {
-        //        return BadRequest();
-        //    }
-        //    _context.Entry(product).State = EntityState.Modified;
-
-        //    try
-        //    {
-        //        await _context.SaveChangesAsync();
-        //    }
-        //    catch (DbUpdateConcurrencyException)
-        //    {
-        //        if (!ProductExists(id))
-        //        {
-        //            return NotFound();
-        //        }
-        //        else
-        //        {
-        //            throw;
-        //        }
-        //    }
-
-        //    return NoContent();
-        //}
-
-
-
-        // POST: api/Products
+        [Authorize(Policy = "RequireAdministratorRole")]
         [HttpPost]
         public async Task<ActionResult<Product>> PostProduct(ProductView productView)
         {
@@ -250,6 +211,7 @@ namespace Bakdelar_API.Controllers
         }
 
 
+        [Authorize(Policy = "RequireAdministratorRole")]
         // DELETE: api/TodoItems/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteProduct(int id)
