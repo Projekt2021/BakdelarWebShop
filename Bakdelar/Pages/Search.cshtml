@@ -6,6 +6,10 @@
 
 }
 <div class="d-flex flex-wrap justify-content-center">
+    @if (Model.Products.Any())
+    {
+
+
     @foreach (var product in Model.Products) // lägger till kort med varor på hemskärmen
     {
         <div class="card mx-4 my-2" style="width: 15rem; ">
@@ -45,5 +49,12 @@
             </div>
         </div>
 
+    }
+    }
+    else
+    {
+        <h1>
+            Ingen produkt funnen, prova igen
+        </h1>
     }
 </div>
