@@ -17,7 +17,7 @@ using Newtonsoft.Json;
 
 namespace Bakdelar.Pages.Admin.Category
 {
-    [Authorize(Roles = "Admin")]
+    [Authorize(Policy = "RequireAdministratorRole")]
     public class IndexModel : PageModel
     {
         private readonly UserManager<IdentityUser> _userManager;

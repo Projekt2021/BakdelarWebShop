@@ -30,6 +30,12 @@ namespace Bakdelar
                     services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = false)
                        .AddRoles<IdentityRole>()
                        .AddEntityFrameworkStores<AuthenticationDbContext>();
+
+                    services.AddAuthorization(options =>
+                    {
+                        options.AddPolicy("RequireAdministratorRole",
+                             policy => policy.RequireRole("Admin"));
+                    });
                 });
     }
 }

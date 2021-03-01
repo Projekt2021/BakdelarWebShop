@@ -33,45 +33,40 @@ namespace Bakdelar_API
                 options.UseSqlServer(Configuration.GetConnectionString("BakdelarDbConnection"));
             });
 
-            //var tokenValidationParameters = new TokenValidationParameters
-            //{
-            //    ValidAudience = "https://localhost",
-            //    ValidateAudience = true,
-            //    ValidateIssuerSigningKey = true,
-            //    ValidateIssuer = true,
-            //    ValidIssuer = "https://localhost",
-            //    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("StrONGKAutHENTICATIONKEy")),
-            //    ClockSkew = TimeSpan.Zero,
-            //    ValidateLifetime = false
-            //};            
+            var tokenValidationParameters = new TokenValidationParameters
+            {
+                ValidAudience = "https://localhost",
+                ValidateAudience = true,
+                ValidateIssuerSigningKey = true,
+                ValidateIssuer = true,
+                ValidIssuer = "https://localhost",
+                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("StrONGKAutHENTICATIONKEy")),
+                ValidateLifetime = false
+            };
 
-            //services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-            //.AddJwtBearer(options =>
-            //  {                  
-            //      options.TokenValidationParameters = tokenValidationParameters;
-            //      options.Events = new JwtBearerEvents
-            //      {
-            //          OnAuthenticationFailed = context =>
-            //          {
-            //              if (context.Exception.GetType() == typeof(SecurityTokenExpiredException))
-            //              {
-            //                  context.Response.Headers.Add("Token-Expired", "true");
-            //              }
-            //              return Task.CompletedTask;
-            //          }
-            //      };
-            //  });
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
+              {
+                  options.SaveToken = true;
+                  options.RequireHttpsMetadata = false;
+                  options.TokenValidationParameters = tokenValidationParameters;
+                  options.Events = new JwtBearerEvents
+                  {
+                      OnAuthenticationFailed = context =>
+                      {
+                          if (context.Exception.GetType() == typeof(SecurityTokenExpiredException))
+                          {
+                              context.Response.Headers.Add("Token-Expired", "true");
+                          }
+                          return Task.CompletedTask;
+                      }
+                  };
+              });
 
-            //services.AddAuthorization(config =>
-            //{
-            //    config.AddPolicy("AdminRole", options =>
-            //    {
-            //        options.RequireAuthenticatedUser();
-            //        options.AuthenticationSchemes.Add(
-            //                JwtBearerDefaults.AuthenticationScheme);
-            //        options.Requirements.Add(new AdminAuthorizationHandler());
-            //    });
-            //});
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("RequireAdministratorRole",
+                     policy => policy.RequireRole("Admin"));
+            });
 
             services.AddControllers();
             services.AddSwaggerGen(c =>
