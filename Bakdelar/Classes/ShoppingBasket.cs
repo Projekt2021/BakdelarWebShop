@@ -13,8 +13,10 @@ namespace Bakdelar.Classes
 
     public class ShoppingBasketItem
     {
+        public int ID { get; set; }
         public string ProductName { get; set; }
         public double Price { get; set; }
-        public int Amount { get; set; }
+        public int ItemCount { get; set; }
+        public bool Discount { get; set; }
     }
 }

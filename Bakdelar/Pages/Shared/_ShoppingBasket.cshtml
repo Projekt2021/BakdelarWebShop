@@ -1,32 +1,38 @@
 ﻿@inject Microsoft.AspNetCore.Http.IHttpContextAccessor httpContextAccessor;
 @using Bakdelar.Classes;
+@using System.Text.Json;
+@using System.Text.Json.Serialization;
 
-
-
-<a class="dropdown-item" href="#">Tomt!</a>
 @{
-    /*
-    <!--
-    var serializedBasket = httpContextAccessor.HttpContext.Request.Cookies["tempCookie"];
+    var options = new JsonSerializerOptions
+    {
+        DictionaryKeyPolicy = JsonNamingPolicy.CamelCase,
+        PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+    };
+    var serializedBasket = httpContextAccessor.HttpContext.Request.Cookies["shopping_basket"];
     if (serializedBasket == null || serializedBasket == string.Empty)
     {
-        -->
         <a class="dropdown-item" href="#">Tomt!</a>
     }
     else
     {
-        var basketItems = JsonSerializer.Deserialize<ShoppingBasketData>
-    (serializedBasket);
-    double totalPrice = 0;
-    foreach (var item in basketItems.ShoppingItems)
-    {
-    totalPrice += item.ItemPrice;
-    <a class="dropdown-item" href="/Item?id=@item.ItemID">@item.ItemName</a>
-    }
+        var shoppingBasket = JsonSerializer.Deserialize<Classes.ShoppingBasket>(serializedBasket, options);
+        double totalPrice = 0;
+        foreach (var item in shoppingBasket.Items)
+        {
+            totalPrice += item.Price * item.ItemCount;
+            double priceForItems = item.Price * item.ItemCount;
+            if (!item.Discount)
+            {
+                <a class="dropdown-item" href="/Product?id=@item.ID">@item.ProductName x @item.ItemCount | Pris st @item.Price | total @priceForItems</a>
+            }
+            else
+            {
+                <a class="dropdown-item text-warning" href="/Product?id=@item.ID">@item.ProductName x @item.ItemCount | Pris st @item.Price | total @priceForItems</a>
+            }
+        }
 
-    <div class="dropdown-divider"></div>
-    <h6 class="dropdown-header">Total: @totalPrice kr</h6>
+        <div class="dropdown-divider"></div>
+        <h6 class="dropdown-header">Total: @totalPrice kr</h6>
     }
-    }
-    */
 }
