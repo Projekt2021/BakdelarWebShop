@@ -116,25 +116,7 @@ namespace Bakdelar_API.Controllers
         [HttpGet]
         public async Task<List<ProductView>> GetAllProductsAsync()
         {
-            var productList = await _context.Products.Select(p => new ProductView
-            {
-                ProductId = p.ProductId,
-                ProductName = p.ProductName,
-                ProductDescription = p.ProductDescription,
-                ProductPrice = p.ProductPrice,
-                SpecialPrice = p.SpecialPrice,
-                AvailableQuantity = p.AvailableQuantity,
-                ProductWeight = p.ProductWeight,
-                DateEntered = p.DateEntered,
-                IsSelected = p.IsSelected,               
-                //Cascade insert
-                Category = new CategoryView
-                {
-                    CategoryId = p.Category.CategoryId,
-                    CategoryName = p.Category.CategoryName
-                },
-                ProductImageView = p.ProductImages.Select(x => new ProductImageView { ImageId = x.ImageId, ImageURL = x.ImageURL }).ToList()
-            }).ToListAsync();
+            var productList = await _context.Products.Include(p => p.ProductImages).Include(p => p.Category).Select(p => new ProductView(p)).ToListAsync();
 
             return productList;
         }

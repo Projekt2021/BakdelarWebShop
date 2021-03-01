@@ -78,6 +78,7 @@ namespace Bakdelar.Areas.Identity.Pages.Account
                     Name = "Customer"
                 };
                 _roleManager.CreateAsync(role).ConfigureAwait(false);
+                
                 return true;
             }
             else
