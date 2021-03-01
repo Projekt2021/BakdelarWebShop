@@ -1,7 +1,9 @@
-﻿using System;
+﻿using DataAccess.DataModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+
 
 namespace Bakdelar_API.ViewModels
 {
@@ -14,9 +16,9 @@ namespace Bakdelar_API.ViewModels
         public string ProductDescription { get; set; }
 
         public decimal ProductPrice { get; set; }
-        
+
         public int? AvailableQuantity { get; set; }
-        
+
         public double? ProductWeight { get; set; }
         public DateTime DateEntered { get; set; }
         public double? SpecialPrice { get; set; }
@@ -24,9 +26,10 @@ namespace Bakdelar_API.ViewModels
         public int NumberOfSold { get; set; }
 
         public int CategoryId { get; set; }
-        
+
         public CategoryView Category { get; set; }
 
         public List<ProductImageView> ProductImageView { get; set; }
+       
     }
 }
