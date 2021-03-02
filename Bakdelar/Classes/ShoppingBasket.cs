@@ -8,8 +8,14 @@ namespace Bakdelar.Classes
 {
     public class ShoppingBasket
     {
-        public List<ShoppingBasketItem> Items { get; set; } 
-        
+        public List<ShoppingBasketItem> Items { get; set; }
+
+        public ShoppingBasket()
+        {
+            Items = new();
+        }
+         
+
     }
 
     public class ShoppingBasketItem

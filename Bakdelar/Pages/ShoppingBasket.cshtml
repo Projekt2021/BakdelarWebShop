@@ -6,7 +6,7 @@
 
 
 @{
-    if (Model.ShoppingBasket != null && Model.ShoppingBasket.Items.Any())
+    if (Model.ShoppingBasket != null && Model.ShoppingBasket.Items != null && Model.ShoppingBasket.Items.Any())
     {
 
         <table class="table">
