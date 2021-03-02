@@ -9,6 +9,7 @@ using System.Net.Http.Json;
 using Microsoft.Extensions.Configuration;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using Bakdelar.Classes;
 
 namespace Bakdelar.Pages
 {
@@ -18,13 +19,13 @@ namespace Bakdelar.Pages
 
 
         [BindProperty]
-        public Classes.ShoppingBasketItem ShoppingItem { get; set; }
+        public ShoppingBasketItem ShoppingItem { get; set; }
 
         [BindProperty(SupportsGet = true)]
         public int ID { get; set; }
 
 
-        public Classes.ProductView Product { get; set; }
+        public ProductView Product { get; set; }
 
         public ProductModel(IConfiguration configuration)
         {
@@ -44,39 +45,40 @@ namespace Bakdelar.Pages
             };
             if (cookie != null)
             {
-                
-                var shoppingBasket = JsonSerializer.Deserialize<Classes.ShoppingBasket>(cookie, options);
-                if(shoppingBasket.Items.Any(item => item.ID == ShoppingItem.ID))
-                {
-                    var item = shoppingBasket.Items.Where(i => i.ID == ShoppingItem.ID).FirstOrDefault();
-                    item.ItemCount += ShoppingItem.ItemCount;
-                }
-                else
-                {
-                    shoppingBasket.Items.Add(ShoppingItem);
-                }
+                var shoppingBasket = JsonSerializer.Deserialize<ShoppingBasket>(cookie, options);
+
+                var item = shoppingBasket.Items.Where(item => item.ID == ShoppingItem.ID).FirstOrDefault();
+                var productExists = shoppingBasket.Items.Any(item => item.ID == ShoppingItem.ID);
+                var totalItemCount = 0;
+
+                if (ShoppingItem != null)
+                    totalItemCount = ShoppingItem.ItemCount + item.ItemCount;
 
                 Response.Cookies.Delete("shopping_basket");
-                string c = JsonSerializer.Serialize(shoppingBasket, options);
-                Response.Cookies.Append("shopping_basket", JsonSerializer.Serialize(shoppingBasket, options)); 
-                var bytes = System.Text.ASCIIEncoding.ASCII.GetByteCount(c);
+                string stringu = JsonSerializer.Serialize(shoppingBasket, options);
+
+                byte zeBytesOfZeStringu = Convert.ToByte(stringu);
+
+                Response.Cookies.Append("shopping_basket", stringu);
+
             }
             else
             {
-                var shoppingBasket = new Classes.ShoppingBasket();
-                shoppingBasket.Items = new List<Classes.ShoppingBasketItem>();
+                var shoppingBasket = new ShoppingBasket();
+                shoppingBasket.Items = new List<ShoppingBasketItem>();
                 shoppingBasket.Items.Add(ShoppingItem);
                 Response.Cookies.Append("shopping_basket", JsonSerializer.Serialize(shoppingBasket, options));
             }
 
-           return Redirect("/Product?id=" + ID);
+            return Redirect("/Product?id=" + ID);
         }
 
 
         public async Task GetProduct()
         {
             using var httpClient = new HttpClient();
-            Product = await httpClient.GetFromJsonAsync<Classes.ProductView>($"{ _configuration.GetValue<String>("APIEndpoint")}api/product/{ID}");
+
+            Product = await httpClient.GetFromJsonAsync<ProductView>($"{ _configuration.GetValue<String>("APIEndpoint")}api/product/{ID}");
         }
     }
 }

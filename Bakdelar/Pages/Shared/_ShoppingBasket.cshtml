@@ -17,11 +17,11 @@
     else
     {
         var shoppingBasket = JsonSerializer.Deserialize<Classes.ShoppingBasket>(serializedBasket, options);
-        double totalPrice = 0;
+        decimal totalPrice = 0;
         foreach (var item in shoppingBasket.Items)
         {
             totalPrice += item.Price * item.ItemCount;
-            double priceForItems = item.Price * item.ItemCount;
+            decimal priceForItems = item.Price * item.ItemCount;
             if (!item.Discount)
             {
                 <a class="dropdown-item" href="/Product?id=@item.ID">@item.ProductName x @item.ItemCount | Pris st @item.Price | total @priceForItems</a>

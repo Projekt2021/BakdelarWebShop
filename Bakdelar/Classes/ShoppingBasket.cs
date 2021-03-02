@@ -15,7 +15,7 @@ namespace Bakdelar.Classes
     {
         public int ID { get; set; }
         public string ProductName { get; set; }
-        public double Price { get; set; }
+        public decimal Price { get; set; }
         public int ItemCount { get; set; }
         public bool Discount { get; set; }
     }
