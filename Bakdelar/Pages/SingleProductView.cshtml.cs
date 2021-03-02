@@ -1,6 +1,8 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
+using System.Net.Http.Json;
 using System.Threading.Tasks;
 using Bakdelar.Classes;
 using Microsoft.AspNetCore.Identity;
@@ -26,11 +28,31 @@ namespace Bakdelar.Pages.Shared
             _logger = logger;
         }
 
-        public ProductView Products { get; set; }
+        [BindProperty(SupportsGet = true)]
+        public ProductView Product { get; set; }
+
+        public bool Error = false;
 
 
-        public void OnGet()
+        public async Task<IActionResult> OnGet(int? id)
         {
+            using (HttpClient httpClient = new HttpClient())
+            {
+                try
+                {
+                    Product = await httpClient.GetFromJsonAsync<ProductView>($"{_configuration.GetValue<String>("APIEndpoint")}api/product/{id.Value}");
+                }
+                catch (Exception)
+                {
+                    if (Product.ProductName == null)
+                    {
+                        Error = true;
+                    }
+                }
+            }
+
+            return Page();
+
         }
     }
 }

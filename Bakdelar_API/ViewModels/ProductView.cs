@@ -1,8 +1,10 @@
-﻿using System;
+﻿using DataAccess.DataModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using DataAccess.DataModels;
+
 
 namespace Bakdelar_API.ViewModels
 {
@@ -29,10 +31,6 @@ namespace Bakdelar_API.ViewModels
         public CategoryView Category { get; set; }
 
         public List<ProductImageView> ProductImageView { get; set; }
-
-
-
-
 
         public ProductView()
         {
