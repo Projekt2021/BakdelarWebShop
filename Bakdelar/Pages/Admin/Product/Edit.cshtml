@@ -10,52 +10,73 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form method="post">
+        <form method="post" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="Product.ProductId" />
+            <input type="hidden" asp-for="ProductView.ProductId" />
             <div class="form-group">
-                <label asp-for="Product.ProductName" class="control-label"></label>
-                <input asp-for="Product.ProductName" class="form-control" />
-                <span asp-validation-for="Product.ProductName" class="text-danger"></span>
+                <label asp-for="ProductView.ProductName" class="control-label"></label>
+                <input asp-for="ProductView.ProductName" class="form-control" />
+                <span asp-validation-for="ProductView.ProductName" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Product.ProductDescription" class="control-label"></label>
-                <input asp-for="Product.ProductDescription" class="form-control" />
-                <span asp-validation-for="Product.ProductDescription" class="text-danger"></span>
+                <label asp-for="ProductView.ProductDescription" class="control-label"></label>
+                <input asp-for="ProductView.ProductDescription" class="form-control" />
+                <span asp-validation-for="ProductView.ProductDescription" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Product.ProductPrice" class="control-label"></label>
-                <input asp-for="Product.ProductPrice" class="form-control" />
-                <span asp-validation-for="Product.ProductPrice" class="text-danger"></span>
+                <label asp-for="ProductView.ProductPrice" class="control-label"></label>
+                <input asp-for="ProductView.ProductPrice" class="form-control" />
+                <span asp-validation-for="ProductView.ProductPrice" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Product.SpecialPrice" class="control-label"></label>
-                <input asp-for="Product.SpecialPrice" class="form-control" />
-                <span asp-validation-for="Product.SpecialPrice" class="text-danger"></span>
+                <label asp-for="ProductView.SpecialPrice" class="control-label"></label>
+                <input asp-for="ProductView.SpecialPrice" class="form-control" />
+                <span asp-validation-for="ProductView.SpecialPrice" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Product.ProductWeight" class="control-label"></label>
-                <input asp-for="Product.ProductWeight" class="form-control" />
-                <span asp-validation-for="Product.ProductWeight" class="text-danger"></span>
+                <label asp-for="ProductView.ProductWeight" class="control-label"></label>
+                <input asp-for="ProductView.ProductWeight" class="form-control" />
+                <span asp-validation-for="ProductView.ProductWeight" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Product.AvailableQuantity" class="control-label"></label>
-                <input asp-for="Product.AvailableQuantity" class="form-control" />
-                <span asp-validation-for="Product.AvailableQuantity" class="text-danger"></span>
+                <label asp-for="ProductView.AvailableQuantity" class="control-label"></label>
+                <input asp-for="ProductView.AvailableQuantity" class="form-control" />
+                <span asp-validation-for="ProductView.AvailableQuantity" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Product.IsSelected" class="control-label"></label>
-                <input asp-for="Product.IsSelected" class="form-control" />
-                <span asp-validation-for="Product.IsSelected" class="text-danger"></span>
+                <label asp-for="ProductView.IsSelected" class="control-label"></label>
+                <input asp-for="ProductView.IsSelected" class="form-control" />
+                <span asp-validation-for="ProductView.IsSelected" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label for="productCategory">Välj en kategori:</label>
-                @Html.DropDownListFor(x => x.Product.CategoryId, new SelectList(Model.Categories, "CategoryId", "CategoryName"), htmlAttributes: new { @class = "form-control", id = "CategoryId" })
-                @Html.ValidationMessageFor(x => x.Product.CategoryId, "", new { @class = "text-danger" })
-                <span asp-validation-for="Product.CategoryId" class="text-danger"></span>
+                @Html.DropDownListFor(x => x.ProductView.CategoryId, new SelectList(Model.Categories, "CategoryId", "CategoryName"), htmlAttributes: new { @class = "form-control", id = "CategoryId" })
+                @Html.ValidationMessageFor(x => x.ProductView.CategoryId, "", new { @class = "text-danger" })
+                <span asp-validation-for="ProductView.CategoryId" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+                <label>Välj nytt produkt bild:</label>                
+                <input type="file" id="fileUpload" name="files" multiple />
+            </div>
+
+
+
+            <div class="form-group">
+                <input type="submit" value="Update" class="btn btn-primary" id="btnCreateProduct1" />
+            </div>
+        </form>
+        <form method="post" id="imageform">
+            <div class="form-group">
+                <ul>
+                    @foreach (var image in Model.ProductView.ProductImageView)
+                    {
+                        <li>
+                            <img src="@image.ImageURL" width="50" height="50" />
+                            <button asp-page-handler="DeleteImage" asp-route-id="@image.ImageId" form="imageform" onclick="return confirm('Are you sure you want to delete?')" class="btn btn-danger btn-sm">Delete</button>
+                            @*<input type="submit" value="Delete" class="btn btn-danger" />*@
+                        </li>
+                    }
+                </ul>
             </div>
         </form>
     </div>

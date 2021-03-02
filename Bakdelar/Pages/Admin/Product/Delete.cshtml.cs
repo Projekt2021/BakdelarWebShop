@@ -70,5 +70,6 @@ namespace Bakdelar.Pages.Admin.Product
             return RedirectToPage("./Index");
 
         }
+
     }
 }
