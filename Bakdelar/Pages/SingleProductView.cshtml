@@ -34,4 +34,21 @@ else
     <h1>Vara: @Model.Product.ProductName</h1>
     <h2>@Model.Product.ProductDescription</h2>
     <h3>Pris: @Model.Product.SpecialPrice</h3>
+    <form method="post">
+        <input type="hidden" value="@Model.Product.ProductId" asp-for="ShoppingItem.ID" />
+        <input type="hidden" value="@Model.Product.ProductName" asp-for="ShoppingItem.ProductName" />
+        @if (Model.Product.SpecialPrice != null)
+        {
+            <input type="hidden" value="@Model.Product.SpecialPrice" asp-for="ShoppingItem.Price" />
+            <input type="hidden" value="true" asp-for="ShoppingItem.Discount" />
+        }
+        else
+        {
+            <input type="hidden" value="@Model.Product.ProductPrice" asp-for="ShoppingItem.Price" />
+            <input type="hidden" value="false" asp-for="ShoppingItem.Discount" />
+        }
+        <input type="number" step="1" value="1" asp-for="ShoppingItem.ItemCount" min="1" />
+        <input type="submit" />
+
+    </form>
 }

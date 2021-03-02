@@ -1,4 +1,4 @@
-﻿@page
+﻿@*@page
 @model Bakdelar.Pages.ProductModel
 @{
 
@@ -8,20 +8,4 @@
 <h1>@Model.Product.ProductName</h1>
 
 
-<form method="post">
-    <input type="hidden" value="@Model.Product.ProductId" asp-for="ShoppingItem.ID" />
-    <input type="hidden" value="@Model.Product.ProductName" asp-for="ShoppingItem.ProductName" />
-    @if (Model.Product.SpecialPrice != null)
-    {
-        <input type="hidden" value="@Model.Product.SpecialPrice" asp-for="ShoppingItem.Price" />
-        <input type="hidden" value="true" asp-for="ShoppingItem.Discount" />
-    }
-    else
-    {
-        <input type="hidden" value="@Model.Product.ProductPrice" asp-for="ShoppingItem.Price" />
-        <input type="hidden" value="false" asp-for="ShoppingItem.Discount" />
-    }
-    <input type="number" step="1" asp-for="ShoppingItem.ItemCount" />
-    <input type="submit" />
-
-</form>
+*@

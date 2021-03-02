@@ -1,4 +1,5 @@
 ﻿@inject Microsoft.AspNetCore.Http.IHttpContextAccessor httpContextAccessor;
+@using Microsoft.AspNetCore.Http; 
 @using Bakdelar.Classes;
 @using System.Text.Json;
 @using System.Text.Json.Serialization;
@@ -9,7 +10,7 @@
         DictionaryKeyPolicy = JsonNamingPolicy.CamelCase,
         PropertyNamingPolicy = JsonNamingPolicy.CamelCase
     };
-    var serializedBasket = httpContextAccessor.HttpContext.Request.Cookies["shopping_basket"];
+    var serializedBasket = httpContextAccessor.HttpContext.Session.GetString("shopping_basket");
     if (serializedBasket == null || serializedBasket == string.Empty)
     {
         <a class="dropdown-item" href="#">Tomt!</a>
