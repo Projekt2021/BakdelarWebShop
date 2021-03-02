@@ -5,10 +5,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Areas\Identity\IdentityHostingStartup.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
     <None Remove="ProductImages\Ingredienser.Bakpulver.png" />
     <None Remove="ProductImages\Ingredienser.GrönKaramellfärg.png" />
     <None Remove="ProductImages\Ingredienser.Mjöl.png" />

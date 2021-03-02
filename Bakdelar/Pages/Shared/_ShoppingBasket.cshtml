@@ -37,11 +37,11 @@
                 decimal priceForItems = item.Price * item.ItemCount;
                 if (!item.Discount)
                 {
-                    <a class="dropdown-item" href="/Product?id=@item.ID">@item.ProductName x @item.ItemCount | Pris st @item.Price | total @priceForItems</a>
+                    <a class="dropdown-item" href="@Url.Content($"~/SingleProductView/{item.ID}")">@item.ProductName x @item.ItemCount | Pris st @item.Price | total @priceForItems</a>
                 }
                 else
                 {
-                    <a class="dropdown-item text-warning" href="/Product?id=@item.ID">@item.ProductName x @item.ItemCount | Pris st @item.Price | total @priceForItems</a>
+                    <a class="dropdown-item text-warning" href="@Url.Content($"~/SingleProductView/{item.ID}")">@item.ProductName x @item.ItemCount | Pris st @item.Price | total @priceForItems</a>
                 }
             }
         

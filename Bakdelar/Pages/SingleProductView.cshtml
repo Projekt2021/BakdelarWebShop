@@ -37,6 +37,7 @@ else
     <form method="post">
         <input type="hidden" value="@Model.Product.ProductId" asp-for="ShoppingItem.ID" />
         <input type="hidden" value="@Model.Product.ProductName" asp-for="ShoppingItem.ProductName" />
+        <input type="hidden" value="@Model.Product.AvailableQuantity" asp-for="ShoppingItem.StockLevel" />
         @if (Model.Product.SpecialPrice != null)
         {
             <input type="hidden" value="@Model.Product.SpecialPrice" asp-for="ShoppingItem.Price" />
@@ -47,7 +48,7 @@ else
             <input type="hidden" value="@Model.Product.ProductPrice" asp-for="ShoppingItem.Price" />
             <input type="hidden" value="false" asp-for="ShoppingItem.Discount" />
         }
-        <input type="number" step="1" value="1" asp-for="ShoppingItem.ItemCount" min="1" />
+        <input type="number" step="1" value="1" asp-for="ShoppingItem.ItemCount" min="1" max="@Model.Product.AvailableQuantity"/>
         <input type="submit" />
 
     </form>

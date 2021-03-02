@@ -8,60 +8,74 @@
 @{
     if (Model.ShoppingBasket != null && Model.ShoppingBasket != null && Model.ShoppingBasket.Any())
     {
+        decimal totalPrice = 0;
+    <div class="row">
+        <div class="col"></div>
 
-        <table class="table">
+        <div class="col">
+            <table class="table">
 
-            <thead>
-                <tr>
-                    <th>
-                        @Html.DisplayNameFor(model => model.ShoppingBasket.FirstOrDefault().ProductName)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.ShoppingBasket.FirstOrDefault().ItemCount)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.ShoppingBasket.FirstOrDefault().Discount)
-                    </th>
-                    <th>
-                        Pris
-                    </th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var item in Model.ShoppingBasket)
-                {
-                <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.ProductName)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.ItemCount)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Discount)
-                    </td>
-                    <td>
-                        @{
-                            var price = item.Price * item.ItemCount;
-                            @Html.Raw($"{price}");
-                        }
-                    </td>
-                    <td>
-                        <form method="post" asp-page-handler="ChangeCount" asp-route-id="@item.ID" >
-                            <input type="number" step="1" value="@item.ItemCount" asp-for="@Model.NewCount" min="1" />
-                            <input type="submit" />
+                <thead>
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.ShoppingBasket.FirstOrDefault().ProductName)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.ShoppingBasket.FirstOrDefault().ItemCount)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.ShoppingBasket.FirstOrDefault().Discount)
+                        </th>
+                        <th>
+                            Pris
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.ShoppingBasket)
+                    {
+                        totalPrice += item.Price * item.ItemCount;
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.ProductName)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.ItemCount)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Discount)
+                            </td>
+                            <td>
+                                @{
+                                    var price = item.Price * item.ItemCount;
+                                    @Html.Raw($"{price}");
+                                }
+                            </td>
+                            <td>
+                                <form class="form-inline" method="post" asp-page-handler="ChangeCount" asp-route-id="@item.ID">
+                                    <input class="form-control" style="border-radius: 1rem; width: 4.5rem;"
+                                           type="number" step="1" value="@item.ItemCount" asp-for="@Model.NewCount"
+                                           min="1" max="@item.StockLevel" />
+                                    <input type="submit" />
 
-                        </form>
-                    </td>
-                    <td>
-                        <a asp-page-handler="RemoveProduct" asp-route-id="@item.ID">Ta bort</a>
-                    </td>
+                                </form>
+                            </td>
+                            <td>
+                                <a asp-page-handler="RemoveProduct" asp-route-id="@item.ID">Ta bort</a>
+                            </td>
 
 
-                </tr>
-                }
-            </tbody>
-        </table>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+            <div class="align-content-end text-center">
+                Totalt: @totalPrice
+            </div>
+        </div>
+        <div class="col"></div>
+            
+        </div>
     }
     else
     {

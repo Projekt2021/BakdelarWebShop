@@ -6,13 +6,6 @@ using System.Threading.Tasks;
 
 namespace Bakdelar.Classes
 {
-<<<<<<< Updated upstream:Bakdelar/Classes/ShoppingBasketItem.cs
-=======
-    public class ShoppingBasket
-    {
-        public List<ShoppingBasketItem> Items { get; set; }
-    }
->>>>>>> Stashed changes:Bakdelar/Classes/ShoppingBasket.cs
 
     public class ShoppingBasketItem
     {
@@ -31,5 +24,6 @@ namespace Bakdelar.Classes
 
         [Display(Name = "Rabatt")]
         public bool Discount { get; set; }
+        public int StockLevel { get; set; }
     }
 }
