@@ -6,7 +6,7 @@
 
 
 @{
-    if (Model.ShoppingBasket != null && Model.ShoppingBasket.Items != null && Model.ShoppingBasket.Items.Any())
+    if (Model.ShoppingBasket != null && Model.ShoppingBasket != null && Model.ShoppingBasket.Any())
     {
 
         <table class="table">
@@ -14,13 +14,13 @@
             <thead>
                 <tr>
                     <th>
-                        @Html.DisplayNameFor(model => model.ShoppingBasket.Items.FirstOrDefault().ProductName)
+                        @Html.DisplayNameFor(model => model.ShoppingBasket.FirstOrDefault().ProductName)
                     </th>
                     <th>
-                        @Html.DisplayNameFor(model => model.ShoppingBasket.Items.FirstOrDefault().ItemCount)
+                        @Html.DisplayNameFor(model => model.ShoppingBasket.FirstOrDefault().ItemCount)
                     </th>
                     <th>
-                        @Html.DisplayNameFor(model => model.ShoppingBasket.Items.FirstOrDefault().Discount)
+                        @Html.DisplayNameFor(model => model.ShoppingBasket.FirstOrDefault().Discount)
                     </th>
                     <th>
                         Pris
@@ -28,7 +28,7 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach (var item in Model.ShoppingBasket.Items)
+                @foreach (var item in Model.ShoppingBasket)
                 {
                 <tr>
                     <td>

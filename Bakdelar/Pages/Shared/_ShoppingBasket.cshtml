@@ -18,16 +18,16 @@
     else
     {
 
-        var shoppingBasket = JsonSerializer.Deserialize<Classes.ShoppingBasket>(serializedBasket, options);
+        var shoppingBasket = JsonSerializer.Deserialize<List<ShoppingBasketItem>>(serializedBasket, options);
 
-        if (shoppingBasket.Items == null || !shoppingBasket.Items.Any())
+        if (shoppingBasket == null || !shoppingBasket.Any())
         {
             <a class="dropdown-item" href="#">Tomt!</a>
         }
         else
         {
             decimal totalPrice = 0;
-            foreach (var item in shoppingBasket.Items)
+            foreach (var item in shoppingBasket)
             {
 
 

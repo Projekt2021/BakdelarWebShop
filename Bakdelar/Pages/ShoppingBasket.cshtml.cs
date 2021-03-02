@@ -15,7 +15,7 @@ namespace Bakdelar.Pages
     {
         [BindProperty]
         public int NewCount { get; set; }
-        public ShoppingBasket ShoppingBasket { get; set; }
+        public List<ShoppingBasketItem> ShoppingBasket { get; set; }
 
 
 
@@ -24,13 +24,14 @@ namespace Bakdelar.Pages
             ShoppingBasket = GetBasket();
         }
 
-        private ShoppingBasket GetBasket()
+        private List<ShoppingBasketItem> GetBasket()
         {
             var sessionBasket = HttpContext.Session.GetString("shopping_basket");
             var options = new JsonSerializerOptions
             {
                 DictionaryKeyPolicy = JsonNamingPolicy.CamelCase,
-                PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+                PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+                Encoder = System.Text.Encodings.Web.JavaScriptEncoder.Create(System.Text.Unicode.UnicodeRanges.All)
             };
 
 
@@ -41,22 +42,37 @@ namespace Bakdelar.Pages
                 return null;
             }
 
-            var shoppingbasket = JsonSerializer.Deserialize<ShoppingBasket>(sessionBasket, options);
+            var shoppingbasket = JsonSerializer.Deserialize<List<ShoppingBasketItem>>(sessionBasket, options);
             return shoppingbasket;
            
         }
+
+        public void UpdateShoppingBasket(List<ShoppingBasketItem> shoppingBasket)
+        {
+            var options = new JsonSerializerOptions
+            {
+                DictionaryKeyPolicy = JsonNamingPolicy.CamelCase,
+                PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+                Encoder = System.Text.Encodings.Web.JavaScriptEncoder.Create(System.Text.Unicode.UnicodeRanges.All)
+            };
+            HttpContext.Session.SetString("shopping_basket", JsonSerializer.Serialize(shoppingBasket, options));
+        }
+
+
+
+
 
 
         public IActionResult OnPostChangeCount(int id)
         {
             ShoppingBasket = GetBasket();
-            var product = ShoppingBasket.Items.Where(item => item.ID == id).FirstOrDefault();
+            var product = ShoppingBasket.Where(item => item.ID == id).FirstOrDefault();
             if(product == null)
             {
                 return Page();
             }
             product.ItemCount = NewCount;
-            HttpContext.Session.SetString("shopping_basket", JsonSerializer.Serialize(ShoppingBasket));
+            UpdateShoppingBasket(ShoppingBasket);
             return Page();
         }
 
@@ -64,9 +80,9 @@ namespace Bakdelar.Pages
         {
             ShoppingBasket = GetBasket();
 
-            var product = ShoppingBasket.Items.Where(item => item.ID == id).FirstOrDefault();
-            ShoppingBasket.Items.Remove(product);
-            HttpContext.Session.SetString("shopping_basket", JsonSerializer.Serialize(ShoppingBasket));
+            var product = ShoppingBasket.Where(item => item.ID == id).FirstOrDefault();
+            ShoppingBasket.Remove(product);
+            UpdateShoppingBasket(ShoppingBasket);
             return Page();
 
         }

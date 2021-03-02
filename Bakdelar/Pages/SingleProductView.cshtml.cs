@@ -98,9 +98,9 @@ namespace Bakdelar.Pages.Shared
 
             if (sessionBasket != null)
             {
-                var shoppingBasket = JsonSerializer.Deserialize<ShoppingBasket>(sessionBasket, options);
+                var shoppingBasket = JsonSerializer.Deserialize<List<ShoppingBasketItem>>(sessionBasket, options);
 
-                var item = shoppingBasket.Items.Where(item => item.ID == ShoppingItem.ID).FirstOrDefault();
+                var item = shoppingBasket.Where(item => item.ID == ShoppingItem.ID).FirstOrDefault();
                 var totalItems = ShoppingItem.ItemCount;
 
                 if (ShoppingItem == null)
@@ -114,16 +114,15 @@ namespace Bakdelar.Pages.Shared
                 if (item != null)
                     item.ItemCount += ShoppingItem.ItemCount;
                 else
-                    shoppingBasket.Items.Add(ShoppingItem);
+                    shoppingBasket.Add(ShoppingItem);
 
                 string serializedShoppingBasket = JsonSerializer.Serialize(shoppingBasket, options);
                 HttpContext.Session.SetString("shopping_basket", serializedShoppingBasket);
             }
             else
             {
-                var shoppingBasket = new ShoppingBasket();
-                shoppingBasket.Items = new List<ShoppingBasketItem>();
-                shoppingBasket.Items.Add(ShoppingItem);
+                var shoppingBasket = new List<ShoppingBasketItem>();
+                shoppingBasket.Add(ShoppingItem);
 
                 HttpContext.Session.SetString("shopping_basket", JsonSerializer.Serialize(shoppingBasket, options));
             }
