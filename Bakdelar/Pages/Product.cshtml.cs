@@ -10,6 +10,7 @@ using Microsoft.Extensions.Configuration;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using Bakdelar.Classes;
+using System.Text;
 
 namespace Bakdelar.Pages
 {
@@ -49,18 +50,25 @@ namespace Bakdelar.Pages
 
                 var item = shoppingBasket.Items.Where(item => item.ID == ShoppingItem.ID).FirstOrDefault();
                 var productExists = shoppingBasket.Items.Any(item => item.ID == ShoppingItem.ID);
-                var totalItemCount = 0;
+                var totalItems = 0;
 
-                if (ShoppingItem != null)
-                    totalItemCount = ShoppingItem.ItemCount + item.ItemCount;
+                //if (ShoppingItem == null)
+                //    return Redirect("/Product?id=" + ID);
+
+                //if (item != null)
+                //    totalItems = item.ItemCount += ShoppingItem.ItemCount;
+
+                //if (totalItems < 1)
+                //    shoppingBasket.Items.Remove(item);
+                //else
+                //    shoppingBasket.Items.Add(item);
 
                 Response.Cookies.Delete("shopping_basket");
                 string stringu = JsonSerializer.Serialize(shoppingBasket, options);
 
-                byte zeBytesOfZeStringu = Convert.ToByte(stringu);
+                Encoding.ASCII.GetBytes(stringu);
 
                 Response.Cookies.Append("shopping_basket", stringu);
-
             }
             else
             {
