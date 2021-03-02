@@ -116,10 +116,8 @@ namespace Bakdelar.Pages.Shared
                 else
                     shoppingBasket.Items.Add(ShoppingItem);
 
-                string serializedBasket = JsonSerializer.Serialize(shoppingBasket, options);
-
-
-                HttpContext.Session.SetString("shopping_basket", serializedBasket);
+                string serializedShoppingBasket = JsonSerializer.Serialize(shoppingBasket, options);
+                HttpContext.Session.SetString("shopping_basket", serializedShoppingBasket);
             }
             else
             {
