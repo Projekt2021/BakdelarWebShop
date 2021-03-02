@@ -12,13 +12,10 @@
 
 @if (Model.Error)
 {
-    <div class="bg-warning">Error! Invalid product id</div>
+    <div class="bg-warning">Ogiltigt produktID</div>
 }
 else
 {
-
-    @*<img src="@Model.Product.ProductImage.ImageUrl" />*@
-
     <div id="@Model.Product.ProductId" class="carousel slide" data-ride="carousel">
         <div class="carousel-inner">
             @for (int i = 0; i < Model.Product.ProductImageView.Count; i++)
@@ -27,11 +24,10 @@ else
                     <img class="d-block w-100 card-img-top" style="height: 10vw;" src="@Model.Product.ProductImageView[i].ImageURL" />
                 </div>
             }
-
         </div>
     </div>
 
-    <h1>Vara: @Model.Product.ProductName</h1>
-    <h2>@Model.Product.ProductDescription</h2>
-    <h3>Pris: @Model.Product.SpecialPrice</h3>
+    <h3>@Model.Product.ProductName</h3>
+    <p>@Model.Product.ProductDescription</p>
+    <p>@Model.Product.ProductPrice kr</p>
 }
