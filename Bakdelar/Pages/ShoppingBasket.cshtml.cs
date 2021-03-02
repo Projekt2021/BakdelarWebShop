@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Text.Json;
 using Bakdelar.Classes;
+using Bakdelar.MethodClasses;
 
 namespace Bakdelar.Pages
 {
@@ -21,68 +22,30 @@ namespace Bakdelar.Pages
 
         public void OnGet()
         {
-            ShoppingBasket = GetBasket();
+            ShoppingBasket = HttpContext.Session.GetBasket();
         }
 
-        private List<ShoppingBasketItem> GetBasket()
-        {
-            var sessionBasket = HttpContext.Session.GetString("shopping_basket");
-            var options = new JsonSerializerOptions
-            {
-                DictionaryKeyPolicy = JsonNamingPolicy.CamelCase,
-                PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
-                Encoder = System.Text.Encodings.Web.JavaScriptEncoder.Create(System.Text.Unicode.UnicodeRanges.All)
-            };
-
-
-
-
-            if (sessionBasket == null)
-            {
-                return null;
-            }
-
-            var shoppingbasket = JsonSerializer.Deserialize<List<ShoppingBasketItem>>(sessionBasket, options);
-            return shoppingbasket;
-           
-        }
-
-        public void UpdateShoppingBasket(List<ShoppingBasketItem> shoppingBasket)
-        {
-            var options = new JsonSerializerOptions
-            {
-                DictionaryKeyPolicy = JsonNamingPolicy.CamelCase,
-                PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
-                Encoder = System.Text.Encodings.Web.JavaScriptEncoder.Create(System.Text.Unicode.UnicodeRanges.All)
-            };
-            HttpContext.Session.SetString("shopping_basket", JsonSerializer.Serialize(shoppingBasket, options));
-        }
-
-
-
-
-
+       
 
         public IActionResult OnPostChangeCount(int id)
         {
-            ShoppingBasket = GetBasket();
+            ShoppingBasket = HttpContext.Session.GetBasket();
             var product = ShoppingBasket.Where(item => item.ID == id).FirstOrDefault();
             if(product == null)
             {
                 return Page();
             }
             product.ItemCount = NewCount;
-            UpdateShoppingBasket(ShoppingBasket);
+            HttpContext.Session.UpdateShoppingBasket(ShoppingBasket);
             return Page();
         }
 
         public IActionResult OnGetRemoveProduct(int id)
         {
-            ShoppingBasket = GetBasket();
-
+            ShoppingBasket = HttpContext.Session.GetBasket();
             var product = ShoppingBasket.Where(item => item.ID == id).FirstOrDefault();
             ShoppingBasket.Remove(product);
-            UpdateShoppingBasket(ShoppingBasket);
+            HttpContext.Session.UpdateShoppingBasket(ShoppingBasket);
             return Page();
 
         }

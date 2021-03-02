@@ -5,6 +5,7 @@ using System.Net.Http;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
 using Bakdelar.Classes;
+using Bakdelar.MethodClasses;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -86,19 +87,13 @@ namespace Bakdelar.Pages.Shared
                     }
                 }
             }
-            var sessionBasket = HttpContext.Session.GetString("shopping_basket");
-            var options = new JsonSerializerOptions
+            var shoppingBasket = HttpContext.Session.GetBasket();
+
+
+
+
+            if (shoppingBasket != null)
             {
-                DictionaryKeyPolicy = JsonNamingPolicy.CamelCase,
-                PropertyNamingPolicy = JsonNamingPolicy.CamelCase
-            };
-
-
-
-
-            if (sessionBasket != null)
-            {
-                var shoppingBasket = JsonSerializer.Deserialize<List<ShoppingBasketItem>>(sessionBasket, options);
 
                 var item = shoppingBasket.Where(item => item.ID == ShoppingItem.ID).FirstOrDefault();
                 var totalItems = ShoppingItem.ItemCount;
@@ -106,25 +101,18 @@ namespace Bakdelar.Pages.Shared
                 if (ShoppingItem == null)
                     return Redirect("/SingleProductView/" +ID);
 
-                //if (item != null)
-                //    totalItems = item.ItemCount += ShoppingItem.ItemCount;
-
-                    //if (totalItems < 1)
-                    //    shoppingBasket.Items.Remove(item);
                 if (item != null)
                     item.ItemCount += ShoppingItem.ItemCount;
                 else
                     shoppingBasket.Add(ShoppingItem);
 
-                string serializedShoppingBasket = JsonSerializer.Serialize(shoppingBasket, options);
-                HttpContext.Session.SetString("shopping_basket", serializedShoppingBasket);
+                HttpContext.Session.UpdateShoppingBasket(shoppingBasket);
             }
             else
             {
-                var shoppingBasket = new List<ShoppingBasketItem>();
+                shoppingBasket = new List<ShoppingBasketItem>();
                 shoppingBasket.Add(ShoppingItem);
-
-                HttpContext.Session.SetString("shopping_basket", JsonSerializer.Serialize(shoppingBasket, options));
+                HttpContext.Session.UpdateShoppingBasket(shoppingBasket);
             }
 
             return Redirect("/SingleProductView/" + ID);
