@@ -1,4 +1,70 @@
 ﻿@page
 @model Bakdelar.Pages.ShoppingBasketModel
+
+
+
+
+
 @{
+    if (Model.ShoppingBasket != null && Model.ShoppingBasket.Items.Any())
+    {
+
+        <table class="table">
+
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.ShoppingBasket.Items.FirstOrDefault().ProductName)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.ShoppingBasket.Items.FirstOrDefault().ItemCount)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.ShoppingBasket.Items.FirstOrDefault().Discount)
+                    </th>
+                    <th>
+                        Pris
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.ShoppingBasket.Items)
+                {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ProductName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ItemCount)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Discount)
+                    </td>
+                    <td>
+                        @{
+                            var price = item.Price * item.ItemCount;
+                            @Html.Raw($"{price}");
+                        }
+                    </td>
+                    <td>
+                        <form method="post" asp-page-handler="ChangeCount" asp-route-id="@item.ID" >
+                            <input type="number" step="1" value="@item.ItemCount" asp-for="@Model.NewCount" min="1" />
+                            <input type="submit" />
+
+                        </form>
+                    </td>
+                    <td>
+                        <a asp-page-handler="RemoveProduct" asp-route-id="@item.ID">Ta bort</a>
+                    </td>
+
+
+                </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+<h1>Tomt!</h1>
+    }
 }

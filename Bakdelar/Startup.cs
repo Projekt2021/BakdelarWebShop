@@ -23,7 +23,10 @@ namespace Bakdelar
             services.AddHttpClient();
             services.AddRazorPages().AddRazorRuntimeCompilation();
             services.AddAntiforgery(o => o.HeaderName = "XSRF-TOKEN");
-            services.AddSession();
+            services.AddSession(options =>
+            {
+                options.IdleTimeout = TimeSpan.FromMinutes(20);
+            });
             //    .AddNewtonsoftJson();
 
             //services.AddHttpClient<IContactsClient,

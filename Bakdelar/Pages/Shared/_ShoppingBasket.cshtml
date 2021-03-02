@@ -1,5 +1,5 @@
 ﻿@inject Microsoft.AspNetCore.Http.IHttpContextAccessor httpContextAccessor;
-@using Microsoft.AspNetCore.Http; 
+@using Microsoft.AspNetCore.Http;
 @using Bakdelar.Classes;
 @using System.Text.Json;
 @using System.Text.Json.Serialization;
@@ -17,23 +17,37 @@
     }
     else
     {
+
         var shoppingBasket = JsonSerializer.Deserialize<Classes.ShoppingBasket>(serializedBasket, options);
-        decimal totalPrice = 0;
-        foreach (var item in shoppingBasket.Items)
+
+        if (shoppingBasket.Items == null || !shoppingBasket.Items.Any())
         {
-            totalPrice += item.Price * item.ItemCount;
-            decimal priceForItems = item.Price * item.ItemCount;
-            if (!item.Discount)
-            {
-                <a class="dropdown-item" href="/Product?id=@item.ID">@item.ProductName x @item.ItemCount | Pris st @item.Price | total @priceForItems</a>
-            }
-            else
-            {
-                <a class="dropdown-item text-warning" href="/Product?id=@item.ID">@item.ProductName x @item.ItemCount | Pris st @item.Price | total @priceForItems</a>
-            }
+            <a class="dropdown-item" href="#">Tomt!</a>
         }
+        else
+        {
+            decimal totalPrice = 0;
+            foreach (var item in shoppingBasket.Items)
+            {
+
+
+
+
+                totalPrice += item.Price * item.ItemCount;
+                decimal priceForItems = item.Price * item.ItemCount;
+                if (!item.Discount)
+                {
+                    <a class="dropdown-item" href="/Product?id=@item.ID">@item.ProductName x @item.ItemCount | Pris st @item.Price | total @priceForItems</a>
+                }
+                else
+                {
+                    <a class="dropdown-item text-warning" href="/Product?id=@item.ID">@item.ProductName x @item.ItemCount | Pris st @item.Price | total @priceForItems</a>
+                }
+            }
+        
 
         <div class="dropdown-divider"></div>
         <h6 class="dropdown-header">Total: @totalPrice kr</h6>
+        }
     }
 }
