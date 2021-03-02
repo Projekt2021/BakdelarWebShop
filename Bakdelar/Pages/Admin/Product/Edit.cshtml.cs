@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -7,6 +8,8 @@ using System.Net.Http.Json;
 using System.Text;
 using System.Threading.Tasks;
 using Bakdelar.Classes;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -21,23 +24,27 @@ namespace Bakdelar.Pages.Admin.Product
         private readonly ILogger<IndexModel> _logger;
         private readonly UserManager<IdentityUser> _userManager;
         private readonly IConfiguration _configuration;
+        private IHostingEnvironment _hostingEnvironment;
+
 
         public EditModel(
            IConfiguration configuration,
            UserManager<IdentityUser> userManager,
-           ILogger<IndexModel> logger)
+           ILogger<IndexModel> logger, IHostingEnvironment hostingEnvironment)
         {
+            _hostingEnvironment = hostingEnvironment;
             _configuration = configuration;
             _userManager = userManager;
             _logger = logger;
         }
 
         [BindProperty]
-        public ProductView Product { get; set; }
+        public ProductView ProductView { get; set; }
         public List<CategoryView> Categories { get; set; }
 
         public async Task<IActionResult> OnGet(int? id)
         {
+
             var token = HttpContext.Request.Cookies["access_token"];
 
             if (string.IsNullOrEmpty(token))
@@ -47,10 +54,10 @@ namespace Bakdelar.Pages.Admin.Product
             using HttpClient client = new HttpClient();
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
-            Product = await client.GetFromJsonAsync<ProductView>($"{_configuration.GetValue<String>("APIEndpoint")}api/product/{id.Value}");
+            ProductView = await client.GetFromJsonAsync<ProductView>($"{_configuration.GetValue<String>("APIEndpoint")}api/product/{id.Value}");
             Categories = await client.GetFromJsonAsync<List<CategoryView>>($"{_configuration.GetValue<String>("APIEndpoint")}api/category");
 
-            if (Product == null)
+            if (ProductView == null)
             {
                 return NotFound();
             }
@@ -59,11 +66,32 @@ namespace Bakdelar.Pages.Admin.Product
 
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see https://aka.ms/RazorPagesCRUD.
-        public async Task<IActionResult> OnPostAsync()
+        public async Task<IActionResult> OnPostAsync(List<IFormFile> files, int? id)
         {
             if (!ModelState.IsValid)
             {
                 return Page();
+            }
+
+            ProductView.ProductImageView = new List<ProductImageView>();
+            string wwwPath = this._hostingEnvironment.WebRootPath;
+            string path = Path.Combine(this._hostingEnvironment.WebRootPath, _configuration.GetValue<String>("ProducImagePath"));
+            if (!Directory.Exists(path))
+            {
+                Directory.CreateDirectory(path);
+            }
+
+            foreach (IFormFile postedFile in files)
+            {
+                string fileName = Path.GetFileName(postedFile.FileName);
+                using (FileStream stream = new FileStream(Path.Combine(path, fileName), FileMode.Create))
+                {
+                    postedFile.CopyTo(stream);
+                    ProductView.ProductImageView.Add(new ProductImageView
+                    {
+                        ImageURL = $"\\{_configuration.GetValue<String>("ProducImagePath")}{ fileName}"
+                    });
+                }
             }
 
             var token = HttpContext.Request.Cookies["access_token"];
@@ -75,11 +103,27 @@ namespace Bakdelar.Pages.Admin.Product
             httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
             HttpResponseMessage response = await httpClient.PutAsJsonAsync(
-                    $"{_configuration.GetValue<String>("APIEndpoint")}api/product/{Product.ProductId}", Product);
+                    $"{_configuration.GetValue<String>("APIEndpoint")}api/product/{ProductView.ProductId}", ProductView);
 
             if (response.IsSuccessStatusCode)
             {
                 return RedirectToPage("./Index");
+            }
+            return Page();
+        }
+
+        public async Task<IActionResult> OnPostDeleteImageAsync(int? id)
+        {
+
+            using HttpClient httpClient = new HttpClient();
+            var token = HttpContext.Request.Cookies["access_token"];
+            httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+            HttpResponseMessage response = await httpClient.DeleteAsync($"{_configuration.GetValue<String>("APIEndpoint")}api/product/DeleteProductImage/{id.Value}");
+            if (response.IsSuccessStatusCode)
+            {
+                int productId = int.Parse(response.Content.ReadAsStringAsync().Result);
+                return RedirectToPage("./Edit", new { id = productId });
             }
             return Page();
         }

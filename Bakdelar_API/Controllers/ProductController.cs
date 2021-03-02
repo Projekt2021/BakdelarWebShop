@@ -6,14 +6,15 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace Bakdelar_API.Controllers
-{    
+{
     [AllowAnonymous]
     [ApiController]
-    [Route("api/[controller]")]    
+    [Route("api/[controller]")]
     public class ProductController : ControllerBase
     {
         private readonly BakdelarAppDbContext _context;
@@ -69,7 +70,7 @@ namespace Bakdelar_API.Controllers
 
                 List<ProductView> result = new();
                 foreach (var word in searchQuery)
-                {   
+                {
                     List<ProductView> productViews = _context.Products.Where(product => product.ProductName.Contains(word) || product.ProductDescription.Contains(word))
                                                      .Include(product => product.ProductImages)
                                                      .Select(product => new ProductView
@@ -89,7 +90,7 @@ namespace Bakdelar_API.Controllers
                                                          },
                                                          ProductImageView = product.ProductImages.Select(x => new ProductImageView { ImageId = x.ImageId, ImageURL = x.ImageURL }).ToList()
                                                      }).ToList();
-                    foreach(var product in productViews)
+                    foreach (var product in productViews)
                     {
                         bool alreadyInList = result.Any(prod => prod.ProductId == product.ProductId);
                         if (alreadyInList)
@@ -109,7 +110,7 @@ namespace Bakdelar_API.Controllers
                 return new List<ProductView>();
             }
 
-            
+
         }
 
         //// GET: api/Products
@@ -126,7 +127,7 @@ namespace Bakdelar_API.Controllers
                 AvailableQuantity = p.AvailableQuantity,
                 ProductWeight = p.ProductWeight,
                 DateEntered = p.DateEntered,
-                IsSelected = p.IsSelected,               
+                IsSelected = p.IsSelected,
                 //Cascade insert
                 Category = new CategoryView
                 {
@@ -160,7 +161,12 @@ namespace Bakdelar_API.Controllers
                 productDB.ProductWeight = product.ProductWeight;
                 productDB.CategoryId = product.CategoryId;
                 //productDB.DateEntered = product.DateEntered;  //DateEntered should not be changed
-                productDB.IsSelected = product.IsSelected;               
+                productDB.IsSelected = product.IsSelected;
+                productDB.ProductImages = product.ProductImageView.Select(x => new ProductImage
+                {
+                    ImageURL = x.ImageURL,
+                    ProductId = product.ProductId
+                }).ToList();
             }
 
             _context.Entry(productDB).State = EntityState.Modified;
@@ -226,6 +232,26 @@ namespace Bakdelar_API.Controllers
             await _context.SaveChangesAsync();
 
             return NoContent();
+        }
+
+
+        [Authorize(Policy = "RequireAdministratorRole")]
+        // DELETE: api/TodoItems/5
+        [HttpDelete("DeleteProductImage/{id}")]
+        public async Task<IActionResult> DeleteProductImage(int id)
+        {
+            var productImage = await _context.ProductImages.FindAsync(id);
+            if (productImage == null)
+            {
+                return NotFound();
+            }
+
+            int prodId = productImage.ProductId;
+
+            _context.ProductImages.Remove(productImage);
+            await _context.SaveChangesAsync();
+
+            return Ok(prodId);
         }
 
         private bool ProductExists(int id)

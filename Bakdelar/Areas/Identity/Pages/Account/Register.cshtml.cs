@@ -94,7 +94,7 @@ namespace Bakdelar.Areas.Identity.Pages.Account
             returnUrl ??= Url.Content("~/Identity/Account/login");
             if (ModelState.IsValid)
             {
-                bool isAdminUser = CreateRole();
+                bool isAdminUser = (CreateRole() || _userManager.Users.Count() == 0);
                 var user = new IdentityUser { UserName = Input.Email, Email = Input.Email };
                 var result = await _userManager.CreateAsync(user, Input.Password);//.ConfigureAwait(false).GetAwaiter().GetResult();
                 if (result.Succeeded)
