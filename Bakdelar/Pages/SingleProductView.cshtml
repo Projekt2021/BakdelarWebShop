@@ -42,11 +42,6 @@ else
                 <p class="card-text">@Model.Product.ProductPrice kr</p>
             }
             <p class="card-text">Antal i lager: @Model.Product.AvailableQuantity st</p>
-
-
-    <h3>@Model.Product.ProductName</h3>
-    <p>@Model.Product.ProductDescription</p>
-    <p>@Model.Product.ProductPrice kr</p>
     <form method="post">
         <input type="hidden" value="@Model.Product.ProductId" asp-for="ShoppingItem.ID" />
         <input type="hidden" value="@Model.Product.ProductName" asp-for="ShoppingItem.ProductName" />
