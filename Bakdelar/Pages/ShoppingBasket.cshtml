@@ -23,9 +23,9 @@
                         <th scope="col">
                             @Html.DisplayNameFor(model => model.ShoppingBasket.FirstOrDefault().ItemCount)
 
-                        <th>
+                        @*<th>
                             @Html.DisplayNameFor(model => model.ShoppingBasket.FirstOrDefault().Discount)
-                        </th>
+                        </th>*@
                         <th scope="col">
                             Pris
                         </th>
@@ -61,9 +61,9 @@
 
                             </form>
                         </td>
-                        <td>
+                        @*<td>
                             @Html.DisplayFor(modelItem => item.Discount)
-                        </td>
+                        </td>*@
                         <td>
                             @{
                                 var price = item.Price * item.ItemCount;
