@@ -52,11 +52,11 @@
                             </button>
 
                             <div class="dropdown-menu">
-                                <h6 class="dropdown-header">Varukorg</h6>
+                                <a href="@Url.Content("~/ShoppingBasket")"><h6 class="dropdown-header">Varukorg</h6></a>
                                 <div class="dropdown-divider"></div>
                                 <partial name="_ShoppingBasket.cshtml" />
-                                <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="Checkout">Till kassan</a>
+                                @*<div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="Checkout">Till kassan</a>*@
                             </div>
                         </div>
 

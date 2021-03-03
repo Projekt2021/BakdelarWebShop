@@ -23,6 +23,10 @@ namespace Bakdelar
             services.AddHttpClient();
             services.AddRazorPages().AddRazorRuntimeCompilation();
             services.AddAntiforgery(o => o.HeaderName = "XSRF-TOKEN");
+            services.AddSession(options =>
+            {
+                options.IdleTimeout = TimeSpan.FromMinutes(20);
+            });
             //    .AddNewtonsoftJson();
 
             //services.AddHttpClient<IContactsClient,
@@ -48,7 +52,7 @@ namespace Bakdelar
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
-
+            app.UseSession();
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 

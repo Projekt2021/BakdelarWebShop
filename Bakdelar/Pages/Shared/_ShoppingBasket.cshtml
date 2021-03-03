@@ -1,4 +1,5 @@
 ﻿@inject Microsoft.AspNetCore.Http.IHttpContextAccessor httpContextAccessor;
+@using Microsoft.AspNetCore.Http;
 @using Bakdelar.Classes;
 @using System.Text.Json;
 @using System.Text.Json.Serialization;
@@ -9,30 +10,51 @@
         DictionaryKeyPolicy = JsonNamingPolicy.CamelCase,
         PropertyNamingPolicy = JsonNamingPolicy.CamelCase
     };
-    var serializedBasket = httpContextAccessor.HttpContext.Request.Cookies["shopping_basket"];
+    var serializedBasket = httpContextAccessor.HttpContext.Session.GetString("shopping_basket");
     if (serializedBasket == null || serializedBasket == string.Empty)
     {
         <a class="dropdown-item" href="#">Tomt!</a>
     }
     else
     {
-        var shoppingBasket = JsonSerializer.Deserialize<Classes.ShoppingBasket>(serializedBasket, options);
-        decimal totalPrice = 0;
-        foreach (var item in shoppingBasket.Items)
-        {
-            totalPrice += item.Price * item.ItemCount;
-            decimal priceForItems = item.Price * item.ItemCount;
-            if (!item.Discount)
-            {
-                <a class="dropdown-item" href="/Product?id=@item.ID">@item.ProductName x @item.ItemCount | Pris st @item.Price | total @priceForItems</a>
-            }
-            else
-            {
-                <a class="dropdown-item text-warning" href="/Product?id=@item.ID">@item.ProductName x @item.ItemCount | Pris st @item.Price | total @priceForItems</a>
-            }
-        }
 
-        <div class="dropdown-divider"></div>
-        <h6 class="dropdown-header">Total: @totalPrice kr</h6>
+        var shoppingBasket = JsonSerializer.Deserialize<List<ShoppingBasketItem>>(serializedBasket, options);
+
+        if (shoppingBasket == null || !shoppingBasket.Any())
+        {
+            <a class="dropdown-item" href="#">Tomt!</a>
+        }
+        else
+        {
+
+            decimal totalPrice = 0;
+            foreach (var item in shoppingBasket)
+            {
+
+
+
+                totalPrice += item.Price * item.ItemCount;
+                //decimal priceForItems = item.Price * item.ItemCount;
+                <div class="flex-row d-flex flex-nowrap">
+                    <a class="dropdown-item" href="@Url.Content($"~/SingleProductView/{item.ID}")">
+                        <div class="col-6 d-inline-block">
+                            @item.ProductName x @item.ItemCount
+                        </div>
+                        <div class="col-5 d-inline-block border-left ml-4 px-1 border-dark">
+                            <span class=""> @item.Price kr st</span>
+                        </div>
+                        @*<div class="col-4 d-inline-block border-left px-1 border-dark">
+                            <span class="">Totalt: @priceForItems kr</span>
+                        </div>*@
+                    </a>
+
+                    <div class="dropdown-divider"></div>
+                </div>
+            }
+
+
+            <div class="dropdown-divider"></div>
+            <h6 class="dropdown-header">Total: @totalPrice kr</h6>
+        }
     }
 }

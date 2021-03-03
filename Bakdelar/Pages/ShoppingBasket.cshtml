@@ -1,0 +1,85 @@
+﻿@page
+@model Bakdelar.Pages.ShoppingBasketModel
+
+
+
+
+
+@{
+    if (Model.ShoppingBasket != null && Model.ShoppingBasket != null && Model.ShoppingBasket.Any())
+    {
+        decimal totalPrice = 0;
+    <div class="row">
+            <table class="table">
+
+                <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">
+                            @Html.DisplayNameFor(model => model.ShoppingBasket.FirstOrDefault().ProductName)
+                        </th>
+                        <th scope="col">
+                            @Html.DisplayNameFor(model => model.ShoppingBasket.FirstOrDefault().ItemCount)
+
+                        <th>
+                            @Html.DisplayNameFor(model => model.ShoppingBasket.FirstOrDefault().Discount)
+                        </th>
+                        <th scope="col">
+                            Pris
+                        </th>
+                        <th scope="col">
+                            
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.ShoppingBasket)
+                    {
+                        totalPrice += item.Price * item.ItemCount;
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ProductName)
+                        </td>
+
+                        <td>
+                            <form class="form-inline" method="post" asp-page-handler="ChangeCount" asp-route-id="@item.ID">
+                                <input class="form-control" style="border-radius: 1rem; width: 4.5rem;"
+                                       type="number" step="1" value="@item.ItemCount" asp-for="@Model.NewCount"
+                                       min="1" max="@item.StockLevel" />
+                                <span class="input-group-btn">
+                                    <button class="btn text-white" type="submit">
+                                        <span class="material-icons" style="color: green;">
+                                            check_circle_outline
+                                        </span>
+                                    </button>
+                                </span>
+
+                            </form>
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Discount)
+                        </td>
+                        <td>
+                            @{
+                                var price = item.Price * item.ItemCount;
+                                @Html.Raw($"{price}");
+                            }
+                        </td>
+                        <td>
+                            <a asp-page-handler="RemoveProduct" asp-route-id="@item.ID">Ta bort</a>
+                        </td>
+
+
+                    </tr>
+                    }
+                </tbody>
+            </table>
+            <div class="align-content-end text-center">
+                Totalt: @totalPrice
+            </div>
+        </div>
+    }
+    else
+    {
+<h1>Tomt!</h1>
+    }
+}
