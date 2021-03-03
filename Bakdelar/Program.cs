@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using System.Globalization;
 
 namespace Bakdelar
 {
@@ -12,6 +13,10 @@ namespace Bakdelar
     {
         public static void Main(string[] args)
         {
+            CultureInfo ci = new CultureInfo("sv-SE");
+            CultureInfo.DefaultThreadCurrentCulture = ci;
+            CultureInfo.DefaultThreadCurrentUICulture = ci;
+
             CreateHostBuilder(args).Build().Run();
         }
 
