@@ -15,6 +15,9 @@
                 <thead class="thead-dark">
                     <tr>
                         <th scope="col">
+                            @Html.DisplayNameFor(model => model.ShoppingBasket.FirstOrDefault().ImageLink)
+                        </th>
+                        <th scope="col">
                             @Html.DisplayNameFor(model => model.ShoppingBasket.FirstOrDefault().ProductName)
                         </th>
                         <th scope="col">
@@ -36,6 +39,9 @@
                     {
                         totalPrice += item.Price * item.ItemCount;
                     <tr>
+                        <td>
+                            <img src="@item.ImageLink" style="height: 50px; height: 50px;"/>
+                        </td>
                         <td>
                             @Html.DisplayFor(modelItem => item.ProductName)
                         </td>

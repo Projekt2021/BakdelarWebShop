@@ -22,6 +22,9 @@ namespace Bakdelar.Classes
         [Display(Name = "Antal")]
         public int ItemCount { get; set; }
 
+        [Display(Name = "Bild")]
+        public string ImageLink { get; set; }
+
         [Display(Name = "Rabatt")]
         public bool Discount { get; set; }
         public int StockLevel { get; set; }
