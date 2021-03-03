@@ -98,7 +98,6 @@ namespace Bakdelar.Pages.Admin.Product
         public async Task GetCategory()
         {
             using HttpClient httpClient = new HttpClient();
-            var user = await _userManager.GetUserAsync(User);
             var token = HttpContext.Request.Cookies["access_token"];
             httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 

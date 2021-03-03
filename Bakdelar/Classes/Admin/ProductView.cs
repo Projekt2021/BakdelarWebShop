@@ -23,7 +23,7 @@ namespace Bakdelar.Classes
         public decimal ProductPrice { get; set; }
 
         [Display(Name = "Special Price")]
-        public double? SpecialPrice { get; set; }
+        public decimal? SpecialPrice { get; set; }
 
         //[Required]
         [Display(Name = "Available Quantity")]

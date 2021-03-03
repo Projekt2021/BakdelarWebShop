@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using System.Globalization;
 
 namespace Bakdelar
 {
@@ -12,6 +13,10 @@ namespace Bakdelar
     {
         public static void Main(string[] args)
         {
+            CultureInfo ci = new CultureInfo("sv-SE");
+            CultureInfo.DefaultThreadCurrentCulture = ci;
+            CultureInfo.DefaultThreadCurrentUICulture = ci;
+
             CreateHostBuilder(args).Build().Run();
         }
 
@@ -30,6 +35,12 @@ namespace Bakdelar
                     services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = false)
                        .AddRoles<IdentityRole>()
                        .AddEntityFrameworkStores<AuthenticationDbContext>();
+
+                    services.AddAuthorization(options =>
+                    {
+                        options.AddPolicy("RequireAdministratorRole",
+                             policy => policy.RequireRole("Admin"));
+                    });
                 });
     }
 }

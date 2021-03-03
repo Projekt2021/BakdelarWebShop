@@ -1,15 +1,18 @@
 ﻿using Bakdelar_API.ViewModels;
 using DataAccess;
 using DataAccess.DataModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace Bakdelar_API.Controllers
 {
+    [AllowAnonymous]
     [ApiController]
     [Route("api/[controller]")]
     public class ProductController : ControllerBase
@@ -20,7 +23,6 @@ namespace Bakdelar_API.Controllers
         {
             _context = context;
         }
-
 
         // GET: api/Products/5
         [HttpGet("{id}")]
@@ -56,9 +58,6 @@ namespace Bakdelar_API.Controllers
             return productView;
         }
 
-
-
-
         //// GET: api/Products
         [HttpGet("Search")]
         public async Task<object> SearchProducts(string Name)
@@ -71,7 +70,7 @@ namespace Bakdelar_API.Controllers
 
                 List<ProductView> result = new();
                 foreach (var word in searchQuery)
-                {   
+                {
                     List<ProductView> productViews = _context.Products.Where(product => product.ProductName.Contains(word) || product.ProductDescription.Contains(word))
                                                      .Include(product => product.ProductImages)
                                                      .Select(product => new ProductView
@@ -91,7 +90,7 @@ namespace Bakdelar_API.Controllers
                                                          },
                                                          ProductImageView = product.ProductImages.Select(x => new ProductImageView { ImageId = x.ImageId, ImageURL = x.ImageURL }).ToList()
                                                      }).ToList();
-                    foreach(var product in productViews)
+                    foreach (var product in productViews)
                     {
                         bool alreadyInList = result.Any(prod => prod.ProductId == product.ProductId);
                         if (alreadyInList)
@@ -111,45 +110,20 @@ namespace Bakdelar_API.Controllers
                 return new List<ProductView>();
             }
 
-            
+
         }
-
-
-
-
-
-
-
-
 
         //// GET: api/Products
         [HttpGet]
         public async Task<List<ProductView>> GetAllProductsAsync()
         {
-            var productList = await _context.Products.Select(p => new ProductView
-            {
-                ProductId = p.ProductId,
-                ProductName = p.ProductName,
-                ProductDescription = p.ProductDescription,
-                ProductPrice = p.ProductPrice,
-                SpecialPrice = p.SpecialPrice,
-                AvailableQuantity = p.AvailableQuantity,
-                ProductWeight = p.ProductWeight,
-                DateEntered = p.DateEntered,
-                IsSelected = p.IsSelected,               
-                //Cascade insert
-                Category = new CategoryView
-                {
-                    CategoryId = p.Category.CategoryId,
-                    CategoryName = p.Category.CategoryName
-                },
-                ProductImageView = p.ProductImages.Select(x => new ProductImageView { ImageId = x.ImageId, ImageURL = x.ImageURL }).ToList()
-            }).ToListAsync();
+            var productList = await _context.Products.Include(p => p.ProductImages).Include(p => p.Category).Select(p => new ProductView(p)).ToListAsync();
 
             return productList;
         }
 
         // GET: api/Products/5
+        [Authorize(Policy = "RequireAdministratorRole")]
         [HttpPut("{id}")]
         public async Task<ActionResult> PutProduct(int id, ProductView product)
         {
@@ -169,7 +143,12 @@ namespace Bakdelar_API.Controllers
                 productDB.ProductWeight = product.ProductWeight;
                 productDB.CategoryId = product.CategoryId;
                 //productDB.DateEntered = product.DateEntered;  //DateEntered should not be changed
-                productDB.IsSelected = product.IsSelected;               
+                productDB.IsSelected = product.IsSelected;
+                productDB.ProductImages = product.ProductImageView.Select(x => new ProductImage
+                {
+                    ImageURL = x.ImageURL,
+                    ProductId = product.ProductId
+                }).ToList();
             }
 
             _context.Entry(productDB).State = EntityState.Modified;
@@ -192,37 +171,7 @@ namespace Bakdelar_API.Controllers
             return NoContent();
         }
 
-
-        //public async Task<ActionResult<Product>> PutProduct(int id, Product product)
-        //{
-        //    if (id != product.ProductId)
-        //    {
-        //        return BadRequest();
-        //    }
-        //    _context.Entry(product).State = EntityState.Modified;
-
-        //    try
-        //    {
-        //        await _context.SaveChangesAsync();
-        //    }
-        //    catch (DbUpdateConcurrencyException)
-        //    {
-        //        if (!ProductExists(id))
-        //        {
-        //            return NotFound();
-        //        }
-        //        else
-        //        {
-        //            throw;
-        //        }
-        //    }
-
-        //    return NoContent();
-        //}
-
-
-
-        // POST: api/Products
+        [Authorize(Policy = "RequireAdministratorRole")]
         [HttpPost]
         public async Task<ActionResult<Product>> PostProduct(ProductView productView)
         {
@@ -250,6 +199,7 @@ namespace Bakdelar_API.Controllers
         }
 
 
+        [Authorize(Policy = "RequireAdministratorRole")]
         // DELETE: api/TodoItems/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteProduct(int id)
@@ -264,6 +214,26 @@ namespace Bakdelar_API.Controllers
             await _context.SaveChangesAsync();
 
             return NoContent();
+        }
+
+
+        [Authorize(Policy = "RequireAdministratorRole")]
+        // DELETE: api/TodoItems/5
+        [HttpDelete("DeleteProductImage/{id}")]
+        public async Task<IActionResult> DeleteProductImage(int id)
+        {
+            var productImage = await _context.ProductImages.FindAsync(id);
+            if (productImage == null)
+            {
+                return NotFound();
+            }
+
+            int prodId = productImage.ProductId;
+
+            _context.ProductImages.Remove(productImage);
+            await _context.SaveChangesAsync();
+
+            return Ok(prodId);
         }
 
         private bool ProductExists(int id)

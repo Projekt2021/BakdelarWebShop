@@ -61,7 +61,7 @@ namespace Bakdelar.Areas.Identity.Pages.Account
             public string ConfirmPassword { get; set; }
         }
 
-        public void CreateRole()
+        public bool CreateRole()
         {
             bool x = _roleManager.RoleExistsAsync("Admin").ConfigureAwait(false).GetAwaiter().GetResult();
             if (!x)
@@ -72,7 +72,17 @@ namespace Bakdelar.Areas.Identity.Pages.Account
                     Name = "Admin"
                 };
                 _roleManager.CreateAsync(role).ConfigureAwait(false);
+
+                role = new IdentityRole
+                {
+                    Name = "Customer"
+                };
+                _roleManager.CreateAsync(role).ConfigureAwait(false);
+                
+                return true;
             }
+            else
+                return false;
         }
 
         public async Task OnGetAsync(string returnUrl = null)
@@ -85,12 +95,16 @@ namespace Bakdelar.Areas.Identity.Pages.Account
             returnUrl ??= Url.Content("~/Identity/Account/login");
             if (ModelState.IsValid)
             {
-                CreateRole();
+                bool isAdminUser = (CreateRole() || _userManager.Users.Count() == 0);
                 var user = new IdentityUser { UserName = Input.Email, Email = Input.Email };
                 var result = await _userManager.CreateAsync(user, Input.Password);//.ConfigureAwait(false).GetAwaiter().GetResult();
                 if (result.Succeeded)
                 {
-                    var roleresult = await _userManager.AddToRoleAsync(user, "Admin");
+                    if (isAdminUser)
+                        await _userManager.AddToRoleAsync(user, "Admin");
+                    else
+                        await _userManager.AddToRoleAsync(user, "Customer");
+
                     _logger.LogInformation("User created a new account with password.");
 
                     // dbcontext error - will fix this later
