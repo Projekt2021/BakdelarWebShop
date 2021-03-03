@@ -26,28 +26,35 @@
         }
         else
         {
+
             decimal totalPrice = 0;
             foreach (var item in shoppingBasket)
             {
 
 
 
-
                 totalPrice += item.Price * item.ItemCount;
-                decimal priceForItems = item.Price * item.ItemCount;
-                if (!item.Discount)
-                {
-                    <a class="dropdown-item" href="@Url.Content($"~/SingleProductView/{item.ID}")">@item.ProductName x @item.ItemCount | Pris st @item.Price | total @priceForItems</a>
-                }
-                else
-                {
-                    <a class="dropdown-item text-warning" href="@Url.Content($"~/SingleProductView/{item.ID}")">@item.ProductName x @item.ItemCount | Pris st @item.Price | total @priceForItems</a>
-                }
-            }
-        
+                //decimal priceForItems = item.Price * item.ItemCount;
+                <div class="flex-row d-flex flex-nowrap">
+                    <a class="dropdown-item" href="@Url.Content($"~/SingleProductView/{item.ID}")">
+                        <div class="col-6 d-inline-block">
+                            @item.ProductName x @item.ItemCount
+                        </div>
+                        <div class="col-5 d-inline-block border-left ml-4 px-1 border-dark">
+                            <span class=""> @item.Price kr st</span>
+                        </div>
+                        @*<div class="col-4 d-inline-block border-left px-1 border-dark">
+                            <span class="">Totalt: @priceForItems kr</span>
+                        </div>*@
+                    </a>
 
-        <div class="dropdown-divider"></div>
-        <h6 class="dropdown-header">Total: @totalPrice kr</h6>
+                    <div class="dropdown-divider"></div>
+                </div>
+            }
+
+
+            <div class="dropdown-divider"></div>
+            <h6 class="dropdown-header">Total: @totalPrice kr</h6>
         }
     }
 }

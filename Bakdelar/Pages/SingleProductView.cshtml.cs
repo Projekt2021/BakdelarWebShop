@@ -102,9 +102,20 @@ namespace Bakdelar.Pages.Shared
                     return Redirect("/SingleProductView/" +ID);
 
                 if (item != null)
-                    item.ItemCount += ShoppingItem.ItemCount;
+                {
+                    if (item.ItemCount + ShoppingItem.ItemCount > Product.AvailableQuantity.Value)
+                    {
+                        item.ItemCount = Product.AvailableQuantity.Value;
+                    }
+                    else
+                    {
+                        item.ItemCount += ShoppingItem.ItemCount;
+                    }
+                }
                 else
+                {
                     shoppingBasket.Add(ShoppingItem);
+                }
 
                 HttpContext.Session.UpdateShoppingBasket(shoppingBasket);
             }
