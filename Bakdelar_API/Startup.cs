@@ -10,7 +10,9 @@ using Microsoft.IdentityModel.Logging;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System;
+using System.Globalization;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Bakdelar_API
@@ -21,12 +23,16 @@ namespace Bakdelar_API
         {
             Configuration = configuration;
         }
-
+        
         public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            CultureInfo ci = new CultureInfo("en-US");
+            CultureInfo.DefaultThreadCurrentCulture = ci;
+            CultureInfo.DefaultThreadCurrentUICulture = ci;
+
             services.AddDbContext<BakdelarAppDbContext>
             (options =>
             {

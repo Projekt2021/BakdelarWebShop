@@ -72,7 +72,7 @@ namespace Bakdelar.Pages.Admin.Category
             httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
             HttpResponseMessage response = await httpClient.PutAsJsonAsync(
-                    $"{_configuration.GetValue<String>("APIEndpoint")}api/category/{Category.CategoryId}", Category);
+                    $"{_configuration.GetValue<string>("APIEndpoint")}api/category/{Category.CategoryId}", Category);
 
             if (response.IsSuccessStatusCode)
             {

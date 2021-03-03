@@ -15,14 +15,17 @@
                 <thead class="thead-dark">
                     <tr>
                         <th scope="col">
+                            @Html.DisplayNameFor(model => model.ShoppingBasket.FirstOrDefault().ImageLink)
+                        </th>
+                        <th scope="col">
                             @Html.DisplayNameFor(model => model.ShoppingBasket.FirstOrDefault().ProductName)
                         </th>
                         <th scope="col">
                             @Html.DisplayNameFor(model => model.ShoppingBasket.FirstOrDefault().ItemCount)
 
-                        <th>
+                        @*<th>
                             @Html.DisplayNameFor(model => model.ShoppingBasket.FirstOrDefault().Discount)
-                        </th>
+                        </th>*@
                         <th scope="col">
                             Pris
                         </th>
@@ -36,6 +39,9 @@
                     {
                         totalPrice += item.Price * item.ItemCount;
                     <tr>
+                        <td>
+                            <img src="@item.ImageLink" style="height: 50px; height: 50px;"/>
+                        </td>
                         <td>
                             @Html.DisplayFor(modelItem => item.ProductName)
                         </td>
@@ -55,9 +61,9 @@
 
                             </form>
                         </td>
-                        <td>
+                        @*<td>
                             @Html.DisplayFor(modelItem => item.Discount)
-                        </td>
+                        </td>*@
                         <td>
                             @{
                                 var price = item.Price * item.ItemCount;
