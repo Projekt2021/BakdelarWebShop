@@ -43,11 +43,6 @@ else
             }
             <p class="card-text">Antal i lager: @Model.Product.AvailableQuantity st</p>
 
-            <form method="post">
-                <input type="hidden" value="@Model.Product.ProductId" asp-for="ShoppingItem.ID" />
-                <input type="hidden" value="@Model.Product.ProductName" asp-for="ShoppingItem.ProductName" />
-                <input type="hidden" value="@Model.Product.AvailableQuantity" asp-for="ShoppingItem.StockLevel" />
-
 
     <h3>@Model.Product.ProductName</h3>
     <p>@Model.Product.ProductDescription</p>
@@ -68,9 +63,14 @@ else
             <input type="hidden" value="false" asp-for="ShoppingItem.Discount" />
         }
         <input type="number" step="1" value="1" asp-for="ShoppingItem.ItemCount" min="1" max="@Model.Product.AvailableQuantity" />
-        <input type="submit" value="Lägg till i kundkorgen" />
-
-            </form>
+        <span class="input-group-btn">
+            <button class="btn text-success" type="submit">
+                <span class="material-icons">
+                    add_shopping_cart
+                </span>
+            </button>
+        </span>
+    </form>
         </div>      
     </div>
 }
