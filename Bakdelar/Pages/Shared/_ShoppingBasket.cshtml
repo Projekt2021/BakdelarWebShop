@@ -1,38 +1,66 @@
 ﻿@inject Microsoft.AspNetCore.Http.IHttpContextAccessor httpContextAccessor;
+@using Microsoft.AspNetCore.Http;
 @using Bakdelar.Classes;
 @using System.Text.Json;
 @using System.Text.Json.Serialization;
-
-@{
-    var options = new JsonSerializerOptions
-    {
-        DictionaryKeyPolicy = JsonNamingPolicy.CamelCase,
-        PropertyNamingPolicy = JsonNamingPolicy.CamelCase
-    };
-    var serializedBasket = httpContextAccessor.HttpContext.Request.Cookies["shopping_basket"];
-    if (serializedBasket == null || serializedBasket == string.Empty)
-    {
-        <a class="dropdown-item" href="#">Tomt!</a>
-    }
-    else
-    {
-        var shoppingBasket = JsonSerializer.Deserialize<Classes.ShoppingBasket>(serializedBasket, options);
-        decimal totalPrice = 0;
-        foreach (var item in shoppingBasket.Items)
+<div class="container">
+    @{
+        var options = new JsonSerializerOptions
         {
-            totalPrice += item.Price * item.ItemCount;
-            decimal priceForItems = item.Price * item.ItemCount;
-            if (!item.Discount)
+            DictionaryKeyPolicy = JsonNamingPolicy.CamelCase,
+            PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+        };
+        var serializedBasket = httpContextAccessor.HttpContext.Session.GetString("shopping_basket");
+        if (serializedBasket == null || serializedBasket == string.Empty)
+        {
+            <a class="dropdown-item" href="#">Tomt!</a>
+        }
+        else
+        {
+
+            var shoppingBasket = JsonSerializer.Deserialize<List<ShoppingBasketItem>>(serializedBasket, options);
+
+            if (shoppingBasket == null || !shoppingBasket.Any())
             {
-                <a class="dropdown-item" href="/Product?id=@item.ID">@item.ProductName x @item.ItemCount | Pris st @item.Price | total @priceForItems</a>
+                <a class="dropdown-item" href="#">Tomt!</a>
             }
             else
             {
-                <a class="dropdown-item text-warning" href="/Product?id=@item.ID">@item.ProductName x @item.ItemCount | Pris st @item.Price | total @priceForItems</a>
+
+                decimal totalPrice = 0;
+                foreach (var item in shoppingBasket)
+                {
+
+
+
+                    totalPrice += item.Price * item.ItemCount;
+                    decimal priceForItems = item.Price * item.ItemCount;
+                    //decimal priceForItems = item.Price * item.ItemCount;
+                    <div class="flex-row d-flex flex-nowrap">
+                        <a class="dropdown-item" href="@Url.Content($"~/SingleProductView/{item.ID}")">
+                            <img src="@item.ImageLink" style="width: 25px; height:25px;" />
+
+                            <div class="col-6 d-inline-block">
+                                @item.ProductName x @item.ItemCount
+                            </div>
+                            <div class="col-5 d-inline-block border-left ml-0 mr-5 px-1 border-dark">
+                                <span class="">á pris @item.Price kr : @priceForItems kr</span>
+
+
+                            </div>
+                            @*<div class="col-4 d-inline-block border-left px-1 border-dark">
+                                    <span class="">Totalt: @priceForItems kr</span>
+                                </div>*@
+                        </a>
+
+                        <div class="dropdown-divider"></div>
+                    </div>
+                }
+
+
+                <div class="dropdown-divider"></div>
+                <h6 class="dropdown-header">Total: @totalPrice kr</h6>
             }
         }
-
-        <div class="dropdown-divider"></div>
-        <h6 class="dropdown-header">Total: @totalPrice kr</h6>
     }
-}
+</div>

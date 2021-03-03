@@ -1,12 +1,13 @@
 ﻿@page "{Id:int}"
 @model Bakdelar.Pages.Shared.SingleProductViewModel
 @{
+    ViewData["Title"] = "Details";
 }
 
 <style>
     img {
-        max-width: 300px;
-        max-height: 200px;
+        width: 300px;
+        /*max-height: 200px;*/
     }
 </style>
 
@@ -16,18 +17,55 @@
 }
 else
 {
-    <div id="@Model.Product.ProductId" class="carousel slide" data-ride="carousel">
-        <div class="carousel-inner">
-            @for (int i = 0; i < Model.Product.ProductImageView.Count; i++)
-            {
-                <div class="carousel-item @(i == 0 ? "active" : "")">
-                    <img class="d-block w-100 card-img-top" style="height: 10vw;" src="@Model.Product.ProductImageView[i].ImageURL" />
-                </div>
-            }
+    <div class="row">
+        <div id="@Model.Product.ProductId" class="carousel slide" data-ride="carousel">
+            <div class="carousel-inner">
+                @for (int i = 0; i < Model.Product.ProductImageView.Count; i++)
+                {
+                    <div class="carousel-item @(i == 0 ? "active" : "")">
+                        <img class="img-responsive d-block " @*style="height: 10vw;"*@ src="@Model.Product.ProductImageView[i].ImageURL" />
+                    </div>
+                }
+            </div>
         </div>
-    </div>
 
-    <h3>@Model.Product.ProductName</h3>
-    <p>@Model.Product.ProductDescription</p>
-    <p>@Model.Product.ProductPrice kr</p>
+        <div class="ml-5">
+            <h3>@Model.Product.ProductName</h3>
+            <p>@Model.Product.ProductDescription</p>
+            @if (@Model.Product.SpecialPrice != null)
+            {
+                <p> <del>@Model.Product.ProductPrice kr</del></p>
+                <p class="card-text text-danger">Rea @Model.Product.SpecialPrice kr</p>
+            }
+            else
+            {
+                <p class="card-text">@Model.Product.ProductPrice kr</p>
+            }
+            <p class="card-text">Antal i lager: @Model.Product.AvailableQuantity st</p>
+    <form method="post">
+        <input type="hidden" value="@Model.Product.ProductId" asp-for="ShoppingItem.ID" />
+        <input type="hidden" value="@Model.Product.ProductName" asp-for="ShoppingItem.ProductName" />
+        <input type="hidden" value="@Model.Product.AvailableQuantity" asp-for="ShoppingItem.StockLevel" />
+        <input type="hidden" value="@Model.Product.ProductImageView[0].ImageURL" asp-for="ShoppingItem.ImageLink" />
+        @if (Model.Product.SpecialPrice != null)
+        {
+            <input type="hidden" value="@Model.Product.SpecialPrice" asp-for="ShoppingItem.Price" />
+            <input type="hidden" value="true" asp-for="ShoppingItem.Discount" />
+        }
+        else
+        {
+            <input type="hidden" value="@Model.Product.ProductPrice" asp-for="ShoppingItem.Price" />
+            <input type="hidden" value="false" asp-for="ShoppingItem.Discount" />
+        }
+        <input type="number" step="1" value="1" asp-for="ShoppingItem.ItemCount" min="1" max="@Model.Product.AvailableQuantity" />
+        <span class="input-group-btn">
+            <button class="btn text-success" type="submit">
+                <span class="material-icons">
+                    add_shopping_cart
+                </span>
+            </button>
+        </span>
+    </form>
+        </div>      
+    </div>
 }
