@@ -70,7 +70,11 @@
                             }
                         </td>
                         <td>
-                            <a asp-page-handler="RemoveProduct" asp-route-id="@item.ID">Ta bort</a>
+                            <a asp-page-handler="RemoveProduct" asp-route-id="@item.ID">
+                                <span class="material-icons text-danger">
+                                    not_interested
+                                </span>
+                            </a>
                         </td>
 
 
