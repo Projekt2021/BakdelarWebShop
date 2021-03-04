@@ -3,7 +3,31 @@
 @{
     ViewData["Title"] = "Details";
 }
+<script>
+    async function updateBasket() {
 
+        let url = '@Url.Content("~/shared/AjaxHelper?handler=UpdateBasket")';
+        const item = document.querySelector('#shopping_basket');
+        const item2 = document.querySelector('#buy');
+        item.innerHTML = '';
+        item2.addEventListener('click', function (event) {
+            event.preventDefault(); //prevent default action 
+            var request_method = 'post'; //get form GET/POST method
+            var form_data = $('#buyForm').serialize(); //Encode form elements for submission
+            console.log(form_data);
+            $.ajax({
+                url: url,
+                type: request_method,
+                data: form_data,
+                beforeSend: function (xhr) {
+                    xhr.setRequestHeader("XSRF-TOKEN", $('input:hidden[name="__RequestVerificationToken"]').val());
+                },
+            }).done(function (response) { //
+                $("#shopping_basket").html(response);
+            });
+        });
+    }
+</script>
 <style>
     img {
         width: 300px;
@@ -60,37 +84,37 @@ else
                 }
             }
 
-        <form method="post">
-            <input type="hidden" value="@Model.Product.ProductId" asp-for="ShoppingItem.ID" />
-            <input type="hidden" value="@Model.Product.ProductName" asp-for="ShoppingItem.ProductName" />
-            <input type="hidden" value="@Model.Product.AvailableQuantity" asp-for="ShoppingItem.StockLevel" />
-            <input type="hidden" value="@Model.Product.ProductImageView[0].ImageURL" asp-for="ShoppingItem.ImageLink" />
-            @if (Model.Product.SpecialPrice != null)
-            {
-                <input type="hidden" value="@Model.Product.SpecialPrice" asp-for="ShoppingItem.Price" />
-                <input type="hidden" value="true" asp-for="ShoppingItem.Discount" />
-            }
-            else
-            {
-                <input type="hidden" value="@Model.Product.ProductPrice" asp-for="ShoppingItem.Price" />
-                <input type="hidden" value="false" asp-for="ShoppingItem.Discount" />
-            }
-            @{
-
-                if (inStock >= 1)
+            <form id="buyForm">
+                <input type="hidden" value="@Model.Product.ProductId" asp-for="ShoppingItem.ID" />
+                <input type="hidden" value="@Model.Product.ProductName" asp-for="ShoppingItem.ProductName" />
+                <input type="hidden" value="@Model.Product.AvailableQuantity" asp-for="ShoppingItem.StockLevel" />
+                <input type="hidden" value="@Model.Product.ProductImageView[0].ImageURL" asp-for="ShoppingItem.ImageLink" />
+                @if (Model.Product.SpecialPrice != null)
                 {
-                    <input type="number" step="1" value="1" asp-for="ShoppingItem.ItemCount" min="1" max="@Model.Product.AvailableQuantity" />
-                    <span class="input-group-btn">
-                        <button class="btn text-success btn-dark" type="submit">
-                            <span class="material-icons">
-                                add_shopping_cart
-                            </span>
-                        </button>
-                    </span>
+                    <input type="hidden" value="@Model.Product.SpecialPrice" asp-for="ShoppingItem.Price" />
+                    <input type="hidden" value="true" asp-for="ShoppingItem.Discount" />
                 }
-            }
+                else
+                {
+                    <input type="hidden" value="@Model.Product.ProductPrice" asp-for="ShoppingItem.Price" />
+                    <input type="hidden" value="false" asp-for="ShoppingItem.Discount" />
+                }
+                @{
 
-        </form>
-        </div>      
+                    if (inStock >= 1)
+                    {
+                        <input type="number" step="1" value="1" asp-for="ShoppingItem.ItemCount" min="1" max="@Model.Product.AvailableQuantity" />
+                        <span class="input-group-btn">
+                            <button class="btn text-success btn-dark" id="buy" type="button" onclick="updateBasket()">
+                                <span class="material-icons">
+                                    add_shopping_cart
+                                </span>
+                            </button>
+                        </span>
+                    }
+                }
+
+            </form>
+        </div>
     </div>
 }
