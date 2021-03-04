@@ -34,7 +34,7 @@ namespace Bakdelar.Pages.Shared
         public bool Error = false;
 
 
-        public async Task<IActionResult> OnGet(int? id)
+        public async Task<IActionResult> OnGetAsync(int? id)
         {
             using (HttpClient httpClient = new HttpClient())
             {
@@ -50,9 +50,17 @@ namespace Bakdelar.Pages.Shared
                     }
                 }
             }
-
+            await SetBreadcrumb();
             return Page();
 
+        }
+
+        private async Task SetBreadcrumb()
+        {            
+            if (Product != null)
+            {
+                ViewData["breadcrumb"] = new BreadcrumbsView() { Category = Product.Category, ProductName= Product.ProductName };
+            }
         }
     }
 }
