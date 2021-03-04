@@ -67,7 +67,7 @@ namespace Bakdelar.Pages.Shared
                     }
                 }
             }
-
+            await SetBreadcrumb();
             return Page();
 
         }
@@ -130,8 +130,8 @@ namespace Bakdelar.Pages.Shared
                 item.ItemCount += ShoppingItem.ItemCount;
             }
             HttpContext.Session.UpdateShoppingBasket(shoppingBasket);
-            
-            
+
+
             using (var httpClient = new HttpClient())
             {
                 await httpClient.PutAsJsonAsync($"{_configuration.GetValue<String>("APIEndpoint")}api/product/{ID}", Product);
@@ -208,6 +208,16 @@ namespace Bakdelar.Pages.Shared
             else
             {
                 return shoppingBasket.Any(item => item.ID == ShoppingItem.ID);
+            }
+        }
+
+
+
+        private async Task SetBreadcrumb()
+        {
+            if (Product != null)
+            {
+                ViewData["breadcrumb"] = new BreadcrumbsView() { Category = Product.Category, ProductName= Product.ProductName };
             }
         }
     }

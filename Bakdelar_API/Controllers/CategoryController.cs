@@ -64,7 +64,7 @@ namespace Bakdelar_API.Controllers
         }
 
         // GET: api/Categories/5
-        [HttpGet("{id}")]        
+        [HttpGet("{id}")]
         public async Task<ActionResult<Category>> GetCategory(int id)
         {
             var category = await _context.Categories.FindAsync(id);

@@ -150,3 +150,20 @@ a:hover {
     color: gray;
     text-decoration: none;                            
 }
+
+
+/* Breadcrumbs 
+------------------------------------------------- */
+
+.breadcrumb {
+    background-color: transparent;
+    margin-bottom: 0
+}
+
+.breadcrumb-item a {
+    text-decoration: none !important;
+    font-size: 16px;
+    color: #37474f;
+    -webkit-transition: all .3s ease-in-out;
+    transition: all .3s ease-in-out
+}
