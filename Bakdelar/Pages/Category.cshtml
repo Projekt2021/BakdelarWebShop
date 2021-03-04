@@ -1,7 +1,9 @@
 ﻿@page
 @model Bakdelar.Pages.CategoryModel
 @{
+    ViewData["Title"] = Model.CategoryName;
 }
+
 <div class="d-flex flex-wrap justify-content-center">
     @foreach (var product in Model.Products) // lägger till kort med varor på hemskärmen
     {

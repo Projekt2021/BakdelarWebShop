@@ -67,7 +67,7 @@ namespace Bakdelar.Pages.Shared
                     }
                 }
             }
-
+            await SetBreadcrumb();
             return Page();
 
         }
@@ -135,6 +135,14 @@ namespace Bakdelar.Pages.Shared
             using var httpClient = new HttpClient();
 
             Product = await httpClient.GetFromJsonAsync<ProductView>($"{ _configuration.GetValue<String>("APIEndpoint")}api/product/{ID}");
+        }
+
+        private async Task SetBreadcrumb()
+        {            
+            if (Product != null)
+            {
+                ViewData["breadcrumb"] = new BreadcrumbsView() { Category = Product.Category, ProductName= Product.ProductName };
+            }
         }
     }
 }
