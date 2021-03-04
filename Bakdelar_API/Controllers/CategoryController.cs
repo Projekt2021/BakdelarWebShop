@@ -52,6 +52,7 @@ namespace Bakdelar_API.Controllers
                                                                    ImageURL = pi.ImageURL
                                                                }).ToList(),
                                            ProductPrice = p.ProductPrice,
+                                           NumberOfSold = p.NumberOfSold,
                                            SpecialPrice = p.SpecialPrice,
                                            CategoryId = p.CategoryId,
                                            ProductWeight = p.ProductWeight,

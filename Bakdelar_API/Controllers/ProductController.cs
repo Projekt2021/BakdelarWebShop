@@ -83,6 +83,7 @@ namespace Bakdelar_API.Controllers
                                                          AvailableQuantity = product.AvailableQuantity,
                                                          ProductWeight = product.ProductWeight,
                                                          SpecialPrice = product.SpecialPrice,
+                                                         NumberOfSold = product.NumberOfSold,
                                                          //Cascade insert
                                                          Category = new CategoryView
                                                          {
