@@ -21,32 +21,34 @@
 
     <div id="body" class="container-fluid">
         <div class="row">
-            <div class="col p-0 m-0 mb-1 justify-content-center">
+            <div class="col-md-12 p-0 m-0 mb-1 justify-content-center">
                 <partial name="_Sidemenu.cshtml" />
             </div>
-            <div class="col-lg-12 container justify-content-center align-items-center" style="margin-top: -0.5rem;">
+        </div>
+        <div class="row">
+            <partial name="_breadcrumbs.cshtml" />
+            <div class="col-md-12 container justify-content-center align-items-center" style="margin-top: -0.5rem;">
                 <div class="row justify-content-center shadow-sm px-2 p-3 mb-5 bg-white rounded min-vh-100">
-                    <partial name="_breadcrumbs.cshtml" />
                     <main role="main">
                         @RenderBody()
                     </main>
                 </div>
             </div>
-            <div class="col"></div>
+            @*<div class="col"></div>*@
         </div>
     </div>
 
     <partial name="_Footer.cshtml" />
 
     @*<footer class="border-top footer justify-content-center align-items-center bg-dark">
-       <div class="container text-light">
+           <div class="container text-light">
 
-            <a href="#">Customer information</a>
-            <a href="#">GDPR</a>
-            
-            &copy; 2021 - Bakdelar.se - <a asp-area="" asp-page="/Privacy">Privacy</a>
-        </div>
-    </footer>*@
+                <a href="#">Customer information</a>
+                <a href="#">GDPR</a>
+
+                &copy; 2021 - Bakdelar.se - <a asp-area="" asp-page="/Privacy">Privacy</a>
+            </div>
+        </footer>*@
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
