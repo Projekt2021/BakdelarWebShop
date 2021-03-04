@@ -39,6 +39,8 @@ namespace Bakdelar.Pages
         //[BindProperty]
         public List<ProductView> Products { get; set; }
 
+
+
         /// <summary>  
         /// GET: /Index  
         /// </summary>  
@@ -51,5 +53,7 @@ namespace Bakdelar.Pages
 
             return Page();
         }
+
+
     }
 }
