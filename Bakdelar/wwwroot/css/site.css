@@ -154,27 +154,16 @@ a:hover {
 
 /* Breadcrumbs 
 ------------------------------------------------- */
-.card {
-    border-radius: 5px;
-    -webkit-box-shadow: 0 0 5px 0 rgba(43, 43, 43, .1), 0 11px 6px -7px rgba(43, 43, 43, .1);
-    box-shadow: 0 0 5px 0 rgba(43, 43, 43, .1), 0 11px 6px -7px rgba(43, 43, 43, .1);
-    border: none;
-    -webkit-transition: all .3s ease-in-out;
-    transition: all .3s ease-in-out
-}
 
 .breadcrumb {
     background-color: transparent;
     margin-bottom: 0
 }
 
-a {
+.breadcrumb-item a {
     text-decoration: none !important;
     font-size: 16px;
     color: #37474f;
     -webkit-transition: all .3s ease-in-out;
     transition: all .3s ease-in-out
-}
-
-a {
 }
