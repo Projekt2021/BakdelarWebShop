@@ -43,7 +43,10 @@
                     {
                         <p class="card-text">@product.ProductPrice kr</p>
                     }
-                    <p class="card-text">Antal i lager: @product.AvailableQuantity st</p>
+                    @{
+                        int inStock = product.AvailableQuantity.Value - product.NumberOfSold;
+                    }
+                    <p class="card-text">Antal i lager: @inStock st</p>
                     <!--<div class="col d-flex">
                     <a href="~/Item/@product.ProductId" class="btn btn-primary mt-auto">Visa</a>
                     <a href="" class="btn btn-primary mt-auto ml-5">Köp</a>-->

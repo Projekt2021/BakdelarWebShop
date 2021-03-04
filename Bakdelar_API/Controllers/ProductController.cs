@@ -42,6 +42,7 @@ namespace Bakdelar_API.Controllers
                               IsSelected = product.IsSelected,
                               //NumberOfSold = product.NumberOfSold,                         
                               CategoryId = product.CategoryId,
+                              NumberOfSold = product.NumberOfSold,
                               Category = new CategoryView
                               {
                                   CategoryId = product.Category.CategoryId,
@@ -142,6 +143,8 @@ namespace Bakdelar_API.Controllers
                 productDB.AvailableQuantity = product.AvailableQuantity;
                 productDB.ProductWeight = product.ProductWeight;
                 productDB.CategoryId = product.CategoryId;
+
+                productDB.NumberOfSold = product.NumberOfSold;
                 //productDB.DateEntered = product.DateEntered;  //DateEntered should not be changed
                 productDB.IsSelected = product.IsSelected;
                 productDB.ProductImages = product.ProductImageView.Select(x => new ProductImage

@@ -71,13 +71,13 @@ namespace Bakdelar.Pages.Shared
             return Page();
 
         }
-        public IActionResult OnPost()
+        public async Task<IActionResult> OnPostAsync()
         {
             using (HttpClient httpClient = new HttpClient())
             {
                 try
                 {
-                    Product = httpClient.GetFromJsonAsync<ProductView>($"{_configuration.GetValue<String>("APIEndpoint")}api/product/{ID}").Result;
+                    Product = await httpClient.GetFromJsonAsync<ProductView>($"{_configuration.GetValue<String>("APIEndpoint")}api/product/{ID}");
                 }
                 catch (Exception)
                 {
@@ -89,43 +89,103 @@ namespace Bakdelar.Pages.Shared
             }
             var shoppingBasket = HttpContext.Session.GetBasket();
 
-
-
-
-            if (shoppingBasket != null)
+            bool itemAlreadyInBasket = ItemAlreadyInBasket(shoppingBasket);
+            bool tooManyItemsAdded = false;
+            ShoppingBasketItem item;
+            if(itemAlreadyInBasket)
             {
+                item = shoppingBasket.Where(shoppingItem => shoppingItem.ID == ShoppingItem.ID).FirstOrDefault();
+                tooManyItemsAdded = item.ItemCount + ShoppingItem.ItemCount > Product.AvailableQuantity.Value;
+            }
 
-                var item = shoppingBasket.Where(item => item.ID == ShoppingItem.ID).FirstOrDefault();
-                var totalItems = ShoppingItem.ItemCount;
 
-                if (ShoppingItem == null)
-                    return Redirect("/SingleProductView/" +ID);
+            if (ShoppingItem.ItemCount > Product.AvailableQuantity.Value - Product.NumberOfSold)
+            {
+                return null;
+            }
 
-                if (item != null)
-                {
-                    if (item.ItemCount + ShoppingItem.ItemCount > Product.AvailableQuantity.Value)
-                    {
-                        item.ItemCount = Product.AvailableQuantity.Value;
-                    }
-                    else
-                    {
-                        item.ItemCount += ShoppingItem.ItemCount;
-                    }
-                }
-                else
-                {
-                    shoppingBasket.Add(ShoppingItem);
-                }
 
-                HttpContext.Session.UpdateShoppingBasket(shoppingBasket);
+            if(shoppingBasket == null)
+            {
+                shoppingBasket = new();
+                shoppingBasket.Add(ShoppingItem);
+                Product.NumberOfSold += ShoppingItem.ItemCount;
+            }
+            else if (!itemAlreadyInBasket)
+            {
+                shoppingBasket.Add(ShoppingItem);
+                Product.NumberOfSold += ShoppingItem.ItemCount;
+            }
+            else if(tooManyItemsAdded)
+            {
+                item = shoppingBasket.Where(shoppingItem => shoppingItem.ID == ShoppingItem.ID).FirstOrDefault();
+                item.ItemCount = Product.AvailableQuantity.Value;
+                Product.NumberOfSold = Product.AvailableQuantity.Value;
             }
             else
             {
-                shoppingBasket = new List<ShoppingBasketItem>();
-                shoppingBasket.Add(ShoppingItem);
-                HttpContext.Session.UpdateShoppingBasket(shoppingBasket);
-            }
+                item = shoppingBasket.Where(shoppingItem => shoppingItem.ID == ShoppingItem.ID).FirstOrDefault();
 
+                Product.NumberOfSold += ShoppingItem.ItemCount;
+                item.ItemCount += ShoppingItem.ItemCount;
+            }
+            HttpContext.Session.UpdateShoppingBasket(shoppingBasket);
+            
+            
+            using (var httpClient = new HttpClient())
+            {
+                await httpClient.PutAsJsonAsync($"{_configuration.GetValue<String>("APIEndpoint")}api/product/{ID}", Product);
+            }
+            ModelState.Clear();
+
+            //if (shoppingBasket != null)
+            //{
+
+            //    var item = shoppingBasket.Where(item => item.ID == ShoppingItem.ID).FirstOrDefault();
+            //    var totalItems = ShoppingItem.ItemCount;
+
+            //    if (ShoppingItem == null)
+            //        return Redirect("/SingleProductView/" +ID);
+
+
+
+
+
+
+
+            //    if (item != null)
+            //    {
+            //        if (item.ItemCount + ShoppingItem.ItemCount > Product.AvailableQuantity.Value - Product.NumberOfSold)
+            //        {
+            //            item.ItemCount = Product.AvailableQuantity.Value;
+            //            Product.NumberOfSold = item.ItemCount;
+            //        }
+            //        else
+            //        {
+            //            item.ItemCount += ShoppingItem.ItemCount;
+            //            Product.NumberOfSold = item.ItemCount;
+            //        }
+            //    }
+            //    else
+            //    {
+            //        shoppingBasket.Add(ShoppingItem);
+            //        Product.NumberOfSold += ShoppingItem.ItemCount;
+            //    }
+
+            //    HttpContext.Session.UpdateShoppingBasket(shoppingBasket);
+            //}
+            //else
+            //{
+            //    shoppingBasket = new List<ShoppingBasketItem>();
+            //    shoppingBasket.Add(ShoppingItem);
+            //    Product.NumberOfSold = ShoppingItem.ItemCount;
+            //    HttpContext.Session.UpdateShoppingBasket(shoppingBasket);
+            //}
+            //using (var httpClient = new HttpClient())
+            //{
+            //    await httpClient.PutAsJsonAsync($"{_configuration.GetValue<String>("APIEndpoint")}api/product/{ID}", Product);
+            //}
+            //ModelState.Clear();
             return Redirect("/SingleProductView/" + ID);
         }
 
@@ -135,6 +195,20 @@ namespace Bakdelar.Pages.Shared
             using var httpClient = new HttpClient();
 
             Product = await httpClient.GetFromJsonAsync<ProductView>($"{ _configuration.GetValue<String>("APIEndpoint")}api/product/{ID}");
+        }
+
+
+
+        public bool ItemAlreadyInBasket(List<ShoppingBasketItem> shoppingBasket)
+        {
+            if (shoppingBasket == null || !shoppingBasket.Any())
+            {
+                return false;
+            }
+            else
+            {
+                return shoppingBasket.Any(item => item.ID == ShoppingItem.ID);
+            }
         }
     }
 }
