@@ -44,7 +44,7 @@
                         <p class="card-text">@product.ProductPrice kr</p>
                     }
                     @{
-                        int inStock = product.AvailableQuantity.Value - product.NumberOfSold;
+                        int inStock = product.AvailableQuantity.Value-product.NumberOfSold;
                     }
                     <p class="card-text">Antal i lager: @inStock st</p>
                     <!--<div class="col d-flex">

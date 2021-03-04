@@ -47,7 +47,9 @@ namespace Bakdelar_API.ViewModels
             AvailableQuantity = p.AvailableQuantity;
             ProductWeight = p.ProductWeight;
             DateEntered = p.DateEntered;
+            DateEntered = p.DateEntered;
             IsSelected = p.IsSelected;
+            NumberOfSold = p.NumberOfSold;
             //Cascade insert
             Category = new CategoryView
             {
