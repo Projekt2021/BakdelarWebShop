@@ -102,9 +102,15 @@ namespace Bakdelar.MethodClasses
             return await httpClient.GetFromJsonAsync<ProductView>(ProductLink + $"/{id}");
         }
 
+        /// <summary>
+        /// PRODUCTIMAGES BLIR NULL!!!!
+        /// </summary>
+        /// <param name="product"></param>
+        /// <returns></returns>
         public static async Task<HttpResponseMessage> PutProductAsync(ProductView product)
         {
             int id = product.ProductId;
+            product.ProductImageView = null;
             return await httpClient.PutAsJsonAsync(ProductLink + $"/{id}", product);
         }
 

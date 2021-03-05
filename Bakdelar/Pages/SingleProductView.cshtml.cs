@@ -117,12 +117,7 @@ namespace Bakdelar.Pages.Shared
                 item.ItemCount += ShoppingItem.ItemCount;
             }
             HttpContext.Session.UpdateShoppingBasket(shoppingBasket);
-
-
-            using (var httpClient = new HttpClient())
-            {
-                await GetFromApi.PutProductAsync(Product);
-            }
+            await GetFromApi.PutProductAsync(Product);
             ModelState.Clear();
 
             //if (shoppingBasket != null)
