@@ -10,7 +10,7 @@ namespace Bakdelar.Classes
     public class ProductView
     {
         public int ProductId { get; set; }
-        
+
         [Required]
         [Display(Name = "Product Name")]
         public string ProductName { get; set; }
@@ -20,6 +20,7 @@ namespace Bakdelar.Classes
 
         [Required]
         [Display(Name = "Price")]
+        [DisplayFormat(DataFormatString = "{0:F2}", ApplyFormatInEditMode = true)]
         public decimal ProductPrice { get; set; }
 
         [Display(Name = "Special Price")]

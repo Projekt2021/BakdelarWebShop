@@ -1,4 +1,5 @@
 using Bakdelar.Areas.Identity.Data;
+using Fare;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -41,6 +42,7 @@ namespace Bakdelar
                         options.AddPolicy("RequireAdministratorRole",
                              policy => policy.RequireRole("Admin"));
                     });
+
                 });
     }
 }
