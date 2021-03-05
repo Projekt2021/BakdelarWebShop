@@ -17,7 +17,7 @@ namespace Bakdelar_API.ViewModels
 
         [Required]
         [Display(Name = "Price")]
-        [DisplayFormat(DataFormatString = "{0:F2}", ApplyFormatInEditMode = true)]
+        //[DisplayFormat(DataFormatString = "{0:F2}", ApplyFormatInEditMode = false)]
         public decimal ProductPrice { get; set; }
 
         public int? AvailableQuantity { get; set; }
