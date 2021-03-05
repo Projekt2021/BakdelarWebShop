@@ -5,6 +5,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="wwwroot\jquery-validation-unobtrusive\jquery.validate.unobtrusive.js" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Remove="ProductImages\Ingredienser.Bakpulver.png" />
     <None Remove="ProductImages\Ingredienser.GrönKaramellfärg.png" />
     <None Remove="ProductImages\Ingredienser.Mjöl.png" />
@@ -26,11 +30,16 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="wwwroot\jquery-validation-unobtrusive\jquery.validate.unobtrusive.js" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Folder Include="Classes\Customer\" />
     <Folder Include="wwwroot\images\product\" />
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Fare" Version="2.1.2" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="3.1.12" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="5.0.3" />

@@ -15,7 +15,7 @@ namespace DataAccess.DataModels
         [Required, MaxLength(50), StringLength(50)]
         public string CategoryName { get; set; }
 
-        public ICollection<Product> Product { get; set; }
+        //public ICollection<Product> Product { get; set; }
 
 
     }
