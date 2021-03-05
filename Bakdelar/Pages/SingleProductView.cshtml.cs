@@ -53,20 +53,7 @@ namespace Bakdelar.Pages.Shared
 
         public async Task<IActionResult> OnGet()
         {
-            using (HttpClient httpClient = new HttpClient())
-            {
-                try
-                {
-                    Product = await httpClient.GetFromJsonAsync<ProductView>($"{_configuration.GetValue<String>("APIEndpoint")}api/product/{ID}");
-                }
-                catch (Exception)
-                {
-                    if (Product.ProductName == null)
-                    {
-                        Error = true;
-                    }
-                }
-            }
+            Product = GetFromApi.GetProductAsync(ID).Result;
             await SetBreadcrumb();
             return Page();
 
@@ -77,7 +64,7 @@ namespace Bakdelar.Pages.Shared
             {
                 try
                 {
-                    Product = await httpClient.GetFromJsonAsync<ProductView>($"{_configuration.GetValue<String>("APIEndpoint")}api/product/{ID}");
+                    Product = await GetFromApi.GetProductAsync(ID);
                 }
                 catch (Exception)
                 {
@@ -134,7 +121,7 @@ namespace Bakdelar.Pages.Shared
 
             using (var httpClient = new HttpClient())
             {
-                await httpClient.PutAsJsonAsync($"{_configuration.GetValue<String>("APIEndpoint")}api/product/{ID}", Product);
+                await GetFromApi.PutProductAsync(Product);
             }
             ModelState.Clear();
 
@@ -194,7 +181,7 @@ namespace Bakdelar.Pages.Shared
         {
             using var httpClient = new HttpClient();
 
-            Product = await httpClient.GetFromJsonAsync<ProductView>($"{ _configuration.GetValue<String>("APIEndpoint")}api/product/{ID}");
+            Product = await GetFromApi.GetProductAsync(ID);
         }
 
 

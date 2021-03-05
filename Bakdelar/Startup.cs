@@ -1,3 +1,4 @@
+using Bakdelar.MethodClasses;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -12,6 +13,7 @@ namespace Bakdelar
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
+            GetFromApi.SetupLinks(Configuration);
         }
 
         public IConfiguration Configuration { get; }
