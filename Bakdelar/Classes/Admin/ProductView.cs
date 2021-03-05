@@ -52,5 +52,6 @@ namespace Bakdelar.Classes
         public CategoryView Category { get; set; }
 
         public List<ProductImageView> ProductImageView { get; set; }
+
     }
 }

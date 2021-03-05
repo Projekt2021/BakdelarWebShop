@@ -28,9 +28,9 @@
             <div class="col p-0 m-0 mb-1 justify-content-center">
                 <partial name="_Sidemenu.cshtml" />
             </div>
-            <div class="col-lg-9 container justify-content-center align-items-center" style="margin-top: -0.5rem;">
-                <div class="row justify-content-center shadow-sm px-2 p-3 mb-5 bg-white rounded min-vh-100">
-
+            <div class="col-lg-9 container" style="margin-top: -0.5rem;">
+                <div class="container-fluid justify-content-center shadow-lg px-2 p-3 mb-5 bg-white rounded min-vh-100">
+                    <partial name="_breadcrumbs.cshtml" />
                     <main role="main">
                         @RenderBody()
                     </main>
@@ -43,14 +43,14 @@
     <partial name="_Footer.cshtml" />
 
     @*<footer class="border-top footer justify-content-center align-items-center bg-dark">
-       <div class="container text-light">
+           <div class="container text-light">
 
-            <a href="#">Customer information</a>
-            <a href="#">GDPR</a>
-            
-            &copy; 2021 - Bakdelar.se - <a asp-area="" asp-page="/Privacy">Privacy</a>
-        </div>
-    </footer>*@
+                <a href="#">Customer information</a>
+                <a href="#">GDPR</a>
+
+                &copy; 2021 - Bakdelar.se - <a asp-area="" asp-page="/Privacy">Privacy</a>
+            </div>
+        </footer>*@
 
 
     @await RenderSectionAsync("Scripts", required: false)

@@ -1,7 +1,7 @@
 ﻿@page "{Id:int}"
 @model Bakdelar.Pages.Shared.SingleProductViewModel
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = Model.Product.ProductName;
 }
 
 <style>
@@ -17,7 +17,7 @@
 }
 else
 {
-    <div class="row">
+    <div class="d-flex justify-content-center">
         <div class="">
             <div id="@Model.Product.ProductId" class="carousel slide" data-ride="carousel">
                 <div class="carousel-inner">
@@ -45,7 +45,7 @@ else
             }
 
             @{
-                int inStock = Model.Product.AvailableQuantity.Value;
+                int inStock = Model.Product.AvailableQuantity.Value - Model.Product.NumberOfSold;
                 if (inStock < 1)
                 {
                     <p class="text-danger">Inte i lager</p>
@@ -79,7 +79,7 @@ else
 
                 if (inStock >= 1)
                 {
-                    <input type="number" step="1" value="1" asp-for="ShoppingItem.ItemCount" min="1" max="@Model.Product.AvailableQuantity" />
+                    <input type="number" step="1" value="1" asp-for="ShoppingItem.ItemCount" min="1" max="@inStock" />
                     <span class="input-group-btn">
                         <button class="btn text-success btn-dark" type="submit">
                             <span class="material-icons">

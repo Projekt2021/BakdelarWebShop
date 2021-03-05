@@ -23,6 +23,7 @@ namespace DataAccess.DataModels
         public decimal ProductPrice { get; set; }
 
         public int? AvailableQuantity { get; set; }
+        public int NumberOfSold { get; set; }
 
         public double? ProductWeight { get; set; }
 
