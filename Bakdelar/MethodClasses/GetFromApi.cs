@@ -69,10 +69,18 @@ namespace Bakdelar.MethodClasses
         {
             return await httpClient.GetFromJsonAsync<List<ProductView>>(ProductLink);
         }
-        
-        
+
+
+        public static async Task<List<ProductView>> GetAllProductsAsync(string function)
+        {
+            string a = ProductLink + $"/{function}";
+            return await httpClient.GetFromJsonAsync<List<ProductView>>(ProductLink + $"{function}");
+        }
+
+
         public static async Task<List<ProductView>> SearchProducts(string term)
         {
+
             return await httpClient.GetFromJsonAsync<List<ProductView>>(ProductLink + $"/Search?Name={term}");
         }
         
@@ -100,6 +108,11 @@ namespace Bakdelar.MethodClasses
         public static async Task<ProductView> GetProductAsync(int id)
         {
             return await httpClient.GetFromJsonAsync<ProductView>(ProductLink + $"/{id}");
+        }
+
+        public static async Task<ProductView> GetProductAsync(string function)
+        {
+            return await httpClient.GetFromJsonAsync<ProductView>(ProductLink + $"/{function}");
         }
 
         /// <summary>

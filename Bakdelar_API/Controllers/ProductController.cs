@@ -138,7 +138,7 @@ namespace Bakdelar_API.Controllers
         public async Task<List<ProductView>> GetProductsMostSold()
         {
             var productList = await _context.Products.Where(product => product.NumberOfSold > 0)
-                                                     .OrderBy(p => p.NumberOfSold)
+                                                     .OrderByDescending(p => p.NumberOfSold)
                                                      .Include(p => p.ProductImages)
                                                      .Include(p => p.Category)
                                                      .Select(p => new ProductView(p))
@@ -153,7 +153,7 @@ namespace Bakdelar_API.Controllers
         public async Task<List<ProductView>> GetProductsSelected()
         {
             var productList = await _context.Products.Where(product => product.IsSelected)
-                                                     .OrderBy(p => p.NumberOfSold)
+                                                     .OrderByDescending(p => p.NumberOfSold)
                                                      .Include(p => p.ProductImages)
                                                      .Include(p => p.Category)
                                                      .Select(p => new ProductView(p))
@@ -168,7 +168,7 @@ namespace Bakdelar_API.Controllers
         [HttpGet("Newest")]
         public async Task<List<ProductView>> GetProductsNewest()
         {
-            var productList = await _context.Products.OrderBy(p => p.DateEntered)
+            var productList = await _context.Products.OrderByDescending(p => p.DateEntered)
                                                      .Include(p => p.ProductImages)
                                                      .Include(p => p.Category)
                                                      .Select(p => new ProductView(p))

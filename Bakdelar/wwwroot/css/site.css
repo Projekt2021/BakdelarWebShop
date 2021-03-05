@@ -10,7 +10,12 @@ for details on configuring this project to bundle and minify static web assets. 
     font-family: 'Barlow Condensed';
     src: url('../fonts/BarlowCondensed-Regular.ttf')
 }
-
+span {
+    cursor: pointer;
+}
+i {
+    cursor: pointer;
+}
 #banner-image {
     /*background-image: inherit;*/
     background-attachment: fixed;
@@ -38,9 +43,6 @@ for details on configuring this project to bundle and minify static web assets. 
     background-repeat: repeat;
 }
 
-span {
-    cursor: default;
-}
 
 .logo {
     position: absolute;
