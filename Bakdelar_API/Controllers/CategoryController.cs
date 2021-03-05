@@ -4,6 +4,7 @@ using DataAccess.DataModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -63,6 +64,49 @@ namespace Bakdelar_API.Controllers
             return result;
         }
 
+        [HttpGet("filter")]
+        public async Task<List<ProductView>> GetProductsSpecial(string filter)
+        {
+
+            if (filter == "sale")
+            {
+                return await _context.Products.Where(product => product.SpecialPrice != null)
+                                              .Include(p => p.ProductImages).Include(p => p.Category)
+                                              .Select(p => new ProductView(p))
+                                              .ToListAsync();
+            }
+
+            else if (filter == "popular")
+            {
+                return await _context.Products.Where(product => product.NumberOfSold > 0)
+                                              .OrderByDescending(p => p.NumberOfSold)
+                                              .Include(p => p.ProductImages)
+                                              .Include(p => p.Category)
+                                              .Select(p => new ProductView(p))
+                                              .ToListAsync();
+            }
+            else if (filter == "selected")
+            {
+                return await _context.Products.Where(product => product.IsSelected)
+                                                         .OrderBy(p => p.NumberOfSold)
+                                                         .Include(p => p.ProductImages)
+                                                         .Include(p => p.Category)
+                                                         .Select(p => new ProductView(p))
+                                                         .ToListAsync();
+
+            }
+            else if (filter == "new")
+            {
+                return await _context.Products.Include(p => p.ProductImages)
+                                        .Include(p => p.Category)
+                                        .Select(p => new ProductView(p))
+                                        .ToListAsync();
+            }
+            else
+            {
+                return new List<ProductView>();
+            }
+        }
         // GET: api/Categories/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Category>> GetCategory(int id)

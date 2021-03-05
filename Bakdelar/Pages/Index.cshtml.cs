@@ -1,4 +1,5 @@
 ﻿using Bakdelar.Classes;
+using Bakdelar.MethodClasses;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -37,7 +38,10 @@ namespace Bakdelar.Pages
         }
 
         //[BindProperty]
-        public List<ProductView> Products { get; set; }
+        public List<ProductView> ProductsOnSale { get; set; }
+        public List<ProductView> ProductsSelected { get; set; }
+        public List<ProductView> ProductsNew { get; set; }
+        public List<ProductView> ProductsMostSold { get; set; }
 
         /// <summary>  
         /// GET: /Index  
@@ -45,10 +49,10 @@ namespace Bakdelar.Pages
         /// <returns>Returns - Appropriate page </returns>  
         public async Task<IActionResult> OnGetAsync(string returnUrl = null)
         {
-            using (HttpClient httpClient = new HttpClient())
-                //Products = await httpClient.GetFromJsonAsync<List<ProductView>>($"{​​_configuration.GetValue<String>("APIEndpoint")}​​api/product");
-                Products = await httpClient.GetFromJsonAsync<List<ProductView>>($"{_configuration.GetValue<String>("APIEndpoint")}api/product");
-
+            ProductsOnSale = await GetFromApi.GetAllProductsAsync("/Sale");
+            ProductsMostSold = await GetFromApi.GetAllProductsAsync("/MostSold");
+            ProductsSelected = await GetFromApi.GetAllProductsAsync("/Selected");
+            ProductsNew = await GetFromApi.GetAllProductsAsync("/Newest");
             return Page();
         }
     }

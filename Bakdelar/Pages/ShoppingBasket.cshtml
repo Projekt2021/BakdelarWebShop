@@ -88,16 +88,18 @@
                                 </span>
                             </form>
                         </td>
-
+                        @*<td>
+            @Html.DisplayFor(modelItem => item.Discount)
+        </td>*@
                         <td>
 
-                            @item.Price
+                               @item.Price kr
                         </td>
                         <td>
-                            @{
-                                var price = item.Price * item.ItemCount;
-                                @Html.Raw($"{price} kr");
-                            }
+                        @{
+                            var price = item.Price * item.ItemCount;
+                            @Html.Raw($"{price} kr");
+                        }
                         </td>
                         <td>
 

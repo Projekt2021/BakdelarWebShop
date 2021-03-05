@@ -47,46 +47,6 @@ namespace DataAccess
             if (!context.Products.Any())
             {
 
-                context.Products.AddRange(new Product("Grön Karamellfärg", "Färgar bakverk gröna", 40, 60, 8, null, false, new DateTime(2021, 02, 03),
-                                          context.Categories.Where(x => x.CategoryName == "Ingredienser").Select(x => x.CategoryId).FirstOrDefault(),
-                                          new List<ProductImage> { new ProductImage { ImageURL = "\\images\\product\\Ingredienser.GrönKaramellfärg.png" },
-                                      new ProductImage { ImageURL = "\\images\\product\\Ingredienser.GrönKaramellfärg2.jpg" } }),
-
-                                          new Product("Mjöl", "Blir till bakverk", 45, 26, 500, 23, false, new DateTime(2021, 02, 28),
-                                          context.Categories.Where(x => x.CategoryName == "Ingredienser").Select(x => x.CategoryId).FirstOrDefault(),
-                                          new List<ProductImage> { new ProductImage { ImageURL = "\\images\\product\\Ingredienser.Mjöl.png" },
-                                      new ProductImage { ImageURL = "\\images\\product\\Ingredienser.Mjöl2.jpg" } }),
-
-                                          new Product("Strössel", "Kan vara skoj", 30, 6, 15, null, false, new DateTime(2021, 02, 02),
-                                          context.Categories.Where(x => x.CategoryName == "Ingredienser").Select(x => x.CategoryId).FirstOrDefault(),
-                                          new List<ProductImage> { new ProductImage { ImageURL = "\\images\\product\\Ingredienser.Strössel.png" },
-                                      new ProductImage { ImageURL = "\\images\\product\\Ingredienser.Strössel2.jpg" } }),
-
-                                          new Product("Vaniljstång", "Torkad stång av vaniljfrukt", 48, 4, 1, null, false, new DateTime(2021, 02, 22),
-                                          context.Categories.Where(x => x.CategoryName == "Ingredienser").Select(x => x.CategoryId).FirstOrDefault(),
-                                          new List<ProductImage> { new ProductImage { ImageURL = "\\images\\product\\Ingredienser.Vaniljstång.png" },
-                                      new ProductImage { ImageURL = "\\images\\product\\Ingredienser.Vaniljstång2.jpg" } }),
-
-                                          new Product("Baktermometer", "Termometer för bröd", 68, 11, 12, null, false, new DateTime(2021, 03, 01),
-                                          context.Categories.Where(x => x.CategoryName == "Köksmaskiner").Select(x => x.CategoryId).FirstOrDefault(),
-                                          new List<ProductImage> { new ProductImage { ImageURL = "\\images\\product\\Köksmaskiner.Baktermometer.png" },
-                                      new ProductImage { ImageURL = "\\images\\product\\Köksmaskiner.Baktermometer2.jpg" } }),
-
-                                          new Product("Köksassistent", "Knådar deg och vispar", 539, 2, 675, 399, false, new DateTime(2021, 01, 09),
-                                          context.Categories.Where(x => x.CategoryName == "Köksmaskiner").Select(x => x.CategoryId).FirstOrDefault(),
-                                          new List<ProductImage> { new ProductImage { ImageURL = "\\images\\product\\Köksmaskiner.Köksassistent.png" },
-                                      new ProductImage { ImageURL = "\\images\\product\\Köksmaskiner.Köksassistent2.jpg" } }),
-
-                                          new Product("Mixer", "Storartad mixer", 309, 5, 320, null, false, new DateTime(2021, 03, 01),
-                                          context.Categories.Where(x => x.CategoryName == "Köksmaskiner").Select(x => x.CategoryId).FirstOrDefault(),
-                                          new List<ProductImage> { new ProductImage { ImageURL = "\\images\\product\\Köksmaskiner.Mixer.png" },
-                                      new ProductImage { ImageURL = "\\images\\product\\Köksmaskiner.Mixer2.jpg" } }),
-
-                                          new Product("Stavmixer", "Mixer i stavupplägg", 158, 12, 62, null, false, new DateTime(2021, 01, 30),
-                                          context.Categories.Where(x => x.CategoryName == "Köksmaskiner").Select(x => x.CategoryId).FirstOrDefault(),
-                                          new List<ProductImage> { new ProductImage { ImageURL = "\\images\\product\\Köksmaskiner.Stavmixer.png" },
-                                      new ProductImage { ImageURL = "\\images\\product\\Köksmaskiner.Stavmixer2.jpg" } }),
-
                                           new Product("Våg", "Vågarnas vågade våg", 210, 3, 325, null, false, new DateTime(2021, 01, 11),
                                           context.Categories.Where(x => x.CategoryName == "Köksmaskiner").Select(x => x.CategoryId).FirstOrDefault(),
                                           new List<ProductImage> { new ProductImage { ImageURL = "\\images\\product\\Köksmaskiner.Våg.png" },

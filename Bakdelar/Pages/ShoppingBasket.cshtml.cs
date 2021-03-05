@@ -66,15 +66,13 @@ namespace Bakdelar.Pages
         }
 
 
-        private void UpdateNumberSold(int id, int newNumberOfSold)
+        private async void UpdateNumberSold(int id, int newNumberOfSold)
         {
-            using(var httpClient = new HttpClient())
-            {
-                var product = httpClient.GetFromJsonAsync<ProductView>($"{_config.GetValue<String>("APIEndpoint")}api/product/{id}").Result;
-                product.NumberOfSold = newNumberOfSold;
-                httpClient.PutAsJsonAsync($"{_config.GetValue<String>("APIEndpoint")}api/product/{id}", product);
+            var product = await GetFromApi.GetProductAsync(id);
+            product.NumberOfSold = newNumberOfSold;
+            await GetFromApi.PutProductAsync(product);
 
-            }
+            
         }
     }
 }
