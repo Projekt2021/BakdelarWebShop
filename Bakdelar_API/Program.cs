@@ -25,8 +25,6 @@ namespace Bakdelar_API
                 //context.ProductImages.RemoveRange(context.ProductImages);
                 //context.SaveChanges();
                 SeedData.SeedingProducts(context);
-                
-
             }
             catch (Exception ex)
             {
