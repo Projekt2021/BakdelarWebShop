@@ -1,4 +1,5 @@
 using Bakdelar.Areas.Identity.Data;
+using Fare;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -13,9 +14,7 @@ namespace Bakdelar
     {
         public static void Main(string[] args)
         {
-            CultureInfo ci = new CultureInfo("sv-SE");
-            CultureInfo.DefaultThreadCurrentCulture = ci;
-            CultureInfo.DefaultThreadCurrentUICulture = ci;
+
 
             CreateHostBuilder(args).Build().Run();
         }
@@ -41,6 +40,7 @@ namespace Bakdelar
                         options.AddPolicy("RequireAdministratorRole",
                              policy => policy.RequireRole("Admin"));
                     });
+
                 });
     }
 }

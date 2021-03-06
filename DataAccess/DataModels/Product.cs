@@ -23,6 +23,7 @@ namespace DataAccess.DataModels
         public decimal ProductPrice { get; set; }
 
         public int? AvailableQuantity { get; set; }
+        public int NumberOfSold { get; set; }
 
         public double? ProductWeight { get; set; }
 
@@ -45,7 +46,7 @@ namespace DataAccess.DataModels
         public Product() { }
 
         public Product(string productName, string productDescription, decimal productPrice, int? availableQuantity, int? productWeight, decimal? specialPrice, bool isSelected, DateTime dateEntered,
-                        int categoryID, ICollection<ProductImage> productImages) 
+                        int categoryID, ICollection<ProductImage> productImages, int sold = 0) 
         {
             ProductName = productName;
             ProductDescription = productDescription;
@@ -57,6 +58,7 @@ namespace DataAccess.DataModels
             DateEntered = dateEntered;
             CategoryId = categoryID;
             ProductImages = productImages;
+            NumberOfSold = sold;
         }
     }
 }

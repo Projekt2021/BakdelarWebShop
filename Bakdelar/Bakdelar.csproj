@@ -42,6 +42,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Fare" Version="2.1.2" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="3.1.12" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="5.0.3" />
@@ -64,24 +65,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="ProductImages\Ingredienser.Bakpulver.png" />
-    <Resource Include="ProductImages\Ingredienser.GrönKaramellfärg.png" />
-    <Resource Include="ProductImages\Ingredienser.Mjöl.png" />
-    <Resource Include="ProductImages\Ingredienser.Strössel.png" />
-    <Resource Include="ProductImages\Ingredienser.Vaniljstång.png" />
-    <Resource Include="ProductImages\Köksmakiner.Stavmixer.png" />
-    <Resource Include="ProductImages\Köksmaskiner.Baktermometer.png" />
-    <Resource Include="ProductImages\Köksmaskiner.Köksassistent.png" />
-    <Resource Include="ProductImages\Köksmaskiner.Mixer.png" />
-    <Resource Include="ProductImages\Köksmaskiner.Våg.png" />
-    <Resource Include="ProductImages\Redskap.Bunke.png" />
-    <Resource Include="ProductImages\Redskap.BunkeMåttSet.png" />
-    <Resource Include="ProductImages\Redskap.Kavel.png" />
-    <Resource Include="ProductImages\Redskap.Mått.png" />
-    <Resource Include="ProductImages\Redskap.Siktare.png" />
-    <Resource Include="ProductImages\Redskap.Sil.png" />
-    <Resource Include="ProductImages\Redskap.Visp.png" />
-    <Resource Include="ProductImages\Redskap.Vispar.png" />
+    <ProjectReference Include="..\DataAccess\DataAccess.csproj" />
   </ItemGroup>
 
 </Project>

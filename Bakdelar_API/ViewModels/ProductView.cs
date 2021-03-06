@@ -1,10 +1,9 @@
 ﻿using DataAccess.DataModels;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
-using DataAccess.DataModels;
-
 
 namespace Bakdelar_API.ViewModels
 {
@@ -16,13 +15,15 @@ namespace Bakdelar_API.ViewModels
 
         public string ProductDescription { get; set; }
 
+        [Required]
         public decimal ProductPrice { get; set; }
 
+        public decimal? SpecialPrice { get; set; }
+        
         public int? AvailableQuantity { get; set; }
 
         public double? ProductWeight { get; set; }
         public DateTime DateEntered { get; set; }
-        public decimal? SpecialPrice { get; set; }
         public bool IsSelected { get; set; }
         public int NumberOfSold { get; set; }
 
@@ -47,7 +48,9 @@ namespace Bakdelar_API.ViewModels
             AvailableQuantity = p.AvailableQuantity;
             ProductWeight = p.ProductWeight;
             DateEntered = p.DateEntered;
+            DateEntered = p.DateEntered;
             IsSelected = p.IsSelected;
+            NumberOfSold = p.NumberOfSold;
             //Cascade insert
             Category = new CategoryView
             {
