@@ -49,10 +49,10 @@ namespace Bakdelar.Pages
         /// <returns>Returns - Appropriate page </returns>  
         public async Task<IActionResult> OnGetAsync(string returnUrl = null)
         {
-            ProductsOnSale = await GetFromApi.GetAllProductsAsync("/Sale");
-            ProductsMostSold = await GetFromApi.GetAllProductsAsync("/MostSold");
-            ProductsSelected = await GetFromApi.GetAllProductsAsync("/Selected");
-            ProductsNew = await GetFromApi.GetAllProductsAsync("/Newest");
+            ProductsOnSale = await GetFromApi.GetAllProductsAsync("/Sale/4");
+            ProductsMostSold = await GetFromApi.GetAllProductsAsync("/MostSold/4");
+            ProductsSelected = await GetFromApi.GetAllProductsAsync("/Selected/4");
+            ProductsNew = await GetFromApi.GetAllProductsAsync("/Newest/4");
             return Page();
         }
     }

@@ -126,56 +126,69 @@ namespace Bakdelar_API.Controllers
 
 
 
-        [HttpGet("Sale")]
-        public async Task<List<ProductView>> GetProductsOnSale()
+        [HttpGet("Sale/{NumberOfItems}")]
+        public async Task<List<ProductView>> GetProductsOnSale(int NumberOfItems)
         {
-            var productList = await _context.Products.Where(product => product.SpecialPrice != null).Include(p => p.ProductImages).Include(p => p.Category).Select(p => new ProductView(p)).Take(4).ToListAsync();
-
+            var productList = await _context.Products.Where(product => product.SpecialPrice != null)
+                                                     .Include(p => p.ProductImages)
+                                                     .Include(p => p.Category)
+                                                     .Select(p => new ProductView(p))
+                                                     .ToListAsync();
+            productList = NumberOfItems != 0 ? productList.Take(NumberOfItems).ToList()
+                                             : productList;
             return productList;
         }
 
-        [HttpGet("MostSold")]
-        public async Task<List<ProductView>> GetProductsMostSold()
+        [HttpGet("MostSold/{NumberOfItems}")]
+        public async Task<List<ProductView>> GetProductsMostSold(int NumberOfItems)
         {
             var productList = await _context.Products.Where(product => product.NumberOfSold > 0)
                                                      .OrderByDescending(p => p.NumberOfSold)
                                                      .Include(p => p.ProductImages)
                                                      .Include(p => p.Category)
                                                      .Select(p => new ProductView(p))
-                                                     .Take(4)
                                                      .ToListAsync();
 
+            //är NumberOfItems inte satt returneras hela listan
+            productList = NumberOfItems != 0 ? productList.Take(NumberOfItems).ToList()
+                                             : productList;
             return productList;
         }
 
 
-        [HttpGet("Selected")]
-        public async Task<List<ProductView>> GetProductsSelected()
+        [HttpGet("Selected/{NumberOfItems}")]
+        public async Task<List<ProductView>> GetProductsSelected(int NumberOfItems)
         {
             var productList = await _context.Products.Where(product => product.IsSelected)
                                                      .OrderByDescending(p => p.NumberOfSold)
                                                      .Include(p => p.ProductImages)
                                                      .Include(p => p.Category)
                                                      .Select(p => new ProductView(p))
-                                                     .Take(4)
-                                                     .ToListAsync();
+                                                     .ToListAsync(); 
 
+
+
+            productList = NumberOfItems != 0 ? productList.Take(NumberOfItems).ToList()
+                                              : productList;
             return productList;
+
         }
 
 
 
-        [HttpGet("Newest")]
-        public async Task<List<ProductView>> GetProductsNewest()
+        [HttpGet("Newest/{NumberOfItems}")]
+        public async Task<List<ProductView>> GetProductsNewest(int NumberOfItems)
         {
             var productList = await _context.Products.OrderByDescending(p => p.DateEntered)
                                                      .Include(p => p.ProductImages)
                                                      .Include(p => p.Category)
                                                      .Select(p => new ProductView(p))
-                                                     .Take(4)
                                                      .ToListAsync();
 
+            productList = NumberOfItems != 0 ? productList.Take(NumberOfItems).ToList()
+                                             : productList;
             return productList;
+
         }
 
         // GET: api/Products/5

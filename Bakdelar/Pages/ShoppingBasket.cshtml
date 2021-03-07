@@ -1,32 +1,6 @@
 ﻿@page
 @model Bakdelar.Pages.ShoppingBasketModel
 
-<script>
-
-
-
-    function openPopover(id) {
-        $('.button-remove-item').click(function () {
-            $('.button-remove-item').not(this).popover('hide'); //all but this
-        });
-        $('[data-toggle="popover-remove-item-' + id + '"]').popover(
-            {
-
-                container: 'body',
-                html: true,
-                title: 'Ta bort vara',
-                sanitize: false,
-                content: function () {
-                    return $('#hidden-popover-' + id).html()
-                }
-            }).popover('toggle')
-    }
-
-    function closePopover(id) {
-        $('[data-toggle="popover-remove-item-' + id + '"]').popover('hide')
-    }
-</script>
-
 
 
 
