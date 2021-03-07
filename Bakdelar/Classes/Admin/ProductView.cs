@@ -11,15 +11,18 @@ namespace Bakdelar.Classes
     {
         public int ProductId { get; set; }
 
+        [Required]
         [Display(Name = "Product Name")]
         public string ProductName { get; set; }
 
         [Display(Name = "Description")]
         public string ProductDescription { get; set; }
 
-        [Required, Display(Name = "Price")]
+        [Required]
+        [Display(Name = "Price")]
         public decimal ProductPrice { get; set; }
 
+        [Display(Name="Special Prize")]
         public decimal? SpecialPrice { get; set; }
 
         //[Required]
@@ -41,6 +44,7 @@ namespace Bakdelar.Classes
         [DisplayFormat(DataFormatString = "{0:yyyy/MM/dd}")]
         public DateTime DateEntered { get; set; }
 
+        [Required]
         [Display(Name = "Category")]
         public int CategoryId { get; set; }
         
