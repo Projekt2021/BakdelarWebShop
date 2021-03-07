@@ -3,7 +3,11 @@
 
 // Write your JavaScript code.
 
-
+$(document).ready(function () {
+    $('.dropdown-menu').click(function (e) {
+        e.stopPropagation();
+    })
+})
 
 function openPopover(id) {
     $('.button-remove-item').click(function () {
@@ -28,9 +32,10 @@ function closePopover(id) {
 
 
 function openPopover_Dropdown(id) {
-    $('.button-remove-item').click(function () {
-        $('.button-remove-item').not(this).popover('hide'); //all but this
+    $('.button-remove-item-dropdown').click(function () {
+        $('.button-remove-item-dropdown').not(this).popover('hide'); //all but this
     });
+    
     $('[data-toggle="popover-remove-item-dropdown-' + id + '"]').popover(
         {
 
@@ -39,11 +44,16 @@ function openPopover_Dropdown(id) {
             title: 'Ta bort vara',
             sanitize: false,
             content: function () {
-                return $('#hidden-popover-dropdown' + id).html()
+                return $('#hidden-popover-dropdown-' + id).html()
             }
         }).popover('toggle')
 }
 
-function closePopover_dropdown(id) {
-    $('[data-toggle="popover-remove-item-dropdown-' + id + '"]').popover('hide')
+function closePopover_Dropdown(id) {
+    $('[data-toggle="popover-remove-item-dropdown-' + id + '"]').popover('hide');
+    $('.btn-group').show()
+
+
+    console.log('hej');
+
 }

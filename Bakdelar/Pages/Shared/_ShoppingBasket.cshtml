@@ -7,7 +7,10 @@
 @{
     var shoppingBasket = httpContextAccessor.HttpContext.Session.GetBasket();
 }
-<div class="btn-group dropleft">
+<script>
+    
+</script>
+<div class="btn-group dropleft keep-open" id="dropleft-basket">
     <button class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
         <span class="material-icons" id="dropdown_basket">
             shopping_basket
@@ -26,7 +29,7 @@
         }
     </button>
 
-    <div class="dropdown-menu px-1">
+    <div class="dropdown-menu noselect px-1">
         <a class="dropdown-item" href="@Url.Content("~/ShoppingBasket")"><h6 class="dropdown-header">Till varukorg</h6></a>
         <div class="dropdown-divider"></div>
         @{
@@ -40,6 +43,11 @@
                 decimal totalPrice = 0;
                 foreach (var item in shoppingBasket)
                 {
+                    <div class="d-none" id="hidden-popover-dropdown-@item.ID">
+                        <p>Är du säkert?</p>
+                        <a href='?id=@item.ID&handler=RemoveProduct'>Ja</a>
+                        <a href='javascript:void(0)' onclick='closePopover_Dropdown(@item.ID)'>Nej</a>
+                    </div>
                     totalPrice += item.Price * item.ItemCount;
                     decimal priceForItems = item.Price * item.ItemCount;
                     //decimal priceForItems = item.Price * item.ItemCount;
@@ -83,7 +91,7 @@
                         <div class="d-flex w-100">
                             <div class="flex-column align-self-center text-right ml-5 w-100">
 
-                                <span class="material-icons text-danger">not_interested</span>
+                                <span onclick="openPopover_Dropdown(@item.ID);"class="material-icons text-danger button-remove-item-dropdown"  data-trigger="focus" tabindex="-1" data-toggle="popover-remove-item-dropdown-@item.ID">not_interested</span>
                             </div>
                         </div>
                     </div>
