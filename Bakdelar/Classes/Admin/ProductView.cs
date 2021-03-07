@@ -25,14 +25,11 @@ namespace Bakdelar.Classes
         [Display(Name="Special Prize")]
         public decimal? SpecialPrice { get; set; }
 
-        //[Required]
         [Display(Name = "Available Quantity")]
         public int? AvailableQuantity { get; set; }
 
-        //[Required]
         [Display(Name = "Weight")]
         public double? ProductWeight { get; set; }
-
 
         [Display(Name = "Selected")]
         public bool IsSelected { get; set; }
