@@ -85,9 +85,6 @@ $(document).ready(function () {
         console.log('#dropleft-basket')
 
     });
-    $('#keep-open').on('hide.bs.dropdown', function (e) {
-        console.log(e.currentTarget);
-    });
 
     $('.hidden-popover-menu').on('click', function (e) {
         console.log('link clicked');
