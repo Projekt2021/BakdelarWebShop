@@ -43,10 +43,6 @@ const HandlerLink = "/shared/AjaxHelper?handler=";
 //}
 
 
-function removeItemDropdown(id) {
-
-}
-
 
 function restore() {
     $('#dropleft-basket span').click(function (e) {
