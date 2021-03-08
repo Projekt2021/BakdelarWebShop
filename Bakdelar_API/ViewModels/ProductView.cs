@@ -15,6 +15,7 @@ namespace Bakdelar_API.ViewModels
 
         public string ProductDescription { get; set; }
 
+        
         public decimal ProductPrice { get; set; }
 
         public decimal? SpecialPrice { get; set; }
