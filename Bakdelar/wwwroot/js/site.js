@@ -110,7 +110,7 @@ function openPopover_Dropdown(id) {
         }).popover('toggle');
 
 
-
+    
 
     thisElement = $('.hidden-popover-menu');
     thisElement.on('click', function (e2) {
@@ -168,10 +168,29 @@ $(document).ready(function () {
 
 
 
+function getNumberInStock(id) {
+
+    let url = HandlerLink + "GetNumberInStock";
+    var request_method = 'post'; //get form GET/POST method
+    var form_data = { UpdateStockProductID: id }; //Encode form elements for submission
+    console.log(form_data);
+    $.ajax({ 
+        url: url,
+        type: request_method,
+        data: form_data,
+        beforeSend: function (xhr) {
+            xhr.setRequestHeader("XSRF-TOKEN", $('input:hidden[name="__RequestVerificationToken"]').val());
+        },
+    }).done(function (response) { //
+        $('#product-buy-options').html(response);
+        console.log(response);
+        restore();
+    });
+}
 
 
 
-function updateBasket() {
+function updateBasket(id) {
 
     let url = HandlerLink+"UpdateBasket";
     var request_method = 'post'; //get form GET/POST method
@@ -187,7 +206,8 @@ function updateBasket() {
     }).done(function (response) { //
         $('.inner-basket').html(response);
         //console.log(response);
-        getItemCount()
+        getItemCount();
+        getNumberInStock(id);
         restore();
     });
 }
@@ -202,6 +222,7 @@ function updateBasket() {
 
 
 function removeItemDropdown(id) {
+    let idnr = id;
     let url = HandlerLink+"RemoveItem";
     event.preventDefault(); //prevent default action
     var request_method = 'post'; //get form GET/POST method
@@ -218,12 +239,28 @@ function removeItemDropdown(id) {
 
         $('[data-toggle="popover-remove-item-' + id + '"]').popover('hide')
         $('.inner-basket').html(response);
-        getItemCount()
+        getItemCount();
+        if (onProductPage(id) == true) {
+            getNumberInStock(id);
+        }
         console.log(response);
         restore();
     });
 }
 
+function onProductPage(id) {
+    let path = window.location.pathname;
+    let pathSplit = path.split('/');
+    if (pathSplit.length == 3) {
+        if (pathSplit[1] == 'SingleProductView') {
+            let idCompare = pathSplit.slice(-1)[0];
+            if (idCompare == id) {
+                return true;
+            }
+        }
+    }
+    return false;
+}
 
 
 

@@ -34,7 +34,7 @@ else
                 </div>
             </div>
         </div>
-
+        
         <div class="ml-5">
             <h3>@Model.Product.ProductName</h3>
             <p>@Model.Product.ProductDescription</p>
@@ -47,7 +47,7 @@ else
             {
                 <p class="card-text">@Model.Product.ProductPrice kr</p>
             }
-
+        <div id="product-buy-options">
             @{
                 int inStock = Model.Product.AvailableQuantity.Value - Model.Product.NumberOfSold;
                 if (inStock < 1)
@@ -85,7 +85,7 @@ else
                     {
                         <input type="number" step="1" value="1" asp-for="ShoppingItem.ItemCount" min="1" max="@Model.Product.AvailableQuantity" />
                         <span class="input-group-btn">
-                            <button class="btn text-success btn-dark" id="buy" type="button" onclick="updateBasket()">
+                            <button class="btn text-success btn-dark" id="buy" type="button" onclick="updateBasket(@Model.Product.ProductId)">
                                 <span class="material-icons">
                                     add_shopping_cart
                                 </span>
@@ -95,6 +95,7 @@ else
                 }
 
             </form>
+        </div>
         </div>
     </div>
 }

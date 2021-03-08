@@ -32,7 +32,8 @@ namespace Bakdelar.Pages.Shared
 
 
 
-
+        [BindProperty]
+        public int UpdateStockProductID { get; set; }
 
 
 
@@ -105,6 +106,14 @@ namespace Bakdelar.Pages.Shared
 
             var shoppingBasket = HttpContext.Session.GetBasket();
             return Partial("_ShoppingBasketItemCount", shoppingBasket);
+
+        }
+
+
+        public async Task<PartialViewResult> OnPostGetNumberInStockAsync()
+        {
+            var product = await GetFromApi.GetProductAsync(UpdateStockProductID);
+            return Partial("_GetNumberInStock", product);
 
         }
 
