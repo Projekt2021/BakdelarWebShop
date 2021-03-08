@@ -13,6 +13,8 @@ namespace Bakdelar
     {
         public static void Main(string[] args)
         {
+
+
             CreateHostBuilder(args).Build().Run();
         }
 
