@@ -3,8 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using DataAccess.DataModels;
-
+using System.ComponentModel.DataAnnotations;
 
 namespace Bakdelar_API.ViewModels
 {
@@ -16,6 +15,9 @@ namespace Bakdelar_API.ViewModels
 
         public string ProductDescription { get; set; }
 
+        [Required]
+        [Display(Name = "Price")]
+        //[DisplayFormat(DataFormatString = "{0:F2}", ApplyFormatInEditMode = false)]
         public decimal ProductPrice { get; set; }
 
         public int? AvailableQuantity { get; set; }
@@ -47,7 +49,9 @@ namespace Bakdelar_API.ViewModels
             AvailableQuantity = p.AvailableQuantity;
             ProductWeight = p.ProductWeight;
             DateEntered = p.DateEntered;
+            DateEntered = p.DateEntered;
             IsSelected = p.IsSelected;
+            NumberOfSold = p.NumberOfSold;
             //Cascade insert
             Category = new CategoryView
             {

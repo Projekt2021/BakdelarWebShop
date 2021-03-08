@@ -1,32 +1,6 @@
 ﻿@page
 @model Bakdelar.Pages.ShoppingBasketModel
 
-<script>
-
-
-
-    function openPopover(id) {
-        $('.button-remove-item').click(function () {
-            $('.button-remove-item').not(this).popover('hide'); //all but this
-        });
-        $('[data-toggle="popover-remove-item-' + id + '"]').popover(
-            {
-
-                container: 'body',
-                html: true,
-                title: 'Ta bort vara',
-                sanitize: false,
-                content: function () {
-                    return $('#hidden-popover-' + id).html()
-                }
-            }).popover('toggle')
-    }
-
-    function closePopover(id) {
-        $('[data-toggle="popover-remove-item-' + id + '"]').popover('hide')
-    }
-</script>
-
 
 
 
@@ -49,8 +23,11 @@
                             @Html.DisplayNameFor(model => model.ShoppingBasket.FirstOrDefault().ItemCount)
 
                             @*<th>
-                                    @Html.DisplayNameFor(model => model.ShoppingBasket.FirstOrDefault().Discount)
-                                </th>*@
+                @Html.DisplayNameFor(model => model.ShoppingBasket.FirstOrDefault().Discount)
+            </th>*@
+                        <th scope="col">
+                            Styckpris
+                        </th>
                         <th scope="col">
                             Pris
                         </th>
@@ -63,61 +40,65 @@
                     @foreach (var item in Model.ShoppingBasket)
                     {
                         totalPrice += item.Price * item.ItemCount;
-                        <tr>
-                            <td>
-                                <img src="@item.ImageLink" style="height: 50px; height: 50px;" />
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.ProductName)
-                            </td>
+                    <tr>
+                        <td>
+                            <img src="@item.ImageLink" style="height: 50px; height: 50px;" />
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ProductName)
+                        </td>
 
-                            <td>
-                                <form class="form-inline" method="post" asp-page-handler="ChangeCount" asp-route-id="@item.ID">
-                                    <input class="form-control" style="border-radius: 1rem; width: 4.5rem;"
-                                           type="number" step="1" value="@item.ItemCount" asp-for="@Model.NewCount"
-                                           min="1" max="@item.StockLevel" />
-                                    <span class="input-group-btn">
-                                        <button class="btn text-white" type="submit">
-                                            <span class="material-icons" style="color: green;">
-                                                check_circle_outline
-                                            </span>
-                                        </button>
-                                    </span>
-                                </form>
-                            </td>
-                            @*<td>
-                                    @Html.DisplayFor(modelItem => item.Discount)
-                                </td>*@
-                            <td>
-                                @{
-                                    var price = item.Price * item.ItemCount;
-                                    @Html.Raw($"{price}");
-                                }
-                            </td>
-                            <td>
-                                
-                                <div class="d-none" id="hidden-popover-@item.ID">
-                                    <p>Är du säkert?</p>
-                                    <a href='?id=@item.ID&handler=RemoveProduct'>Ja</a>
-                                    <a href='javascript:void(0)' onclick='closePopover(@item.ID)'>Nej</a>
-                                </div>
-                                    <button type="button" class="btn text-white button-remove-item" data-toggle="popover-remove-item-@item.ID" 
-                                            onclick="openPopover(@item.ID)">
-                                        
-                                    <i class="material-icons text-danger">
-                                        not_interested
-                                    </i>
-                                   </button>
-                            </td>
+                        <td>
+                            <form class="form-inline" method="post" asp-page-handler="ChangeCount" asp-route-id="@item.ID">
+                                <input class="form-control" style="border-radius: 1rem; width: 4.5rem;"
+                                       type="number" step="1" value="@item.ItemCount" asp-for="@Model.NewCount"
+                                       min="1" max="@item.StockLevel" />
+                                <span class="input-group-btn">
+                                    <button class="btn text-white" type="submit">
+                                        <span class="material-icons" style="color: green;">
+                                            check_circle_outline
+                                        </span>
+                                    </button>
+                                </span>
+                            </form>
+                        </td>
+                        @*<td>
+            @Html.DisplayFor(modelItem => item.Discount)
+        </td>*@
+                        <td>
+
+                               @item.Price kr
+                        </td>
+                        <td>
+                        @{
+                            var price = item.Price * item.ItemCount;
+                            @Html.Raw($"{price} kr");
+                        }
+                        </td>
+                        <td>
+
+                            <div class="d-none" id="hidden-popover-@item.ID">
+                                <p>Är du säkert?</p>
+                                <a href='?id=@item.ID&handler=RemoveProduct'>Ja</a>
+                                <a href='javascript:void(0)' onclick='closePopover(@item.ID)'>Nej</a>
+                            </div>
+                            <button type="button" class="btn text-white button-remove-item" data-toggle="popover-remove-item-@item.ID"
+                                    onclick="openPopover(@item.ID)">
+
+                                <i class="material-icons text-danger">
+                                    not_interested
+                                </i>
+                            </button>
+                        </td>
 
 
-                        </tr>
+                    </tr>
                     }
                 </tbody>
             </table>
             <div class="col border-top">
                 <p class="text-right pt-3 h4">
-                    Totalt: @totalPrice
+                    Totalt: @totalPrice kr
                 </p>
             </div>
         </div>

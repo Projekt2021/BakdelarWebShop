@@ -42,6 +42,7 @@ namespace Bakdelar_API.Controllers
                               IsSelected = product.IsSelected,
                               //NumberOfSold = product.NumberOfSold,                         
                               CategoryId = product.CategoryId,
+                              NumberOfSold = product.NumberOfSold,
                               Category = new CategoryView
                               {
                                   CategoryId = product.Category.CategoryId,
@@ -82,6 +83,7 @@ namespace Bakdelar_API.Controllers
                                                          AvailableQuantity = product.AvailableQuantity,
                                                          ProductWeight = product.ProductWeight,
                                                          SpecialPrice = product.SpecialPrice,
+                                                         NumberOfSold = product.NumberOfSold,
                                                          //Cascade insert
                                                          Category = new CategoryView
                                                          {
@@ -122,6 +124,73 @@ namespace Bakdelar_API.Controllers
             return productList;
         }
 
+
+
+        [HttpGet("Sale/{NumberOfItems}")]
+        public async Task<List<ProductView>> GetProductsOnSale(int NumberOfItems)
+        {
+            var productList = await _context.Products.Where(product => product.SpecialPrice != null)
+                                                     .Include(p => p.ProductImages)
+                                                     .Include(p => p.Category)
+                                                     .Select(p => new ProductView(p))
+                                                     .ToListAsync();
+            productList = NumberOfItems != 0 ? productList.Take(NumberOfItems).ToList()
+                                             : productList;
+            return productList;
+        }
+
+        [HttpGet("MostSold/{NumberOfItems}")]
+        public async Task<List<ProductView>> GetProductsMostSold(int NumberOfItems)
+        {
+            var productList = await _context.Products.Where(product => product.NumberOfSold > 0)
+                                                     .OrderByDescending(p => p.NumberOfSold)
+                                                     .Include(p => p.ProductImages)
+                                                     .Include(p => p.Category)
+                                                     .Select(p => new ProductView(p))
+                                                     .ToListAsync();
+
+            //är NumberOfItems inte satt returneras hela listan
+            productList = NumberOfItems != 0 ? productList.Take(NumberOfItems).ToList()
+                                             : productList;
+            return productList;
+        }
+
+
+        [HttpGet("Selected/{NumberOfItems}")]
+        public async Task<List<ProductView>> GetProductsSelected(int NumberOfItems)
+        {
+            var productList = await _context.Products.Where(product => product.IsSelected)
+                                                     .OrderByDescending(p => p.NumberOfSold)
+                                                     .Include(p => p.ProductImages)
+                                                     .Include(p => p.Category)
+                                                     .Select(p => new ProductView(p))
+                                                     .ToListAsync(); 
+
+
+
+            productList = NumberOfItems != 0 ? productList.Take(NumberOfItems).ToList()
+                                              : productList;
+            return productList;
+
+        }
+
+
+
+        [HttpGet("Newest/{NumberOfItems}")]
+        public async Task<List<ProductView>> GetProductsNewest(int NumberOfItems)
+        {
+            var productList = await _context.Products.OrderByDescending(p => p.DateEntered)
+                                                     .Include(p => p.ProductImages)
+                                                     .Include(p => p.Category)
+                                                     .Select(p => new ProductView(p))
+                                                     .ToListAsync();
+
+            productList = NumberOfItems != 0 ? productList.Take(NumberOfItems).ToList()
+                                             : productList;
+            return productList;
+
+        }
+
         // GET: api/Products/5
         [Authorize(Policy = "RequireAdministratorRole")]
         [HttpPut("{id}")]
@@ -142,13 +211,19 @@ namespace Bakdelar_API.Controllers
                 productDB.AvailableQuantity = product.AvailableQuantity;
                 productDB.ProductWeight = product.ProductWeight;
                 productDB.CategoryId = product.CategoryId;
+
+                productDB.NumberOfSold = product.NumberOfSold;
                 //productDB.DateEntered = product.DateEntered;  //DateEntered should not be changed
                 productDB.IsSelected = product.IsSelected;
-                productDB.ProductImages = product.ProductImageView.Select(x => new ProductImage
+
+                if (product.ProductImageView != null)
                 {
-                    ImageURL = x.ImageURL,
-                    ProductId = product.ProductId
-                }).ToList();
+                    productDB.ProductImages = product.ProductImageView.Select(x => new ProductImage
+                    {
+                        ImageURL = x.ImageURL,
+                        ProductId = product.ProductId
+                    }).ToList();
+                }
             }
 
             _context.Entry(productDB).State = EntityState.Modified;

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
+using Bakdelar.MethodClasses;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Configuration;
@@ -36,7 +37,7 @@ namespace Bakdelar.Pages
             if(!string.IsNullOrWhiteSpace(Name))
             {
                 using var httpClient = new HttpClient();
-                Products = await httpClient.GetFromJsonAsync<List<Classes.ProductView>>($"{_configuration.GetValue<String>("APIEndpoint")}api/Product/Search?Name={Name}");
+                Products = await GetFromApi.SearchProducts(Name);
                 //Products = Products.Skip(12 * PageNo - 1)
                 //                   .Take(12)
                 //                   .ToList();

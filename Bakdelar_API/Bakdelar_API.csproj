@@ -5,6 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="AdminAuthorizationHandler.cs" />
     <Compile Remove="Controllers\ProductImageController.cs" />
   </ItemGroup>
   <ItemGroup>
