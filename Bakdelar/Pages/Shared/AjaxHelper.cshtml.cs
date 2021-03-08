@@ -141,7 +141,7 @@ namespace Bakdelar.Pages.Shared
 
             if (ShoppingItem.ItemCount > Product.AvailableQuantity.Value - Product.NumberOfSold)
             {
-                return Partial("_ShoppingBasketAjax", shoppingBasket);
+                return Partial("_InnerShoppingBasket", shoppingBasket);
             }
 
 
