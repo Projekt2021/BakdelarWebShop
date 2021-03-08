@@ -9,25 +9,30 @@
     <Compile Remove="wwwroot\lib\bootstrap\dist\js\**" />
     <Compile Remove="wwwroot\lib\jquery-validation-unobtrusive\**" />
     <Compile Remove="wwwroot\lib\jquery-validation\**" />
+    <Compile Remove="Pages\Shared\jquery\**" />
     <Compile Remove="wwwroot\lib\jquery\**" />
     <Content Remove="wwwroot\js\**" />
     <Content Remove="wwwroot\lib\bootstrap\dist\js\**" />
     <Content Remove="wwwroot\lib\jquery-validation-unobtrusive\**" />
     <Content Remove="wwwroot\lib\jquery-validation\**" />
+    <Content Remove="Pages\Shared\jquery\**" />
     <Content Remove="wwwroot\lib\jquery\**" />
     <EmbeddedResource Remove="wwwroot\js\**" />
     <EmbeddedResource Remove="wwwroot\lib\bootstrap\dist\js\**" />
     <EmbeddedResource Remove="wwwroot\lib\jquery-validation-unobtrusive\**" />
     <EmbeddedResource Remove="wwwroot\lib\jquery-validation\**" />
+    <EmbeddedResource Remove="Pages\Shared\jquery\**" />
     <EmbeddedResource Remove="wwwroot\lib\jquery\**" />
     <None Remove="wwwroot\js\**" />
     <None Remove="wwwroot\lib\bootstrap\dist\js\**" />
     <None Remove="wwwroot\lib\jquery-validation-unobtrusive\**" />
     <None Remove="wwwroot\lib\jquery-validation\**" />
+    <None Remove="Pages\Shared\jquery\**" />
     <None Remove="wwwroot\lib\jquery\**" />
   </ItemGroup>
 
   <ItemGroup>
+    <Content Remove="Areas\Identity\Pages\_ValidationScriptsPartial.cshtml" />
     <Content Remove="Pages\Shared\_ValidationScriptsPartial.cshtml" />
   </ItemGroup>
 
@@ -55,6 +60,7 @@
   <ItemGroup>
     <Folder Include="Classes\Customer\" />
     <Folder Include="wwwroot\images\product\" />
+    <Folder Include="wwwroot\lib\jquery-validation\" />
   </ItemGroup>
 
   <ItemGroup>

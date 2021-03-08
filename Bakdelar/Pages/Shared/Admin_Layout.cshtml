@@ -13,6 +13,13 @@
     <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed&family=Coustard&display=swap" rel="stylesheet">
 </head>
 <body>
+    <a href="http://jquery.com/">jQuery</a>
+    <script src="jquery.js"></script>
+    <script>
+
+        // Your code goes here.
+
+    </script>
     <header>
         <partial name="_Navbar_Admin.cshtml" />
     </header>
@@ -27,10 +34,6 @@
             &copy; 2021 - Bakdelar - <a asp-area="" asp-page="/Privacy">Privacy</a>
         </div>
     </footer>
-
-    <script src="~/lib/jquery/dist/jquery.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>   
 
     @await RenderSectionAsync("Scripts", required: false)
 </body>
