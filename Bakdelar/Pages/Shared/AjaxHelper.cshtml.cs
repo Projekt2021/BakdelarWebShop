@@ -37,6 +37,11 @@ namespace Bakdelar.Pages.Shared
 
 
 
+        [BindProperty]
+        public int UpdateCountID { get; set; }
+
+
+
 
 
         public AjaxHelperModel(IHttpContextAccessor context, IConfiguration config)
@@ -110,12 +115,82 @@ namespace Bakdelar.Pages.Shared
         }
 
 
+
+
+
         public async Task<PartialViewResult> OnPostGetNumberInStockAsync()
         {
             var product = await GetFromApi.GetProductAsync(UpdateStockProductID);
             return Partial("_GetNumberInStock", product);
 
         }
+
+
+        public PartialViewResult OnPostGetTotalCost()
+        {
+            var shoppingBasket = SessionMethods.GetBasket(_session);
+            return Partial("_ShoppingBasketTotalPrice", shoppingBasket);
+
+        }
+
+
+
+        public async Task<PartialViewResult> OnPostDecreaseByOneAsync()
+        {
+
+            return await UpdateSingleShoppingItem(UpdateCountID, -1);
+            
+
+        }
+
+
+
+
+
+        public async Task<PartialViewResult> OnPostIncreaseByOneAsync()
+        {
+
+            return await UpdateSingleShoppingItem(UpdateCountID, 1);
+
+        }
+
+
+
+
+
+
+
+        private async Task<PartialViewResult> UpdateSingleShoppingItem(int id, int newAmount)
+        {
+            var shoppingBasket = HttpContext.Session.GetBasket();
+            var shoppingItem = shoppingBasket.FirstOrDefault(p => p.ID == UpdateCountID);
+            shoppingItem.ItemCount += newAmount;
+
+            Product = await GetFromApi.GetProductAsync(id);
+            if (shoppingItem.ItemCount == 0)
+            {
+                shoppingItem.ItemCount = 1;
+            }
+            else if (shoppingItem.ItemCount > Product.AvailableQuantity)
+            {
+                shoppingItem.ItemCount = Product.AvailableQuantity.Value;
+            }
+            Product.NumberOfSold = shoppingItem.ItemCount;
+            await GetFromApi.PutProductAsync(Product);
+            SessionMethods.UpdateShoppingBasket(_session, shoppingBasket);
+            return Partial("_UpdateItemCount", shoppingItem);
+        }
+
+
+
+
+
+
+
+
+
+
+
 
 
 

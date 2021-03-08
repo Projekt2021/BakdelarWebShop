@@ -59,7 +59,7 @@
                         //decimal priceForItems = item.Price * item.ItemCount;
                         <div class="dropdown-item px-1 d-inline-flex">
 
-                            <div class="flex-row">
+                            <div class="flex-row item-dropdown-@item.ID">
                                 <a href="@Url.Content($"~/SingleProductView/{item.ID}")">
                                     <div class="media">
                                         <img class="mr-3 align-self-center" src="@item.ImageLink" style="width: 30px; height:30px;" />
@@ -74,11 +74,11 @@
 
 
                                 <div class="m-0 pl-5 d-inline-flex align-content-center text-center">
-                                    <span class="material-icons text-danger">
+                                    <span class="material-icons text-danger" tabindex="-1" onclick="reduceByOne(@item.ID)">
                                         remove
                                     </span>
-                                    <h6 class="font-weight-bold item-count-shoppingbasket">@item.ItemCount</h6>
-                                    <span class="material-icons text-success">
+                                    <h6 class="font-weight-bold item-count-id-@item.ID">@item.ItemCount</h6>
+                                    <span class="material-icons text-success" tabindex="-1" onclick="increaseByOne(@item.ID)">
                                         add
                                     </span>
                                 </div>
@@ -114,7 +114,7 @@
                     }
 
                     <div class="dropdown-divider"></div>
-                    <h6 class="dropdown-header text-center">Totalt: @totalPrice kr</h6>
+                    <h6 class="dropdown-header text-center shopping-basket-total">Totalt: @totalPrice kr</h6>
                 }
             }
         </div>

@@ -10,6 +10,44 @@ let ShoppingBasketContainer = $('#keep-open');
 const HandlerLink = "/shared/AjaxHelper?handler=";
 
 
+//function updatePagePostAjax(id, handler, data, htmlElement, popoverhide = false) {
+//    let url = HandlerLink + handler;
+//    event.preventDefault(); //prevent default action
+//    var request_method = 'post'; //get form GET/POST method
+//    var form_data = data;
+
+
+
+
+
+//    console.log(form_data);
+//    $.ajax({
+//        url: url,
+//        type: request_method,
+//        data: form_data,
+//        beforeSend: function (xhr) {
+//            xhr.setRequestHeader("XSRF-TOKEN", $('input:hidden[name="__RequestVerificationToken"]').val());
+//        },
+//    }).done(function (response) { //
+//        if (popoverhide == true) {
+//            $('[data-toggle="popover-remove-item-' + id + '"]').popover('hide')
+//        }
+//        htmlElement.html(response);
+//        getItemCount();
+//        if (onProductPage(id) == true) {
+//            getNumberInStock(id);
+//        }
+//        console.log(response);
+//        restore();
+//    });
+//}
+
+
+function removeItemDropdown(id) {
+
+}
+
+
 function restore() {
     $('#dropleft-basket span').click(function (e) {
         console.log('#dropleft-basket span')
@@ -166,7 +204,93 @@ $(document).ready(function () {
 
 
 
+function getTotalCost() {
 
+    let url = HandlerLink + "GetTotalCost";
+    var request_method = 'post'; //get form GET/POST method
+    var form_data = {}; //Encode form elements for submission
+    console.log(form_data);
+    $.ajax({
+        url: url,
+        type: request_method,
+        data: form_data,
+        beforeSend: function (xhr) {
+            xhr.setRequestHeader("XSRF-TOKEN", $('input:hidden[name="__RequestVerificationToken"]').val());
+        },
+    }).done(function (response) { //
+        $('.shopping-basket-total').html(response);
+        console.log(response);
+        restore();
+    });
+}
+
+
+
+
+
+
+
+
+
+function reduceByOne(id) {
+
+    let url = HandlerLink + "DecreaseByOne";
+    var request_method = 'post'; //get form GET/POST method
+    var form_data = { UpdateCountID: id }; //Encode form elements for submission
+    console.log(form_data);
+    $.ajax({
+        url: url,
+        type: request_method,
+        data: form_data,
+        beforeSend: function (xhr) {
+            xhr.setRequestHeader("XSRF-TOKEN", $('input:hidden[name="__RequestVerificationToken"]').val());
+        },
+    }).done(function (response) { //
+        $('.item-dropdown-' + id).html(response);
+        getItemCount();
+        if (onProductPage(id) == true) {
+            getNumberInStock(id);
+        }
+        getTotalCost();
+        console.log(response);
+        restore();
+    });
+}
+
+
+
+
+
+
+
+
+
+
+
+
+function increaseByOne(id) {
+    let url = HandlerLink + "IncreaseByOne";
+    var request_method = 'post'; //get form GET/POST method
+    var form_data = { UpdateCountID: id }; //Encode form elements for submission
+    console.log(form_data);
+    $.ajax({
+        url: url,
+        type: request_method,
+        data: form_data,
+        beforeSend: function (xhr) {
+            xhr.setRequestHeader("XSRF-TOKEN", $('input:hidden[name="__RequestVerificationToken"]').val());
+        },
+    }).done(function (response) { //
+        $('.item-dropdown-' + id).html(response);
+        getItemCount();
+        if (onProductPage(id) == true) {
+            getNumberInStock(id);
+        }
+        getTotalCost();
+        console.log(response);
+        restore();
+    });
+}
 
 function getNumberInStock(id) {
 
