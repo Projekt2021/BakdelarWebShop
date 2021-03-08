@@ -10,7 +10,7 @@
 <script>
     
 </script>
-<div class="btn-group dropleft keep-open" id="dropleft-basket">
+<div class="btn-group dropleft keep-open" id="keep-open">
     <button class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
         <span class="material-icons" id="dropdown_basket">
             shopping_basket
@@ -29,7 +29,7 @@
         }
     </button>
 
-    <div class="dropdown-menu noselect px-1">
+    <div class="dropdown-menu noselect px-1" id="dropleft-basket">
         <a class="dropdown-item" href="@Url.Content("~/ShoppingBasket")"><h6 class="dropdown-header">Till varukorg</h6></a>
         <div class="dropdown-divider"></div>
         @{
@@ -44,9 +44,11 @@
                 foreach (var item in shoppingBasket)
                 {
                     <div class="d-none" id="hidden-popover-dropdown-@item.ID">
-                        <p>Är du säkert?</p>
-                        <a href='?id=@item.ID&handler=RemoveProduct'>Ja</a>
-                        <a href='javascript:void(0)' onclick='closePopover_Dropdown(@item.ID)'>Nej</a>
+                        <div class="hidden-popover-menu">
+                            <p>Är du säkert?</p>
+                            <a href='?id=@item.ID&handler=RemoveProduct'>Ja</a>
+                            <a href='javascript:void(0)' class="dropdown-no-link" onclick='closePopover_Dropdown(@item.ID)'>Nej</a>
+                        </div>
                     </div>
                     totalPrice += item.Price * item.ItemCount;
                     decimal priceForItems = item.Price * item.ItemCount;
