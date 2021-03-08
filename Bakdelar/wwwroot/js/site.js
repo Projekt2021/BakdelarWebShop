@@ -35,6 +35,7 @@ function restore() {
         $('#keep-open').on('hide.bs.dropdown', function (e) {
             if (clickTarget == 'javascript:void(0)') {
                 e.preventDefault();
+                e.stopPropagation();
 
                 console.log('stopped default!')
                 clickTarget = "not void(0) :)"
@@ -110,6 +111,7 @@ function openPopover_Dropdown(id) {
 
 
 
+
     thisElement = $('.hidden-popover-menu');
     thisElement.on('click', function (e2) {
         console.log('triggered');
@@ -117,18 +119,20 @@ function openPopover_Dropdown(id) {
         let clickTarget = e2.target;
         $('#keep-open').on('hide.bs.dropdown', function (e) {
             if (clickTarget == 'javascript:void(0)') {
-                
+                e.preventDefault();
+                e.stopPropagation();
 
                 console.log('stopped default!')
                 clickTarget = "not void(0) :)"
                 console.log(clickTarget);
             }
-            else if (clickTarget == 'javascript:void(1)')
-            {
+            else if (clickTarget == 'javascript:void(1)') {
                 e.preventDefault();
+
                 console.log('stopped default!')
                 clickTarget = "not void(1) :)"
                 console.log(clickTarget);
+
             }
             else {
                 console.log('default executed!')
