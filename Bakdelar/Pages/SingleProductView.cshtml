@@ -4,29 +4,9 @@
     ViewData["Title"] = Model.Product.ProductName;
 }
 <script>
-    async function updateBasket() {
 
-        let url = '@Url.Content("~/shared/AjaxHelper?handler=UpdateBasket")';
-        const item = document.querySelector('#shopping_basket');
-        const item2 = document.querySelector('#buy');
-        item.innerHTML = '';
-        item2.addEventListener('click', function (event) {
-            event.preventDefault(); //prevent default action
-            var request_method = 'post'; //get form GET/POST method
-            var form_data = $('#buyForm').serialize(); //Encode form elements for submission
-            console.log(form_data);
-            $.ajax({
-                url: url,
-                type: request_method,
-                data: form_data,
-                beforeSend: function (xhr) {
-                    xhr.setRequestHeader("XSRF-TOKEN", $('input:hidden[name="__RequestVerificationToken"]').val());
-                },
-            }).done(function (response) { //
-                $("#shopping_basket").html(response);
-            });
-        });
-    }
+
+
 </script>
 <style>
     img {

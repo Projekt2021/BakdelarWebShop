@@ -58,118 +58,118 @@ namespace Bakdelar.Pages.Shared
             return Page();
 
         }
-        public async Task<IActionResult> OnPostAsync()
-        {
-            using (HttpClient httpClient = new HttpClient())
-            {
-                try
-                {
-                    Product = await GetFromApi.GetProductAsync(ID);
-                }
-                catch (Exception)
-                {
-                    if (Product.ProductName == null)
-                    {
-                        Error = true;
-                    }
-                }
-            }
-            var shoppingBasket = HttpContext.Session.GetBasket();
+        //public async Task<IActionResult> OnPostAsync()
+        //{
+        //    using (HttpClient httpClient = new HttpClient())
+        //    {
+        //        try
+        //        {
+        //            Product = await GetFromApi.GetProductAsync(ID);
+        //        }
+        //        catch (Exception)
+        //        {
+        //            if (Product.ProductName == null)
+        //            {
+        //                Error = true;
+        //            }
+        //        }
+        //    }
+        //    var shoppingBasket = HttpContext.Session.GetBasket();
 
-            bool itemAlreadyInBasket = ItemAlreadyInBasket(shoppingBasket);
-            bool tooManyItemsAdded = false;
-            ShoppingBasketItem item;
-            if(itemAlreadyInBasket)
-            {
-                item = shoppingBasket.Where(shoppingItem => shoppingItem.ID == ShoppingItem.ID).FirstOrDefault();
-                tooManyItemsAdded = item.ItemCount + ShoppingItem.ItemCount > Product.AvailableQuantity.Value;
-            }
-
-
-            if (ShoppingItem.ItemCount > Product.AvailableQuantity.Value - Product.NumberOfSold)
-            {
-                return null;
-            }
+        //    bool itemAlreadyInBasket = ItemAlreadyInBasket(shoppingBasket);
+        //    bool tooManyItemsAdded = false;
+        //    ShoppingBasketItem item;
+        //    if(itemAlreadyInBasket)
+        //    {
+        //        item = shoppingBasket.Where(shoppingItem => shoppingItem.ID == ShoppingItem.ID).FirstOrDefault();
+        //        tooManyItemsAdded = item.ItemCount + ShoppingItem.ItemCount > Product.AvailableQuantity.Value;
+        //    }
 
 
-            if(shoppingBasket == null)
-            {
-                shoppingBasket = new();
-                shoppingBasket.Add(ShoppingItem);
-                Product.NumberOfSold += ShoppingItem.ItemCount;
-            }
-            else if (!itemAlreadyInBasket)
-            {
-                shoppingBasket.Add(ShoppingItem);
-                Product.NumberOfSold += ShoppingItem.ItemCount;
-            }
-            else if(tooManyItemsAdded)
-            {
-                item = shoppingBasket.Where(shoppingItem => shoppingItem.ID == ShoppingItem.ID).FirstOrDefault();
-                item.ItemCount = Product.AvailableQuantity.Value;
-                Product.NumberOfSold = Product.AvailableQuantity.Value;
-            }
-            else
-            {
-                item = shoppingBasket.Where(shoppingItem => shoppingItem.ID == ShoppingItem.ID).FirstOrDefault();
-
-                Product.NumberOfSold += ShoppingItem.ItemCount;
-                item.ItemCount += ShoppingItem.ItemCount;
-            }
-            HttpContext.Session.UpdateShoppingBasket(shoppingBasket);
-            await GetFromApi.PutProductAsync(Product);
-            ModelState.Clear();
-
-            //if (shoppingBasket != null)
-            //{
-
-            //    var item = shoppingBasket.Where(item => item.ID == ShoppingItem.ID).FirstOrDefault();
-            //    var totalItems = ShoppingItem.ItemCount;
-
-            //    if (ShoppingItem == null)
-            //        return Redirect("/SingleProductView/" +ID);
+        //    if (ShoppingItem.ItemCount > Product.AvailableQuantity.Value - Product.NumberOfSold)
+        //    {
+        //        return null;
+        //    }
 
 
+        //    if(shoppingBasket == null)
+        //    {
+        //        shoppingBasket = new();
+        //        shoppingBasket.Add(ShoppingItem);
+        //        Product.NumberOfSold += ShoppingItem.ItemCount;
+        //    }
+        //    else if (!itemAlreadyInBasket)
+        //    {
+        //        shoppingBasket.Add(ShoppingItem);
+        //        Product.NumberOfSold += ShoppingItem.ItemCount;
+        //    }
+        //    else if(tooManyItemsAdded)
+        //    {
+        //        item = shoppingBasket.Where(shoppingItem => shoppingItem.ID == ShoppingItem.ID).FirstOrDefault();
+        //        item.ItemCount = Product.AvailableQuantity.Value;
+        //        Product.NumberOfSold = Product.AvailableQuantity.Value;
+        //    }
+        //    else
+        //    {
+        //        item = shoppingBasket.Where(shoppingItem => shoppingItem.ID == ShoppingItem.ID).FirstOrDefault();
+
+        //        Product.NumberOfSold += ShoppingItem.ItemCount;
+        //        item.ItemCount += ShoppingItem.ItemCount;
+        //    }
+        //    HttpContext.Session.UpdateShoppingBasket(shoppingBasket);
+        //    await GetFromApi.PutProductAsync(Product);
+        //    ModelState.Clear();
+
+        //    //if (shoppingBasket != null)
+        //    //{
+
+        //    //    var item = shoppingBasket.Where(item => item.ID == ShoppingItem.ID).FirstOrDefault();
+        //    //    var totalItems = ShoppingItem.ItemCount;
+
+        //    //    if (ShoppingItem == null)
+        //    //        return Redirect("/SingleProductView/" +ID);
 
 
 
 
 
-            //    if (item != null)
-            //    {
-            //        if (item.ItemCount + ShoppingItem.ItemCount > Product.AvailableQuantity.Value - Product.NumberOfSold)
-            //        {
-            //            item.ItemCount = Product.AvailableQuantity.Value;
-            //            Product.NumberOfSold = item.ItemCount;
-            //        }
-            //        else
-            //        {
-            //            item.ItemCount += ShoppingItem.ItemCount;
-            //            Product.NumberOfSold = item.ItemCount;
-            //        }
-            //    }
-            //    else
-            //    {
-            //        shoppingBasket.Add(ShoppingItem);
-            //        Product.NumberOfSold += ShoppingItem.ItemCount;
-            //    }
 
-            //    HttpContext.Session.UpdateShoppingBasket(shoppingBasket);
-            //}
-            //else
-            //{
-            //    shoppingBasket = new List<ShoppingBasketItem>();
-            //    shoppingBasket.Add(ShoppingItem);
-            //    Product.NumberOfSold = ShoppingItem.ItemCount;
-            //    HttpContext.Session.UpdateShoppingBasket(shoppingBasket);
-            //}
-            //using (var httpClient = new HttpClient())
-            //{
-            //    await httpClient.PutAsJsonAsync($"{_configuration.GetValue<String>("APIEndpoint")}api/product/{ID}", Product);
-            //}
-            //ModelState.Clear();
-            return Redirect("/SingleProductView/" + ID);
-        }
+
+        //    //    if (item != null)
+        //    //    {
+        //    //        if (item.ItemCount + ShoppingItem.ItemCount > Product.AvailableQuantity.Value - Product.NumberOfSold)
+        //    //        {
+        //    //            item.ItemCount = Product.AvailableQuantity.Value;
+        //    //            Product.NumberOfSold = item.ItemCount;
+        //    //        }
+        //    //        else
+        //    //        {
+        //    //            item.ItemCount += ShoppingItem.ItemCount;
+        //    //            Product.NumberOfSold = item.ItemCount;
+        //    //        }
+        //    //    }
+        //    //    else
+        //    //    {
+        //    //        shoppingBasket.Add(ShoppingItem);
+        //    //        Product.NumberOfSold += ShoppingItem.ItemCount;
+        //    //    }
+
+        //    //    HttpContext.Session.UpdateShoppingBasket(shoppingBasket);
+        //    //}
+        //    //else
+        //    //{
+        //    //    shoppingBasket = new List<ShoppingBasketItem>();
+        //    //    shoppingBasket.Add(ShoppingItem);
+        //    //    Product.NumberOfSold = ShoppingItem.ItemCount;
+        //    //    HttpContext.Session.UpdateShoppingBasket(shoppingBasket);
+        //    //}
+        //    //using (var httpClient = new HttpClient())
+        //    //{
+        //    //    await httpClient.PutAsJsonAsync($"{_configuration.GetValue<String>("APIEndpoint")}api/product/{ID}", Product);
+        //    //}
+        //    //ModelState.Clear();
+        //    return Redirect("/SingleProductView/" + ID);
+        //}
 
 
         public async Task GetProduct()
