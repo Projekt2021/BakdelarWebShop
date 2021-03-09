@@ -20,7 +20,7 @@
     }
 }
 
-<form id="buyForm">
+<form id="buyForm" method="post">
     <input type="hidden" value="@Model.ProductId" asp-for="@ShoppingItem.ID" />
     <input type="hidden" value="@Model.ProductName" asp-for="@ShoppingItem.ProductName" />
     <input type="hidden" value="@Model.AvailableQuantity" asp-for="@ShoppingItem.StockLevel" />

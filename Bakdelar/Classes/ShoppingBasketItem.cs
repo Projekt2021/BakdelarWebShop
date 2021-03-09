@@ -28,5 +28,18 @@ namespace Bakdelar.Classes
         [Display(Name = "Rabatt")]
         public bool Discount { get; set; }
         public int StockLevel { get; set; }
+
+
+        public override bool Equals(object obj)
+        {
+            var other = obj as ShoppingBasketItem;
+            return this.ID == other.ID
+                && this.ProductName == other.ProductName
+                && this.Price == other.Price
+                && this.ItemCount == other.ItemCount
+                && this.ImageLink == other.ImageLink
+                && this.Discount == other.Discount
+                && this.StockLevel == other.StockLevel;
+        }
     }
 }

@@ -169,7 +169,7 @@ namespace Bakdelar.Pages.Shared
             Product = await GetFromApi.GetProductAsync(id);
             if (shoppingItem.ItemCount == 0)
             {
-                shoppingItem.ItemCount = 1;
+                shoppingBasket.Remove(shoppingItem);
             }
             else if (shoppingItem.ItemCount > Product.AvailableQuantity)
             {
@@ -197,6 +197,13 @@ namespace Bakdelar.Pages.Shared
 
         public async Task<PartialViewResult> OnPostUpdateBasketAsync()
         {
+
+            //skapar ett nytt objekt med default värden, för att kolla om ShoppingItem är "null"
+            var defaultShoppingItemValues = new ShoppingBasketItem();
+            var def = defaultShoppingItemValues.Equals(ShoppingItem);
+            var shoppingBasket = HttpContext.Session.GetBasket();
+            if (!def)
+            { 
             int ID = ShoppingItem.ID;
             using (HttpClient httpClient = new HttpClient())
             {
@@ -211,7 +218,6 @@ namespace Bakdelar.Pages.Shared
                     }
                 }
             }
-            var shoppingBasket = HttpContext.Session.GetBasket();
 
             bool itemAlreadyInBasket = ItemAlreadyInBasket(shoppingBasket);
             bool tooManyItemsAdded = false;
@@ -253,8 +259,11 @@ namespace Bakdelar.Pages.Shared
                 Product.NumberOfSold += ShoppingItem.ItemCount;
                 item.ItemCount += ShoppingItem.ItemCount;
             }
+
             HttpContext.Session.UpdateShoppingBasket(shoppingBasket);
+
             await GetFromApi.PutProductAsync(Product);
+            }
             return Partial("_InnerShoppingBasket", shoppingBasket);
         }
     }

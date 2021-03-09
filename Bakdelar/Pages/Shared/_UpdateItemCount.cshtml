@@ -4,6 +4,8 @@
 @{
     decimal priceForItems = Model.Price * Model.ItemCount;
 }
+@if(Model.ItemCount > 0)
+{
 <div class="flex-row">
     <a href="@Url.Content($"~/SingleProductView/{Model.ID}")">
         <div class="media">
@@ -37,3 +39,4 @@
         </div>
     </div>
 </div>
+}

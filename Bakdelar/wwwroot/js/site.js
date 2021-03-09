@@ -243,13 +243,18 @@ function reduceByOne(id) {
         },
     }).done(function (response) { //
         $('.item-dropdown-' + id).html(response);
-        getItemCount();
-        if (onProductPage(id) == true) {
-            getNumberInStock(id);
+        if (response.length > 2) {
+            getItemCount();
+            if (onProductPage(id) == true) {
+                getNumberInStock(id);
+            }
+            getTotalCost();
+            console.log(response);
+            restore();
         }
-        getTotalCost();
-        console.log(response);
-        restore();
+        else {
+            updateBasketDropdown(id);
+        }
     });
 }
 
@@ -309,6 +314,29 @@ function getNumberInStock(id) {
 }
 
 
+function updateBasketDropdown(id) {
+
+    let url = HandlerLink + "UpdateBasket";
+    var request_method = 'post'; //get form GET/POST method
+    var form_data = {} //Encode form elements for submission
+    $.ajax({
+        url: url,
+        type: request_method,
+        data: form_data,
+        beforeSend: function (xhr) {
+            xhr.setRequestHeader("XSRF-TOKEN", $('input:hidden[name="__RequestVerificationToken"]').val());
+        },
+    }).done(function (response) { //
+        $('.inner-basket').html(response);
+        //console.log(response);
+
+        if (onProductPage(id) == true) {
+            getNumberInStock(id);
+        }
+        getItemCount();
+        restore();
+    });
+}
 
 function updateBasket(id) {
 
