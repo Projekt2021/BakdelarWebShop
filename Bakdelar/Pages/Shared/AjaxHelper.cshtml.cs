@@ -96,10 +96,10 @@ namespace Bakdelar.Pages.Shared
 
             var shoppingBasket = HttpContext.Session.GetBasket();
 
-            Product = await GetFromApi.GetProductAsync(RemoveItemID);
-            Product.NumberOfSold = 0;
-            await GetFromApi.PutProductAsync(Product);
             var itemToRemove = shoppingBasket.FirstOrDefault(p => p.ID == RemoveItemID);
+            Product = await GetFromApi.GetProductAsync(RemoveItemID);
+            Product.NumberOfSold -= itemToRemove.ItemCount;
+            await GetFromApi.PutProductAsync(Product);
             shoppingBasket.Remove(itemToRemove);
             HttpContext.Session.UpdateShoppingBasket(shoppingBasket);
             return Partial("_InnerShoppingBasket", shoppingBasket);
@@ -166,7 +166,22 @@ namespace Bakdelar.Pages.Shared
             var shoppingItem = shoppingBasket.FirstOrDefault(p => p.ID == UpdateCountID);
             shoppingItem.ItemCount += newAmount;
 
+
             Product = await GetFromApi.GetProductAsync(id);
+
+            if (newAmount == -1)
+            {
+                Product.NumberOfSold--;
+            }
+            else if (newAmount == 1)
+            {
+                Product.NumberOfSold++;
+
+            }
+
+            
+                await GetFromApi.PutProductAsync(Product);
+
             if (shoppingItem.ItemCount == 0)
             {
                 shoppingBasket.Remove(shoppingItem);
@@ -175,8 +190,6 @@ namespace Bakdelar.Pages.Shared
             {
                 shoppingItem.ItemCount = Product.AvailableQuantity.Value;
             }
-            Product.NumberOfSold = shoppingItem.ItemCount;
-            await GetFromApi.PutProductAsync(Product);
             SessionMethods.UpdateShoppingBasket(_session, shoppingBasket);
             return Partial("_UpdateItemCount", shoppingItem);
         }
