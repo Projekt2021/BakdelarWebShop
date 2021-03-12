@@ -20,6 +20,7 @@ namespace Bakdelar.Classes
 
         [Required]
         [Display(Name = "Price")]
+        //[DisplayFormat(DataFormatString = "{0:F2}", ApplyFormatInEditMode = false)]
         public decimal ProductPrice { get; set; }
 
         [Display(Name="Special Prize")]

@@ -1,0 +1,15 @@
+﻿@using Bakdelar.Classes;
+@model List<ShoppingBasketItem>
+@{
+    var shoppingBasket = Model;
+    if (shoppingBasket == null || !shoppingBasket.Any())
+    {
+        @Html.Raw("0");
+    }
+    else
+    {
+        @Html.Raw($"{shoppingBasket.Sum(item => item.ItemCount)}");
+        @*@Html.Raw($"{shoppingBasket.Count}");*@
+    }
+}
+

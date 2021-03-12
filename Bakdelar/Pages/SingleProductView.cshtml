@@ -3,7 +3,11 @@
 @{
     ViewData["Title"] = Model.Product.ProductName;
 }
+<script>
 
+
+
+</script>
 <style>
     img {
         width: 300px;
@@ -17,7 +21,7 @@
 }
 else
 {
-    <div class="row d-inline-flex p-5">
+    <div class="d-flex justify-content-center">
         <div class="">
             <div id="@Model.Product.ProductId" class="carousel slide" data-ride="carousel">
                 <div class="carousel-inner">
@@ -43,7 +47,7 @@ else
             {
                 <p class="card-text">@Model.Product.ProductPrice kr</p>
             }
-
+        <div id="product-buy-options">
             @{
                 int inStock = Model.Product.AvailableQuantity.Value - Model.Product.NumberOfSold;
                 if (inStock < 1)
@@ -60,7 +64,7 @@ else
                 }
             }
 
-        <form method="post">
+        <form id="buyForm" method="post">
             <input type="hidden" value="@Model.Product.ProductId" asp-for="ShoppingItem.ID" />
             <input type="hidden" value="@Model.Product.ProductName" asp-for="ShoppingItem.ProductName" />
             <input type="hidden" value="@Model.Product.AvailableQuantity" asp-for="ShoppingItem.StockLevel" />
@@ -81,7 +85,7 @@ else
                 {
                     <input type="number" step="1" value="1" asp-for="ShoppingItem.ItemCount" min="1" max="@inStock" />
                     <span class="input-group-btn">
-                        <button class="btn text-success btn-dark" type="submit">
+                        <button class="btn text-success btn-dark" id="buy" type="button" onclick="updateBasket(@Model.Product.ProductId)">
                             <span class="material-icons">
                                 add_shopping_cart
                             </span>
@@ -91,6 +95,7 @@ else
             }
 
         </form>
-        </div>      
+        </div>
+        </div>
     </div>
 }

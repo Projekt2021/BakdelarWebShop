@@ -1,0 +1,15 @@
+﻿@using Bakdelar.Classes;
+@model List<ShoppingBasketItem>
+
+@{
+    decimal totalPrice = 0;
+    if(Model != null && Model.Any())
+    {
+        foreach (var item in Model)
+        {
+
+            totalPrice += item.Price * item.ItemCount;
+        }
+    }
+}
+Totalt: @totalPrice kr

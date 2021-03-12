@@ -28,6 +28,9 @@ namespace Bakdelar.Pages
         [BindProperty(SupportsGet = true)]
         public string Id { get; set; }
 
+        [BindProperty(SupportsGet = true)]
+        public string Filter { get; set; }
+
         public string CategoryName { get; set; }
         public List<ProductView> Products { get; set; }
         public async Task OnGetAsync()

@@ -35,7 +35,7 @@ namespace Bakdelar.MethodClasses
 
         public static void UpdateShoppingBasket(this ISession session, List<ShoppingBasketItem> shoppingBasket)
         {
-            
+
             session.SetString("shopping_basket", JsonSerializer.Serialize(shoppingBasket, Options));
         }
     }

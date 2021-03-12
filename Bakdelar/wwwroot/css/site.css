@@ -5,10 +5,24 @@ for details on configuring this project to bundle and minify static web assets. 
     font-family: 'Coustad';
     src: url('../fonts/Coustard-Regular.ttf')
 }
-
+.dropdown-item.active, .dropdown-item:active {
+    color: black;
+    text-decoration: none;
+    background-color: #F8F9FA;
+}
 @font-face {
     font-family: 'Barlow Condensed';
     src: url('../fonts/BarlowCondensed-Regular.ttf')
+}
+
+.noselect {
+    -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+    -khtml-user-select: none; /* Konqueror HTML */
+    -moz-user-select: none; /* Old versions of Firefox */
+    -ms-user-select: none; /* Internet Explorer/Edge */
+    user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome, Edge, Opera and Firefox */
 }
 span {
     cursor: pointer;

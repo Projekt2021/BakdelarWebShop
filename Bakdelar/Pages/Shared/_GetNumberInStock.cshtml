@@ -1,0 +1,53 @@
+﻿@using Bakdelar.Classes;
+@model ProductView
+@{
+    var ShoppingItem = new ShoppingBasketItem();
+}
+
+@{
+    int inStock = Model.AvailableQuantity.Value - Model.NumberOfSold;
+    if (inStock < 1)
+    {
+        <p class="text-danger">Inte i lager</p>
+    }
+    else if (inStock < 5)
+    {
+        <p class="text-warning">Antal i lager: @inStock st</p>
+    }
+    else
+    {
+        <p class="text-success">Antal i lager: @inStock st</p>
+    }
+}
+
+<form id="buyForm" method="post">
+    <input type="hidden" value="@Model.ProductId" asp-for="@ShoppingItem.ID" />
+    <input type="hidden" value="@Model.ProductName" asp-for="@ShoppingItem.ProductName" />
+    <input type="hidden" value="@Model.AvailableQuantity" asp-for="@ShoppingItem.StockLevel" />
+    <input type="hidden" value="@Model.ProductImageView[0].ImageURL" asp-for="@ShoppingItem.ImageLink" />
+    @if (Model.SpecialPrice != null)
+    {
+        <input type="hidden" value="@Model.SpecialPrice" asp-for="@ShoppingItem.Price" />
+        <input type="hidden" value="true" asp-for="@ShoppingItem.Discount" />
+    }
+    else
+    {
+        <input type="hidden" value="@Model.ProductPrice" asp-for="@ShoppingItem.Price" />
+        <input type="hidden" value="false" asp-for="@ShoppingItem.Discount" />
+    }
+    @{
+
+        if (inStock >= 1)
+        {
+            <input type="number" step="1" value="1" asp-for="@ShoppingItem.ItemCount" min="1" max="@Model.AvailableQuantity" />
+            <span class="input-group-btn">
+                <button class="btn text-success btn-dark" id="buy" type="button" onclick="updateBasket(@Model.ProductId)">
+                    <span class="material-icons">
+                        add_shopping_cart
+                    </span>
+                </button>
+            </span>
+        }
+    }
+
+</form>
