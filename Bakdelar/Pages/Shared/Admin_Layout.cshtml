@@ -16,6 +16,67 @@
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed&family=Coustard&display=swap" rel="stylesheet">
 
+    <script>
+        $(function () {
+
+
+            $("form").submit(function (e) {
+                e.preventDefault();
+                let orinalPrice = $("#ProductView_ProductPrice");
+                console.log(orinalPrice.length);
+                if (orinalPrice.length == 0) {
+                    orinalPrice = $("#Product_ProductPrice");
+                    if (orinalPrice.length != 0) {
+                        console.log("selected product_productprice")
+                    }
+                }
+
+
+
+                let specialPrice = $("#ProductView_SpecialPrice");
+                console.log(specialPrice.length);
+                if (specialPrice.length == 0) {
+                    specialPrice = $("#Product_SpecialPrice");
+                }
+
+
+
+
+                let oldtext = orinalPrice.val();
+                let newtext = oldtext.replace(".", ",");
+                if (newtext.indexOf(",") == -1) {
+                    newtext += ",00";
+                }
+
+                orinalPrice.val(newtext);
+                oldtext = specialPrice.val();
+                newtext = oldtext.replace(".", ",");
+                if (newtext.indexOf(",") == -1) {
+                    newtext += ",00";
+                }
+
+                specialPrice.val(newtext);
+                e.currentTarget.submit();
+            })
+
+
+            //let orinalPrice = $("#ProductView_ProductPrice");
+            //console.log(orinalPrice.val());
+            //let specialPrice = $("#ProductView_SpecialPrice");
+            //console.log(specialPrice.val());
+            //let submitButton = $("#btnCreateProduct1");
+            //submitButton.click(function () {
+            //    let oldtext = orinalPrice.val();
+            //    debugger;
+            //    let newtext = oldText.Replace(".", ",");
+            //    orinalPrice.val(newtext);
+            //    console.log(oldtext);
+            //    console.log(newtext);
+
+            //});
+
+        });
+    </script>
 </head>
 <body>
     <header>
