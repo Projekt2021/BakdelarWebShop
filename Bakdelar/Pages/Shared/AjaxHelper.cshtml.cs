@@ -143,7 +143,13 @@ namespace Bakdelar.Pages.Shared
 
         }
 
+        public PartialViewResult OnPostUpdateShoppingBasketPage()
+        {
+            var shoppingBasket = HttpContext.Session.GetBasket();
+            return Partial("_ShoppingBasketEditPage", shoppingBasket);
 
+
+        }
 
 
 
@@ -155,7 +161,29 @@ namespace Bakdelar.Pages.Shared
         }
 
 
+        public async Task<PartialViewResult> OnPostUpdateItemCountShoppingBasket(int itemID, int newAmount)
+        {
+            var shoppingBasket = HttpContext.Session.GetBasket();
+            if (itemID == 0)
+            {
 
+                return Partial("_ShoppingBasketEditPage", shoppingBasket);
+            }
+            var shoppingItem = shoppingBasket.FirstOrDefault(p => p.ID == itemID);
+            shoppingItem.ItemCount = newAmount;
+
+
+            Product = await GetFromApi.GetProductAsync(itemID);
+
+            Product.NumberOfSold = newAmount;
+            if (shoppingItem.ItemCount > Product.AvailableQuantity)
+            {
+                shoppingItem.ItemCount = Product.AvailableQuantity.Value;
+                Product.NumberOfSold = Product.AvailableQuantity.Value;
+            }
+            SessionMethods.UpdateShoppingBasket(_session, shoppingBasket);
+            return Partial("_ShoppingBasketEditPage", shoppingBasket);
+        }
 
 
 
@@ -177,6 +205,10 @@ namespace Bakdelar.Pages.Shared
             {
                 Product.NumberOfSold++;
 
+            }
+            else
+            {
+                Product.NumberOfSold = newAmount;
             }
 
             

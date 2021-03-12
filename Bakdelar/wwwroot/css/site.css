@@ -30,6 +30,8 @@ span {
 i {
     cursor: pointer;
 }
+
+
 #banner-image {
     /*background-image: inherit;*/
     background-attachment: fixed;

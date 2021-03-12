@@ -6,7 +6,7 @@
 
 
 let ShoppingBasketContainer = $('#keep-open');
-
+let currentPage = window.location.pathname;
 const HandlerLink = "/shared/AjaxHelper?handler=";
 
 
@@ -89,8 +89,48 @@ function restore() {
         });
 
     });
+
+    $(".form-inline .form-control").change(function () {
+        let itemID = $(this).attr("id").split("-")[2];
+        let newAmount = $(this).val();
+        console.log(itemID);
+        changeItemCount(itemID, newAmount)
+    });
 }
 
+
+function changeItemCount(itemID1, amount) {
+
+    let url = HandlerLink + "UpdateItemCountShoppingBasket";
+    var request_method = 'post'; //get form GET/POST method
+    let item = Number(itemID1);
+    var form_data =
+    {
+        itemID: itemID1,
+        newAmount: amount
+    }; //Encode form elements for submission
+    console.log(form_data)
+    console.log(form_data);
+    $.ajax({
+        url: url,
+        type: request_method,
+        data: form_data,
+        beforeSend: function (xhr) {
+            xhr.setRequestHeader("XSRF-TOKEN", $('input:hidden[name="__RequestVerificationToken"]').val());
+        },
+    }).done(function (response) { //
+        if (response.length > 2) {
+
+            $('.shopping-basket-table').html(response);
+            getItemCount();
+            getTotalCost();
+            restore();
+        }
+        else {
+            updateBasketDropdown(id);
+        }
+    });
+}
 
 
 
@@ -105,6 +145,7 @@ function openPopover(id) {
             html: true,
             title: 'Ta bort vara',
             sanitize: false,
+            trigger: 'focus',
             content: function () {
                 return $('#hidden-popover-' + id).html()
             }
@@ -242,8 +283,9 @@ function reduceByOne(id) {
             xhr.setRequestHeader("XSRF-TOKEN", $('input:hidden[name="__RequestVerificationToken"]').val());
         },
     }).done(function (response) { //
-        $('.item-dropdown-' + id).html(response);
         if (response.length > 2) {
+
+            $('.item-dropdown-' + id).html(response);
             getItemCount();
             if (onProductPage(id) == true) {
                 getNumberInStock(id);
@@ -253,6 +295,10 @@ function reduceByOne(id) {
         }
         else {
             updateBasketDropdown(id);
+        }
+        if (currentPage == "/ShoppingBasket") {
+            console.log("current page is shopping basket")
+            updateShoppingBasketPage();
         }
     });
 }
@@ -281,13 +327,24 @@ function increaseByOne(id) {
             xhr.setRequestHeader("XSRF-TOKEN", $('input:hidden[name="__RequestVerificationToken"]').val());
         },
     }).done(function (response) { //
-        $('.item-dropdown-' + id).html(response);
-        getItemCount();
-        if (onProductPage(id) == true) {
-            getNumberInStock(id);
+
+        if (response.length > 2) {
+            $('.item-dropdown-' + id).html(response);
+            getItemCount();
+            if (onProductPage(id) == true) {
+                getNumberInStock(id);
+            }
+            getTotalCost();
+            restore();
         }
-        getTotalCost();
-        restore();
+
+        else {
+            updateBasketDropdown(id);
+        }
+        if (currentPage == "/ShoppingBasket") {
+            console.log("current page is shopping basket")
+            updateShoppingBasketPage();
+        }
     });
 }
 
@@ -389,6 +446,9 @@ function removeItemDropdown(id) {
             getNumberInStock(id);
         }
         restore();
+        if (currentPage == "/ShoppingBasket") {
+            updateShoppingBasketPage()
+        }
     });
 }
 
@@ -424,8 +484,30 @@ function getItemCount() {
         if (response.length == 0) {
             getItemCount();
         }
+        else {
         $('#item-count-basket').html(response);
-        console.log(response);
+            restore();
+        }
+    });
+}
+
+
+
+function updateShoppingBasketPage() {
+
+    let url = HandlerLink + "UpdateShoppingBasketPage";
+    var request_method = 'post'; //get form GET/POST method
+    var form_data = {}; //Encode form elements for submission
+    $.ajax({
+        url: url,
+        type: request_method,
+        data: form_data,
+        beforeSend: function (xhr) {
+            xhr.setRequestHeader("XSRF-TOKEN", $('input:hidden[name="__RequestVerificationToken"]').val());
+        },
+    }).done(function (response) { //
+        $('.shopping-basket-table').html(response);
+        //console.log(response);
         restore();
     });
 }

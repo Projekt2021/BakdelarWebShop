@@ -1,9 +1,6 @@
-﻿@page
-@using Bakdelar.MethodClasses;
-@model Bakdelar.Pages.ShoppingBasketModel
-
-
-
+﻿@using Bakdelar.MethodClasses;
+@using Bakdelar.Classes;
+@model List<ShoppingBasketItem>
 
 @{
     var userID = 0;
@@ -11,12 +8,11 @@
     decimal shippingFee = StaticValues.ShippingFee;
 
 
-    <div class="row shopping-basket-table">
         <div class="flex-column w-100">
             <div class="justify-content-center w-75 mx-auto">
-                @if (Model.ShoppingBasket != null && Model.ShoppingBasket != null && Model.ShoppingBasket.Any())
+                @if (Model != null && Model.Any())
                 {
-                    decimal totalPrice = Model.ShoppingBasket.Sum(item => item.ItemCount * item.Price);
+                    decimal totalPrice = Model.Sum(item => item.ItemCount * item.Price);
 
 
 
@@ -25,17 +21,17 @@
                         <thead class="thead-dark">
                             <tr>
                                 <th scope="col">
-                                    @Html.DisplayNameFor(model => model.ShoppingBasket.FirstOrDefault().ImageLink)
+                                    @Html.DisplayNameFor(model => model.FirstOrDefault().ImageLink)
                                 </th>
                                 <th scope="col">
-                                    @Html.DisplayNameFor(model => model.ShoppingBasket.FirstOrDefault().ProductName)
+                                    @Html.DisplayNameFor(model => model.FirstOrDefault().ProductName)
                                 </th>
                                 <th scope="col">
-                                    @Html.DisplayNameFor(model => model.ShoppingBasket.FirstOrDefault().ItemCount)
+                                    @Html.DisplayNameFor(model => model.FirstOrDefault().ItemCount)
 
                                     @*<th>
-                                            @Html.DisplayNameFor(model => model.ShoppingBasket.FirstOrDefault().Discount)
-                                        </th>*@
+                                @Html.DisplayNameFor(model => model.ShoppingBasket.FirstOrDefault().Discount)
+                            </th>*@
                                 <th scope="col">
                                     Styckpris
                                 </th>
@@ -48,7 +44,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach (var item in Model.ShoppingBasket)
+                            @foreach (var item in Model)
                             {
                             <tr>
                                 <td>
@@ -162,13 +158,14 @@
 
                         <div class="text-dark bg-success w-100 mx-auto border rounded border-dark my-3 text-center font-weight-bolder h1">Du har nu fri frakt!</div>
                     }
+
                     <div class="flex-row ">
-                            <div class="mx-auto text-right pt-3 h4 w-100">
-                                @if (totalPrice < 300)
-                                {
-                                    totalPrice += shippingFee;
-                                }
-                                Totalt: @totalPrice kr
+                        <div class="mx-auto text-right pt-3 h4 w-100">
+                            @if (totalPrice < 300)
+                            {
+                                totalPrice += shippingFee;
+                            }
+                            Totalt: @totalPrice kr
                         </div>
                     </div>
 
@@ -182,6 +179,5 @@
 
 
         </div>
-    </div>
 
 }
