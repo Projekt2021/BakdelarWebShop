@@ -5,7 +5,6 @@
     Layout = "Admin_Layout";
 }
 
-
 <h1>Add Product</h1>
 
 <h4>Product</h4>
@@ -13,7 +12,7 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form method="post" enctype="multipart/form-data">
+        <form method="post" enctype="multipart/form-data" id="createForm">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Product.ProductName" class="control-label"></label>
