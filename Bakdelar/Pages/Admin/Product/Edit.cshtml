@@ -3,14 +3,26 @@
 @{
     Layout = "Admin_Layout";
 }
-
+<script>
+    let formElement = $("formEdit");
+    formElement.validate({
+        submitHandler: function (form) {
+            console.log("submitted!");
+            formElement.submit();
+        }
+    });
+    //$(function () {
+        
+        
+    //});
+</script>
 <h1>Edit</h1>
 
 <h4>Product</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form method="post" enctype="multipart/form-data">
+        <form method="post" enctype="multipart/form-data" id="formEdit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="ProductView.ProductId" />
             <div class="form-group">
@@ -30,7 +42,7 @@
             </div>
             <div class="form-group" lang="sv-se">
                 <label asp-for="ProductView.SpecialPrice" class="control-label"></label>
-                <input asp-for="ProductView.SpecialPrice" class="form-control" />
+                <input asp-for="ProductView.SpecialPrice" class="form-control"/>
                 <span asp-validation-for="ProductView.SpecialPrice" class="text-danger"></span>
             </div>
             <div class="form-group">
