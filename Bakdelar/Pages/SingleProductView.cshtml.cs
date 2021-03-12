@@ -174,8 +174,6 @@ namespace Bakdelar.Pages.Shared
             Product = await GetFromApi.GetProductAsync(ID);
         }
 
-
-
         public bool ItemAlreadyInBasket(List<ShoppingBasketItem> shoppingBasket)
         {
             if (shoppingBasket == null || !shoppingBasket.Any())

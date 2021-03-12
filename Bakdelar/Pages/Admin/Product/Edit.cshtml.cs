@@ -102,7 +102,7 @@ namespace Bakdelar.Pages.Admin.Product
             httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
             HttpResponseMessage response = await httpClient.PutAsJsonAsync(
-                    $"{_configuration.GetValue<String>("APIEndpoint")}api/product/{ProductView.ProductId}", ProductView);
+                    $"{_configuration.GetValue<string>("APIEndpoint")}api/product/{ProductView.ProductId}", ProductView);
 
             if (response.IsSuccessStatusCode)
             {
@@ -118,7 +118,7 @@ namespace Bakdelar.Pages.Admin.Product
             var token = HttpContext.Request.Cookies["access_token"];
             httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
-            HttpResponseMessage response = await httpClient.DeleteAsync($"{_configuration.GetValue<String>("APIEndpoint")}api/product/DeleteProductImage/{id.Value}");
+            HttpResponseMessage response = await httpClient.DeleteAsync($"{_configuration.GetValue<string>("APIEndpoint")}api/product/DeleteProductImage/{id.Value}");
             if (response.IsSuccessStatusCode)
             {
                 int productId = int.Parse(response.Content.ReadAsStringAsync().Result);

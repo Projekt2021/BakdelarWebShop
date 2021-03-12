@@ -216,7 +216,6 @@ function getTotalCost() {
         },
     }).done(function (response) { //
         $('.shopping-basket-total').html(response);
-        console.log(response);
         restore();
     });
 }
@@ -250,7 +249,6 @@ function reduceByOne(id) {
                 getNumberInStock(id);
             }
             getTotalCost();
-            console.log(response);
             restore();
         }
         else {
@@ -289,7 +287,6 @@ function increaseByOne(id) {
             getNumberInStock(id);
         }
         getTotalCost();
-        console.log(response);
         restore();
     });
 }
@@ -309,7 +306,6 @@ function getNumberInStock(id) {
         },
     }).done(function (response) { //
         $('#product-buy-options').html(response);
-        console.log(response);
         restore();
     });
 }
@@ -392,7 +388,6 @@ function removeItemDropdown(id) {
         if (onProductPage(id) == true) {
             getNumberInStock(id);
         }
-        console.log(response);
         restore();
     });
 }
@@ -426,7 +421,9 @@ function getItemCount() {
             xhr.setRequestHeader("XSRF-TOKEN", $('input:hidden[name="__RequestVerificationToken"]').val());
         },
     }).done(function (response) { //
-
+        if (response.length == 0) {
+            getItemCount();
+        }
         $('#item-count-basket').html(response);
         console.log(response);
         restore();
