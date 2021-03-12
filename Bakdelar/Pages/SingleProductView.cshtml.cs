@@ -182,12 +182,11 @@ namespace Bakdelar.Pages.Shared
             {
                 return false;
             }
-            else if (!itemAlreadyInBasket)
+            else
             {
                 return shoppingBasket.Any(item => item.ID == ShoppingItem.ID);
             }
         }
-
 
         private async Task SetBreadcrumb()
         {
