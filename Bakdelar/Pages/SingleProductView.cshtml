@@ -83,7 +83,7 @@ else
 
                 if (inStock >= 1)
                 {
-                    <input type="number" step="1" value="1" asp-for="ShoppingItem.ItemCount" min="1" max="@Model.Product.AvailableQuantity" />
+                    <input type="number" step="1" value="1" asp-for="ShoppingItem.ItemCount" min="1" max="@inStock" />
                     <span class="input-group-btn">
                         <button class="btn text-success btn-dark" id="buy" type="button" onclick="updateBasket(@Model.Product.ProductId)">
                             <span class="material-icons">

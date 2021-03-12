@@ -24,15 +24,14 @@ namespace Bakdelar.Pages.Admin.Product
         private readonly ILogger<IndexModel> _logger;
         private readonly UserManager<IdentityUser> _userManager;
         private readonly IConfiguration _configuration;
-        private IHostingEnvironment _hostingEnvironment;
+        
 
 
         public EditModel(
            IConfiguration configuration,
            UserManager<IdentityUser> userManager,
-           ILogger<IndexModel> logger, IHostingEnvironment hostingEnvironment)
+           ILogger<IndexModel> logger)
         {
-            _hostingEnvironment = hostingEnvironment;
             _configuration = configuration;
             _userManager = userManager;
             _logger = logger;
@@ -74,24 +73,24 @@ namespace Bakdelar.Pages.Admin.Product
             }
 
             ProductView.ProductImageView = new List<ProductImageView>();
-            string wwwPath = this._hostingEnvironment.WebRootPath;
-            string path = Path.Combine(this._hostingEnvironment.WebRootPath, _configuration.GetValue<String>("ProducImagePath"));
-            if (!Directory.Exists(path))
-            {
-                Directory.CreateDirectory(path);
-            }
+            //string wwwPath = this._hostingEnvironment.WebRootPath;
+            //string path = Path.Combine(this._hostingEnvironment.WebRootPath, _configuration.GetValue<String>("ProducImagePath"));
+            //if (!Directory.Exists(path))
+            //{
+            //    Directory.CreateDirectory(path);
+            //}
 
             foreach (IFormFile postedFile in files)
             {
                 string fileName = Path.GetFileName(postedFile.FileName);
-                using (FileStream stream = new FileStream(Path.Combine(path, fileName), FileMode.Create))
-                {
-                    postedFile.CopyTo(stream);
-                    ProductView.ProductImageView.Add(new ProductImageView
-                    {
-                        ImageURL = $"\\{_configuration.GetValue<String>("ProducImagePath")}{ fileName}"
-                    });
-                }
+                //using (FileStream stream = new FileStream(Path.Combine(path, fileName), FileMode.Create))
+                //{
+                //    postedFile.CopyTo(stream);
+                //    ProductView.ProductImageView.Add(new ProductImageView
+                //    {
+                //        ImageURL = $"\\{_configuration.GetValue<String>("ProducImagePath")}{ fileName}"
+                //    });
+                //}
             }
 
             var token = HttpContext.Request.Cookies["access_token"];

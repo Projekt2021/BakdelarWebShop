@@ -23,17 +23,14 @@ namespace Bakdelar.Classes
         //[DisplayFormat(DataFormatString = "{0:F2}", ApplyFormatInEditMode = false)]
         public decimal ProductPrice { get; set; }
 
-        [Display(Name = "Special Price")]
+        [Display(Name="Special Prize")]
         public decimal? SpecialPrice { get; set; }
 
-        //[Required]
         [Display(Name = "Available Quantity")]
         public int? AvailableQuantity { get; set; }
 
-        //[Required]
         [Display(Name = "Weight")]
         public double? ProductWeight { get; set; }
-
 
         [Display(Name = "Selected")]
         public bool IsSelected { get; set; }
@@ -54,4 +51,5 @@ namespace Bakdelar.Classes
         public List<ProductImageView> ProductImageView { get; set; }
 
     }
+
 }

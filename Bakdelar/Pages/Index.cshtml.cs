@@ -53,6 +53,7 @@ namespace Bakdelar.Pages
             ProductsMostSold = await GetFromApi.GetAllProductsAsync("/MostSold/4");
             ProductsSelected = await GetFromApi.GetAllProductsAsync("/Selected/4");
             ProductsNew = await GetFromApi.GetAllProductsAsync("/Newest/4");
+
             return Page();
         }
     }
