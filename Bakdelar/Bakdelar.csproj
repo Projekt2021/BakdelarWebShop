@@ -44,7 +44,6 @@
     <Folder Include="Classes\Customer\" />
     <Folder Include="wwwroot\images\product\" />
     <Folder Include="wwwroot\NewFolder\NewFolder\" />
-    <Folder Include="wwwroot\scripts\" />
   </ItemGroup>
 
   <ItemGroup>

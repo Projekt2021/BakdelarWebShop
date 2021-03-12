@@ -20,44 +20,45 @@
         $(function () {
 
 
-            $("form").submit(function (e) {
-                e.preventDefault();
-                let orinalPrice = $("#ProductView_ProductPrice");
-                console.log(orinalPrice.length);
-                if (orinalPrice.length == 0) {
-                    orinalPrice = $("#Product_ProductPrice");
-                    if (orinalPrice.length != 0) {
-                        console.log("selected product_productprice")
-                    }
-                }
+
+        //    $("form").submit(function (e) {
+        //        e.preventDefault();
+        //        let orinalPrice = $("#ProductView_ProductPrice");
+        //        console.log(orinalPrice.length);
+        //        if (orinalPrice.length == 0) {
+        //            orinalPrice = $("#Product_ProductPrice");
+        //            if (orinalPrice.length != 0) {
+        //                console.log("selected product_productprice")
+        //            }
+        //        }
 
 
 
-                let specialPrice = $("#ProductView_SpecialPrice");
-                console.log(specialPrice.length);
-                if (specialPrice.length == 0) {
-                    specialPrice = $("#Product_SpecialPrice");
-                }
+        //        let specialPrice = $("#ProductView_SpecialPrice");
+        //        console.log(specialPrice.length);
+        //        if (specialPrice.length == 0) {
+        //            specialPrice = $("#Product_SpecialPrice");
+        //        }
 
 
 
 
-                let oldtext = orinalPrice.val();
-                let newtext = oldtext.replace(".", ",");
-                if (newtext.indexOf(",") == -1) {
-                    newtext += ",00";
-                }
+        //        let oldtext = orinalPrice.val();
+        //        let newtext = oldtext.replace(".", ",");
+        //        if (newtext.indexOf(",") == -1) {
+        //            newtext += ",00";
+        //        }
 
-                orinalPrice.val(newtext);
-                oldtext = specialPrice.val();
-                newtext = oldtext.replace(".", ",");
-                if (newtext.indexOf(",") == -1) {
-                    newtext += ",00";
-                }
+        //        orinalPrice.val(newtext);
+        //        oldtext = specialPrice.val();
+        //        newtext = oldtext.replace(".", ",");
+        //        if (newtext.indexOf(",") == -1) {
+        //            newtext += ",00";
+        //        }
 
-                specialPrice.val(newtext);
-                e.currentTarget.submit();
-            })
+        //        specialPrice.val(newtext);
+        //        e.currentTarget.submit();
+        //    })
 
 
             //let orinalPrice = $("#ProductView_ProductPrice");

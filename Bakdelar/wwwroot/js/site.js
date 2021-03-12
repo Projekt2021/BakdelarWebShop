@@ -410,7 +410,7 @@ function onProductPage(id) {
 
 function getItemCount() {
     let url = HandlerLink + "ItemCount";
-    event.preventDefault(); //prevent default action
+    //event.preventDefault(); //prevent default action
     var request_method = 'post'; //get form GET/POST method
     var form_data = {}
     $.ajax({
