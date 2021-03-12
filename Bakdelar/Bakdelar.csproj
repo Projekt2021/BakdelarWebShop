@@ -61,6 +61,7 @@
     <Folder Include="Classes\Customer\" />
     <Folder Include="wwwroot\images\product\" />
     <Folder Include="wwwroot\lib\jquery-validation\" />
+    <Folder Include="wwwroot\NewFolder\NewFolder\" />
   </ItemGroup>
 
   <ItemGroup>
