@@ -1,134 +1,178 @@
 ﻿@page
+@using Bakdelar.MethodClasses;
 @model Bakdelar.Pages.ShoppingBasketModel
 
 
 
 
 @{
-    const int shippingFee = 49;
+    decimal shippingFee = StaticValues.ShippingFee;
     if (Model.ShoppingBasket != null && Model.ShoppingBasket != null && Model.ShoppingBasket.Any())
     {
-        decimal totalPrice = 0;
-    <div class="row">
-        <table class="table mb-0">
+        decimal totalPrice = Model.ShoppingBasket.Sum(item => item.ItemCount * item.Price);
 
-            <thead class="thead-dark">
-                <tr>
-                    <th scope="col">
-                        @Html.DisplayNameFor(model => model.ShoppingBasket.FirstOrDefault().ImageLink)
-                    </th>
-                    <th scope="col">
-                        @Html.DisplayNameFor(model => model.ShoppingBasket.FirstOrDefault().ProductName)
-                    </th>
-                    <th scope="col">
-                        @Html.DisplayNameFor(model => model.ShoppingBasket.FirstOrDefault().ItemCount)
+        if (totalPrice < 300)
+        {
 
-                        @*<th>
-                            @Html.DisplayNameFor(model => model.ShoppingBasket.FirstOrDefault().Discount)
-                        </th>*@
-                    <th scope="col">
-                        Styckpris
-                    </th>
-                    <th scope="col">
-                        Pris
-                    </th>
-                    <th scope="col">
+            decimal remaining = 300 - totalPrice + shippingFee;
 
-                    </th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var item in Model.ShoppingBasket)
-                {
-                    totalPrice += item.Price * item.ItemCount;
-                    <tr>
-                        <td>
-                            <img src="@item.ImageLink" style="height: 50px; height: 50px;" />
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.ProductName)
-                        </td>
+            <div class="text-danger text-center font-weight-bolder h1">Kvar till fri frakt: @remaining kr</div>
+        }
+        <div class="row">
+            <div class="flex-column w-100">
+                <div class="justify-content-center w-75 mx-auto">
+                    <table class="table m-0 border  border-dark">
 
-                        <td>
-                            <form class="form-inline" method="post" asp-page-handler="ChangeCount" asp-route-id="@item.ID">
-                                <input class="form-control" style="border-radius: 1rem; width: 4.5rem;"
-                                       type="number" step="1" value="@item.ItemCount" asp-for="@Model.NewCount"
-                                       min="1" max="@item.StockLevel" />
-                                <span class="input-group-btn">
-                                    <button class="btn text-white" type="submit">
-                                        <span class="material-icons" style="color: green;">
-                                            check_circle_outline
-                                        </span>
-                                    </button>
-                                </span>
-                            </form>
-                        </td>
-                        @*<td>
-                            @Html.DisplayFor(modelItem => item.Discount)
-                        </td>*@
-                        <td>
+                        <thead class="thead-dark">
+                            <tr>
+                                <th scope="col">
+                                    @Html.DisplayNameFor(model => model.ShoppingBasket.FirstOrDefault().ImageLink)
+                                </th>
+                                <th scope="col">
+                                    @Html.DisplayNameFor(model => model.ShoppingBasket.FirstOrDefault().ProductName)
+                                </th>
+                                <th scope="col">
+                                    @Html.DisplayNameFor(model => model.ShoppingBasket.FirstOrDefault().ItemCount)
 
-                            @item.Price kr
-                        </td>
-                        <td>
-                            @{
-                                var price = item.Price * item.ItemCount;
-                                @Html.Raw($"{price} kr");
+                                    @*<th>
+                                            @Html.DisplayNameFor(model => model.ShoppingBasket.FirstOrDefault().Discount)
+                                        </th>*@
+                                <th scope="col">
+                                    Styckpris
+                                </th>
+                                <th scope="col">
+                                    Pris
+                                </th>
+                                <th scope="col">
+
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.ShoppingBasket)
+                            {
+                                <tr>
+                                    <td>
+                                        <img src="@item.ImageLink" style="height: 50px; height: 50px;" />
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.ProductName)
+                                    </td>
+
+                                    <td>
+                                        <form class="form-inline" method="post" asp-page-handler="ChangeCount" asp-route-id="@item.ID">
+                                            <input class="form-control" style="border-radius: 1rem; width: 4.5rem;"
+                                                   type="number" step="1" value="@item.ItemCount" asp-for="@Model.NewCount"
+                                                   min="1" max="@item.StockLevel" />
+                                            <span class="input-group-btn">
+                                                <button class="btn text-white" type="submit">
+                                                    <span class="material-icons" style="color: green;">
+                                                        check_circle_outline
+                                                    </span>
+                                                </button>
+                                            </span>
+                                        </form>
+                                    </td>
+                                    @*<td>
+                                            @Html.DisplayFor(modelItem => item.Discount)
+                                        </td>*@
+                                    <td>
+
+                                        @item.Price kr
+                                    </td>
+                                    <td>
+                                        @{
+                                            var price = item.Price * item.ItemCount;
+                                            @Html.Raw($"{price} kr");
+                                        }
+                                    </td>
+                                    <td>
+
+                                        <div class="d-none" id="hidden-popover-@item.ID">
+                                            <p>Är du säkert?</p>
+                                            <a href='?id=@item.ID&handler=RemoveProduct'>Ja</a>
+                                            <a href='javascript:void(0)' onclick='closePopover(@item.ID)'>Nej</a>
+                                        </div>
+                                        <button type="button" class="btn text-white button-remove-item" data-toggle="popover-remove-item-@item.ID"
+                                                onclick="openPopover(@item.ID)">
+
+                                            <i class="material-icons text-danger">
+                                                not_interested
+                                            </i>
+                                        </button>
+                                    </td>
+
+
+                                </tr>
                             }
-                        </td>
-                        <td>
 
-                            <div class="d-none" id="hidden-popover-@item.ID">
-                                <p>Är du säkert?</p>
-                                <a href='?id=@item.ID&handler=RemoveProduct'>Ja</a>
-                                <a href='javascript:void(0)' onclick='closePopover(@item.ID)'>Nej</a>
-                            </div>
-                            <button type="button" class="btn text-white button-remove-item" data-toggle="popover-remove-item-@item.ID"
-                                    onclick="openPopover(@item.ID)">
+                            @if (totalPrice < 300)
+                            {
+                                totalPrice += shippingFee;
+                                <tr>
+                                    <td>
+                                    </td>
 
-                                <i class="material-icons text-danger">
-                                    not_interested
-                                </i>
-                            </button>
-                        </td>
+                                    <td>
+                                        Frakt
+                                    </td>
+                                    <td>
+                                        1 st
+                                    </td>
+                                    <td>
+                                        @shippingFee kr
+                                    </td>
+                                    <td>
+                                        @shippingFee kr
+                                    </td>
+                                    <td>
+                                    </td>
+                                </tr>
+                            }
+                            else
+                            {
+                                <tr>
+                                    <td>
+                                    </td>
+
+                                    <td>
+                                        Frakt
+                                    </td>
+                                    <td>
+                                        1 st
+                                    </td>
+                                    <td>
+                                        0,00 kr
+                                    </td>
+                                    <td>
+                                        0,00 kr
+                                    </td>
+                                    <td>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
 
 
-                    </tr>
-                }
-
-                @if (totalPrice < 300)
-                {
-                    totalPrice += shippingFee;
-                    <tr>
-                        <td>
-                        </td>
-
-                        <td>
-                            Frakt
-                        </td>
-                        <td>
-                            1 st
-                        </td>
-                        <td>
-                            49 kr
-                        </td>
-                        <td>
-                            49 kr
-                        </td>
-                        <td>
-                        </td>
-                    </tr>
-                }
-            </tbody>
-        </table>
-            <div class="col border-top">
-                <p class="text-right pt-3 h4">
-                    Totalt: @totalPrice kr
-              </p>
-
-          </div>
-        
+            </div>
         </div>
+        <div class="row">
+            <div class="flex-row w-100">
+                <div class="mx-auto">
+                    <div class="mx-auto text-right pt-3 h4 w-75">
+                        Totalt: @totalPrice kr
+                    </div>
+
+                </div>
+            </div>
+
+
+
+        </div>
+
+
     }
     else
     {
