@@ -4,6 +4,17 @@
     <TargetFramework>net5.0</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Compile Remove="wwwroot\jquery-validation-unobtrusive\**" />
+    <Compile Remove="wwwroot\jquery-validation\**" />
+    <Content Remove="wwwroot\jquery-validation-unobtrusive\**" />
+    <Content Remove="wwwroot\jquery-validation\**" />
+    <EmbeddedResource Remove="wwwroot\jquery-validation-unobtrusive\**" />
+    <EmbeddedResource Remove="wwwroot\jquery-validation\**" />
+    <None Remove="wwwroot\jquery-validation-unobtrusive\**" />
+    <None Remove="wwwroot\jquery-validation\**" />
+  </ItemGroup>
+
    <ItemGroup>
     <None Remove="ProductImages\Ingredienser.Bakpulver.png" />
     <None Remove="ProductImages\Ingredienser.GrönKaramellfärg.png" />
