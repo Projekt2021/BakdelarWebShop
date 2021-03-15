@@ -28,23 +28,23 @@ else
 {
     // Bootstrap Carousel with indicators
     <div class="row">
-        <div class="col-3"></div>
+        <div class="col-1"></div>
         <div class="col d-flex card border-0">
             <div class="container">
                 <div id="carouselExampleIndicators" class=" my-4 carousel slide" data-interval="false">
-                    <ol class="carousel-indicators">
-                        @for (int i = 0; i < @Model.Product.ProductImageView.Count; i++)
-                        {
-                            if (i == 0)
-                            {
-                                <li data-target="#carouselExampleIndicators" data-slide-to="@i" class="active"></li>
-                            }
-                            else
-                            {
-                                <li data-target="#carouselExampleIndicators" data-slide-to="@i"></li>
-                            }
-                        }
-                    </ol>
+                    @*<ol class="carousel-indicators">
+            @for (int i = 0; i < @Model.Product.ProductImageView.Count; i++)
+            {
+                if (i == 0)
+                {
+                    <li data-target="#carouselExampleIndicators" data-slide-to="@i" class="active"></li>
+                }
+                else
+                {
+                    <li data-target="#carouselExampleIndicators" data-slide-to="@i"></li>
+                }
+            }
+        </ol>*@
                     <div class="carousel-inner" role="listbox">
                         @for (int i = 0; i < @Model.Product.ProductImageView.Count; i++)
                         {
@@ -62,57 +62,33 @@ else
                             }
                         }
                     </div>
-                    <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+
+                    @*<a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
                         <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                         <span class="sr-only">Previous</span>
                     </a>
                     <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
                         <span class="carousel-control-next-icon" aria-hidden="true"></span>
                         <span class="sr-only">Next</span>
-                    </a>
+                    </a>*@
+
                 </div>
             </div>
             <div class="row justify-content-center">
-                    @for (int i = 0; i < @Model.Product.ProductImageView.Count; i++)
-                    {
-                        <div class="col-2">
-                            <div class="view overlay rounded z-depth-1 gallery-item">
-                                <img src="@Model.Product.ProductImageView[i].ImageURL" class="img-fluid" style="height: 7vh; min-height: 5px">
-                                <div class="mask rgba-white-slight"></div>
-                            </div>
-                        </div>
-                    }
-
-               
+                @for (int i = 0; i < @Model.Product.ProductImageView.Count; i++)
+                {
+                    <div class="col-2">
+                        <button type="button" class="border-0">
+                            <img src="@Model.Product.ProductImageView[i].ImageURL" data-target="#carouselExampleIndicators" 
+                                 class="img-fluid" style="height: 7vh; min-height: 5px" data-slide-to="@i">
+                        </button>
+                    </div>
+                }
             </div>
         </div>
-        <div class="col-3"></div>
-    </div>
+        @*Slut Bootstrap Carousel with indicators*@
 
-    // Slut Bootstrap Carousel with indicators
-
-    <hr />
-
-
-
-
-    <hr />
-
-    <div class="d-flex justify-content-center">
-        <div class="">
-            <div id="@Model.Product.ProductId" class="carousel" data-ride="carousel">
-                <div class="carousel-inner">
-                    @for (int i = 0; i < Model.Product.ProductImageView.Count; i++)
-                    {
-                        <div class="carousel-item @(i == 0 ? "active" : "")">
-                            <img class="img-responsive d-block " @*style="height: 10vw;"*@ src="@Model.Product.ProductImageView[i].ImageURL" />
-                        </div>
-                    }
-                </div>
-            </div>
-        </div>
-
-        <div class="ml-5">
+        <div class="col-4 my-4">
             <h3>@Model.Product.ProductName</h3>
             <p>@Model.Product.ProductDescription</p>
             @if (@Model.Product.SpecialPrice != null)
@@ -170,9 +146,88 @@ else
                             </span>
                         }
                     }
-
                 </form>
             </div>
         </div>
     </div>
+
+
+
+    @*<div class="d-flex justify-content-center">
+            <div class="">
+                <div id="@Model.Product.ProductId" class="carousel" data-ride="carousel">
+                    <div class="carousel-inner">
+                        @for (int i = 0; i < Model.Product.ProductImageView.Count; i++)
+                        {
+                            <div class="carousel-item @(i == 0 ? "active" : "")">
+                                <img class="img-responsive d-block "style="height: 10vw;" src="@Model.Product.ProductImageView[i].ImageURL" />
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+
+            <div class="ml-5">
+                <h3>@Model.Product.ProductName</h3>
+                <p>@Model.Product.ProductDescription</p>
+                @if (@Model.Product.SpecialPrice != null)
+                {
+                    <p> <del>@Model.Product.ProductPrice kr</del></p>
+                    <p class="card-text text-danger">Rea @Model.Product.SpecialPrice kr</p>
+                }
+                else
+                {
+                    <p class="card-text">@Model.Product.ProductPrice kr</p>
+                }
+                <div id="product-buy-options">
+                    @{
+                        /*int*/ inStock = Model.Product.AvailableQuantity.Value - Model.Product.NumberOfSold;
+                        if (inStock < 1)
+                        {
+                            <p class="text-danger">Inte i lager</p>
+                        }
+                        else if (inStock < 5)
+                        {
+                            <p class="text-warning">Antal i lager: @inStock st</p>
+                        }
+                        else
+                        {
+                            <p class="text-success">Antal i lager: @inStock st</p>
+                        }
+                    }
+
+                    <form id="buyForm" method="post">
+                        <input type="hidden" value="@Model.Product.ProductId" asp-for="ShoppingItem.ID" />
+                        <input type="hidden" value="@Model.Product.ProductName" asp-for="ShoppingItem.ProductName" />
+                        <input type="hidden" value="@Model.Product.AvailableQuantity" asp-for="ShoppingItem.StockLevel" />
+                        <input type="hidden" value="@Model.Product.ProductImageView[0].ImageURL" asp-for="ShoppingItem.ImageLink" />
+                        @if (Model.Product.SpecialPrice != null)
+                        {
+                            <input type="hidden" value="@Model.Product.SpecialPrice" asp-for="ShoppingItem.Price" />
+                            <input type="hidden" value="true" asp-for="ShoppingItem.Discount" />
+                        }
+                        else
+                        {
+                            <input type="hidden" value="@Model.Product.ProductPrice" asp-for="ShoppingItem.Price" />
+                            <input type="hidden" value="false" asp-for="ShoppingItem.Discount" />
+                        }
+                        @{
+
+                            if (inStock >= 1)
+                            {
+                                <input type="number" step="1" value="1" asp-for="ShoppingItem.ItemCount" min="1" max="@Model.Product.AvailableQuantity" />
+                                <span class="input-group-btn">
+                                    <button class="btn text-success btn-dark" id="buy" type="button" onclick="updateBasket(@Model.Product.ProductId)">
+                                        <span class="material-icons">
+                                            add_shopping_cart
+                                        </span>
+                                    </button>
+                                </span>
+                            }
+                        }
+
+                    </form>
+                </div>
+            </div>
+        </div>*@
 }
