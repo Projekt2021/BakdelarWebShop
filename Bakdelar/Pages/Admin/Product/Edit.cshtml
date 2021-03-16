@@ -9,27 +9,27 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form method="post" enctype="multipart/form-data" id="formEdit">
+        <form method="post" lang="sv-se" enctype="multipart/form-data" id="formEdit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="ProductView.ProductId" />
             <div class="form-group">
                 <label asp-for="ProductView.ProductName" class="control-label"></label>
-                <input asp-for="ProductView.ProductName" class="form-control"/>
+                <input asp-for="ProductView.ProductName" class="form-control" />
                 <span asp-validation-for="ProductView.ProductName" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="ProductView.ProductDescription" class="control-label"></label>
-                <input asp-for="ProductView.ProductDescription" class="form-control"/>
+                <input asp-for="ProductView.ProductDescription" class="form-control" />
                 <span asp-validation-for="ProductView.ProductDescription" class="text-danger"></span>
             </div>
-            <div class="form-group" lang="sv-se">
+            <div class="form-group">
                 <label asp-for="ProductView.ProductPrice" class="control-label"></label>
-                <input asp-for="ProductView.ProductPrice" class="form-control"/>
+                <input asp-for="ProductView.ProductPrice" class="form-control" />
                 <span asp-validation-for="ProductView.ProductPrice" class="text-danger"></span>
             </div>
-            <div class="form-group" lang="sv-se">
+            <div class="form-group">
                 <label asp-for="ProductView.SpecialPrice" class="control-label"></label>
-                <input asp-for="ProductView.SpecialPrice" class="form-control"/>
+                <input asp-for="ProductView.SpecialPrice" class="form-control" />
                 <span asp-validation-for="ProductView.SpecialPrice" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -39,7 +39,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="ProductView.AvailableQuantity" class="control-label"></label>
-                <input asp-for="ProductView.AvailableQuantity" class="form-control"/>
+                <input asp-for="ProductView.AvailableQuantity" class="form-control" />
                 <span asp-validation-for="ProductView.AvailableQuantity" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -70,7 +70,7 @@
                         <li>
                             <img src="@image.ImageURL" width="50" height="50" />
                             <button asp-page-handler="DeleteImage" asp-route-id="@image.ImageId" form="imageform" onclick="return confirm('Are you sure you want to delete?')" class="btn btn-danger btn-sm">Delete</button>
-                            @*<input type="submit" value="Delete" class="btn btn-danger" />*@
+                            <input type="submit" value="Delete" class="btn btn-danger" />
                         </li>
                     }
                 </ul>

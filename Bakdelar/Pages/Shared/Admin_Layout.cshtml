@@ -6,7 +6,6 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <script src="~/js//jquery.validate.min.js"></script>
     <title>@ViewData["Title"] - Admin</title>
     <link href="~/css/bootstrap-social.css" rel="stylesheet" />
     <link href="~/fontawesome/all.css" rel="stylesheet" />
@@ -15,69 +14,6 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed&family=Coustard&display=swap" rel="stylesheet">
-
-    <script>
-        $(function () {
-
-
-
-        //    $("form").submit(function (e) {
-        //        e.preventDefault();
-        //        let orinalPrice = $("#ProductView_ProductPrice");
-        //        console.log(orinalPrice.length);
-        //        if (orinalPrice.length == 0) {
-        //            orinalPrice = $("#Product_ProductPrice");
-        //            if (orinalPrice.length != 0) {
-        //                console.log("selected product_productprice")
-        //            }
-        //        }
-
-
-
-        //        let specialPrice = $("#ProductView_SpecialPrice");
-        //        console.log(specialPrice.length);
-        //        if (specialPrice.length == 0) {
-        //            specialPrice = $("#Product_SpecialPrice");
-        //        }
-
-
-
-
-        //        let oldtext = orinalPrice.val();
-        //        let newtext = oldtext.replace(".", ",");
-        //        if (newtext.indexOf(",") == -1) {
-        //            newtext += ",00";
-        //        }
-
-        //        orinalPrice.val(newtext);
-        //        oldtext = specialPrice.val();
-        //        newtext = oldtext.replace(".", ",");
-        //        if (newtext.indexOf(",") == -1) {
-        //            newtext += ",00";
-        //        }
-
-        //        specialPrice.val(newtext);
-        //        e.currentTarget.submit();
-        //    })
-
-
-            //let orinalPrice = $("#ProductView_ProductPrice");
-            //console.log(orinalPrice.val());
-            //let specialPrice = $("#ProductView_SpecialPrice");
-            //console.log(specialPrice.val());
-            //let submitButton = $("#btnCreateProduct1");
-            //submitButton.click(function () {
-            //    let oldtext = orinalPrice.val();
-            //    debugger;
-            //    let newtext = oldText.Replace(".", ",");
-            //    orinalPrice.val(newtext);
-            //    console.log(oldtext);
-            //    console.log(newtext);
-
-            //});
-
-        });
-    </script>
 </head>
 <body>
     <header>
@@ -94,7 +30,7 @@
             &copy; 2021 - Bakdelar - <a asp-area="" asp-page="/Privacy">Privacy</a>
         </div>
     </footer>
-
+      
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

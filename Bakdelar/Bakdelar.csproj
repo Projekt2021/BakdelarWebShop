@@ -15,10 +15,6 @@
     <None Remove="wwwroot\jquery-validation\**" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Content Remove="wwwroot\js\jquery-3.6.0.js" />
-  </ItemGroup>
-
    <ItemGroup>
     <None Remove="ProductImages\Ingredienser.Bakpulver.png" />
     <None Remove="ProductImages\Ingredienser.GrönKaramellfärg.png" />
