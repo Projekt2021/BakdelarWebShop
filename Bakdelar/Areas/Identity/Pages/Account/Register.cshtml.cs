@@ -71,18 +71,20 @@ namespace Bakdelar.Areas.Identity.Pages.Account
                 {
                     Name = "Admin"
                 };
-                _roleManager.CreateAsync(role).ConfigureAwait(false);
+                _roleManager.CreateAsync(role).ConfigureAwait(false);               
 
-                role = new IdentityRole
+                return true;
+            }
+
+            if (!_roleManager.RoleExistsAsync("Customer").ConfigureAwait(false).GetAwaiter().GetResult())
+            {
+                var role = new IdentityRole
                 {
                     Name = "Customer"
                 };
                 _roleManager.CreateAsync(role).ConfigureAwait(false);
-                
-                return true;
             }
-            else
-                return false;
+            return false;
         }
 
         public async Task OnGetAsync(string returnUrl = null)
