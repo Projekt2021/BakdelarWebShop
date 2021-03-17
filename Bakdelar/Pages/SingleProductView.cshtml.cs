@@ -18,12 +18,6 @@ namespace Bakdelar.Pages.Shared
 {
     public class SingleProductViewModel : PageModel
     {
-
-
-
-
-
-
         private readonly ILogger<IndexModel> _logger;
         private readonly UserManager<IdentityUser> _userManager;
         private readonly IConfiguration _configuration;
@@ -58,6 +52,7 @@ namespace Bakdelar.Pages.Shared
             return Page();
 
         }
+
         //public async Task<IActionResult> OnPostAsync()
         //{
         //    using (HttpClient httpClient = new HttpClient())
@@ -179,8 +174,6 @@ namespace Bakdelar.Pages.Shared
             Product = await GetFromApi.GetProductAsync(ID);
         }
 
-
-
         public bool ItemAlreadyInBasket(List<ShoppingBasketItem> shoppingBasket)
         {
             if (shoppingBasket == null || !shoppingBasket.Any())
@@ -192,8 +185,6 @@ namespace Bakdelar.Pages.Shared
                 return shoppingBasket.Any(item => item.ID == ShoppingItem.ID);
             }
         }
-
-
 
         private async Task SetBreadcrumb()
         {

@@ -1,6 +1,7 @@
 ﻿using DataAccess.DataModels;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
@@ -15,16 +16,14 @@ namespace Bakdelar_API.ViewModels
 
         public string ProductDescription { get; set; }
 
-        [Required]
-        [Display(Name = "Price")]
-        //[DisplayFormat(DataFormatString = "{0:F2}", ApplyFormatInEditMode = false)]
         public decimal ProductPrice { get; set; }
 
+        public decimal? SpecialPrice { get; set; }
+        
         public int? AvailableQuantity { get; set; }
 
         public double? ProductWeight { get; set; }
         public DateTime DateEntered { get; set; }
-        public decimal? SpecialPrice { get; set; }
         public bool IsSelected { get; set; }
         public int NumberOfSold { get; set; }
 

@@ -141,29 +141,36 @@ namespace Bakdelar_API.Controllers
 
         [HttpGet("MostSold/{NumberOfItems}")]
         public async Task<List<ProductView>> GetProductsMostSold(int NumberOfItems)
+
+
         {
             var productList = await _context.Products.Where(product => product.NumberOfSold > 0)
                                                      .OrderByDescending(p => p.NumberOfSold)
                                                      .Include(p => p.ProductImages)
                                                      .Include(p => p.Category)
                                                      .Select(p => new ProductView(p))
+
                                                      .ToListAsync();
 
             //är NumberOfItems inte satt returneras hela listan
             productList = NumberOfItems != 0 ? productList.Take(NumberOfItems).ToList()
                                              : productList;
+
             return productList;
         }
 
 
+
         [HttpGet("Selected/{NumberOfItems}")]
         public async Task<List<ProductView>> GetProductsSelected(int NumberOfItems)
+
         {
             var productList = await _context.Products.Where(product => product.IsSelected)
                                                      .OrderByDescending(p => p.NumberOfSold)
                                                      .Include(p => p.ProductImages)
                                                      .Include(p => p.Category)
                                                      .Select(p => new ProductView(p))
+
                                                      .ToListAsync(); 
 
 
@@ -173,6 +180,7 @@ namespace Bakdelar_API.Controllers
             return productList;
 
         }
+
 
 
 
@@ -188,7 +196,6 @@ namespace Bakdelar_API.Controllers
             productList = NumberOfItems != 0 ? productList.Take(NumberOfItems).ToList()
                                              : productList;
             return productList;
-
         }
 
         // GET: api/Products/5

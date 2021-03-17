@@ -24,18 +24,20 @@ namespace Bakdelar.Pages.Admin.Product
         private readonly ILogger<IndexModel> _logger;
         private readonly UserManager<IdentityUser> _userManager;
         private readonly IConfiguration _configuration;
-        private IHostingEnvironment _hostingEnvironment;
+        private readonly IHostingEnvironment _hostingEnviroment;
+        
 
 
         public EditModel(
            IConfiguration configuration,
            UserManager<IdentityUser> userManager,
-           ILogger<IndexModel> logger, IHostingEnvironment hostingEnvironment)
+           ILogger<IndexModel> logger,
+           IHostingEnvironment environment)
         {
-            _hostingEnvironment = hostingEnvironment;
             _configuration = configuration;
             _userManager = userManager;
             _logger = logger;
+            _hostingEnviroment = environment;
         }
 
         [BindProperty]
@@ -74,8 +76,8 @@ namespace Bakdelar.Pages.Admin.Product
             }
 
             ProductView.ProductImageView = new List<ProductImageView>();
-            string wwwPath = this._hostingEnvironment.WebRootPath;
-            string path = Path.Combine(this._hostingEnvironment.WebRootPath, _configuration.GetValue<String>("ProducImagePath"));
+            string wwwPath = this._hostingEnviroment.WebRootPath;
+            string path = Path.Combine(this._hostingEnviroment.WebRootPath, _configuration.GetValue<String>("ProducImagePath"));
             if (!Directory.Exists(path))
             {
                 Directory.CreateDirectory(path);
@@ -103,7 +105,7 @@ namespace Bakdelar.Pages.Admin.Product
             httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
             HttpResponseMessage response = await httpClient.PutAsJsonAsync(
-                    $"{_configuration.GetValue<String>("APIEndpoint")}api/product/{ProductView.ProductId}", ProductView);
+                    $"{_configuration.GetValue<string>("APIEndpoint")}api/product/{ProductView.ProductId}", ProductView);
 
             if (response.IsSuccessStatusCode)
             {
@@ -119,7 +121,7 @@ namespace Bakdelar.Pages.Admin.Product
             var token = HttpContext.Request.Cookies["access_token"];
             httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
-            HttpResponseMessage response = await httpClient.DeleteAsync($"{_configuration.GetValue<String>("APIEndpoint")}api/product/DeleteProductImage/{id.Value}");
+            HttpResponseMessage response = await httpClient.DeleteAsync($"{_configuration.GetValue<string>("APIEndpoint")}api/product/DeleteProductImage/{id.Value}");
             if (response.IsSuccessStatusCode)
             {
                 int productId = int.Parse(response.Content.ReadAsStringAsync().Result);

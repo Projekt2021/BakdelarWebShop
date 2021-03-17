@@ -8,7 +8,9 @@
     }
     else
     {
-        @Html.Raw($"{shoppingBasket.Sum(item => item.ItemCount)}");
+        int sum = shoppingBasket.Sum(item => item.ItemCount);
+        @Html.Raw($"{sum}");
+        
         @*@Html.Raw($"{shoppingBasket.Count}");*@
     }
 }

@@ -1,8 +1,7 @@
 ﻿<!DOCTYPE html>
-<html lang="sv-se">
+<html>
 <head>
     <meta http-equiv="sv-se" content="swedish">
-
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - Admin</title>
@@ -29,11 +28,6 @@
             &copy; 2021 - Bakdelar - <a asp-area="" asp-page="/Privacy">Privacy</a>
         </div>
     </footer>
-
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>   
-
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

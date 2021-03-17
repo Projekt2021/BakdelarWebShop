@@ -24,13 +24,14 @@ for details on configuring this project to bundle and minify static web assets. 
     user-select: none; /* Non-prefixed version, currently
                                   supported by Chrome, Edge, Opera and Firefox */
 }
-
 span {
     cursor: pointer;
 }
 i {
     cursor: pointer;
 }
+
+
 #banner-image {
     /*background-image: inherit;*/
     background-attachment: fixed;

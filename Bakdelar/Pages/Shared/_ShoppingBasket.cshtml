@@ -4,6 +4,7 @@
 @using Bakdelar.MethodClasses;
 @using System.Text.Json;
 @using System.Text.Json.Serialization;
+
 @{
     var shoppingBasket = httpContextAccessor.HttpContext.Session.GetBasket();
 }
@@ -16,6 +17,7 @@
         <span class="material-icons" id="dropdown_basket">
             shopping_basket
         </span>
+
         <div id="item-count-basket">
             @{
                 if (shoppingBasket == null || !shoppingBasket.Any())
@@ -36,6 +38,7 @@
         <a class="dropdown-item" href="@Url.Content("~/ShoppingBasket")"><h6 class="dropdown-header">Till varukorg</h6></a>
         <div class="dropdown-divider"></div>
         <div class="inner-basket">
+
             @{
                 if (shoppingBasket == null || !shoppingBasket.Any())
                 {
@@ -100,6 +103,7 @@
                         @if (shoppingBasket.LastOrDefault() != item)
                         {
 
+
                             <div class="dropdown-divider"></div>
                         }
 
@@ -113,8 +117,6 @@
                 }
             }
         </div>
-
-
-
     </div>
 </div>
+

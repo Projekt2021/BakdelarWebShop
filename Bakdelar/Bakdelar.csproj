@@ -5,10 +5,21 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Remove="wwwroot\jquery-validation-unobtrusive\jquery.validate.unobtrusive.js" />
+    <Compile Remove="wwwroot\jquery-validation-unobtrusive\**" />
+    <Compile Remove="wwwroot\jquery-validation\**" />
+    <Content Remove="wwwroot\jquery-validation-unobtrusive\**" />
+    <Content Remove="wwwroot\jquery-validation\**" />
+    <EmbeddedResource Remove="wwwroot\jquery-validation-unobtrusive\**" />
+    <EmbeddedResource Remove="wwwroot\jquery-validation\**" />
+    <None Remove="wwwroot\jquery-validation-unobtrusive\**" />
+    <None Remove="wwwroot\jquery-validation\**" />
   </ItemGroup>
 
   <ItemGroup>
+    <Content Remove="wwwroot\js\jquery-3.6.0.js" />
+  </ItemGroup>
+
+   <ItemGroup>
     <None Remove="ProductImages\Ingredienser.Bakpulver.png" />
     <None Remove="ProductImages\Ingredienser.GrönKaramellfärg.png" />
     <None Remove="ProductImages\Ingredienser.Mjöl.png" />
@@ -30,12 +41,20 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="wwwroot\jquery-validation-unobtrusive\jquery.validate.unobtrusive.js" />
+    <Folder Include="Classes\Customer\" />
+    <Folder Include="wwwroot\images\product\" />
+    <Folder Include="wwwroot\NewFolder\NewFolder\" />
+    <Folder Include="wwwroot\scripts\" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Classes\Customer\" />
-    <Folder Include="wwwroot\images\product\" />
+    <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap-grid.css.map" />
+    <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap-grid.min.css.map" />
+    <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap-reboot.css.map" />
+    <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap-reboot.min.css.map" />
+    <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap.css.map" />
+    <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap.min.css.map" />
+    <None Include="wwwroot\lib\bootstrap\LICENSE" />
   </ItemGroup>
 
   <ItemGroup>
@@ -60,27 +79,6 @@
     <PackageReference Include="Microsoft.VisualStudio.Web.BrowserLink" Version="2.2.0" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="5.0.2" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Resource Include="ProductImages\Ingredienser.Bakpulver.png" />
-    <Resource Include="ProductImages\Ingredienser.GrönKaramellfärg.png" />
-    <Resource Include="ProductImages\Ingredienser.Mjöl.png" />
-    <Resource Include="ProductImages\Ingredienser.Strössel.png" />
-    <Resource Include="ProductImages\Ingredienser.Vaniljstång.png" />
-    <Resource Include="ProductImages\Köksmakiner.Stavmixer.png" />
-    <Resource Include="ProductImages\Köksmaskiner.Baktermometer.png" />
-    <Resource Include="ProductImages\Köksmaskiner.Köksassistent.png" />
-    <Resource Include="ProductImages\Köksmaskiner.Mixer.png" />
-    <Resource Include="ProductImages\Köksmaskiner.Våg.png" />
-    <Resource Include="ProductImages\Redskap.Bunke.png" />
-    <Resource Include="ProductImages\Redskap.BunkeMåttSet.png" />
-    <Resource Include="ProductImages\Redskap.Kavel.png" />
-    <Resource Include="ProductImages\Redskap.Mått.png" />
-    <Resource Include="ProductImages\Redskap.Siktare.png" />
-    <Resource Include="ProductImages\Redskap.Sil.png" />
-    <Resource Include="ProductImages\Redskap.Visp.png" />
-    <Resource Include="ProductImages\Redskap.Vispar.png" />
   </ItemGroup>
 
 </Project>

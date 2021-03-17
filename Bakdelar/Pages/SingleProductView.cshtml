@@ -81,7 +81,7 @@ else
                 {
                     <div class="col-2">
                         <button type="button" class="border-0">
-                            <img src="@Model.Product.ProductImageView[i].ImageURL" data-target="#carouselExampleIndicators" 
+                            <img src="@Model.Product.ProductImageView[i].ImageURL" data-target="#carouselExampleIndicators"
                                  class="img-fluid" style="height: 7vh; min-height: 5px" data-slide-to="@i">
                         </button>
                     </div>
@@ -215,18 +215,18 @@ else
                         }
                         @{
 
-                            if (inStock >= 1)
-                            {
-                                <input type="number" step="1" value="1" asp-for="ShoppingItem.ItemCount" min="1" max="@Model.Product.AvailableQuantity" />
-                                <span class="input-group-btn">
-                                    <button class="btn text-success btn-dark" id="buy" type="button" onclick="updateBasket(@Model.Product.ProductId)">
-                                        <span class="material-icons">
-                                            add_shopping_cart
-                                        </span>
-                                    </button>
-                                </span>
-                            }
-                        }
+                if (inStock >= 1)
+                {
+                    <input type="number" step="1" value="1" asp-for="ShoppingItem.ItemCount" min="1" max="@inStock" />
+                    <span class="input-group-btn">
+                        <button class="btn text-success btn-dark" id="buy" type="button" onclick="updateBasket(@Model.Product.ProductId)">
+                            <span class="material-icons">
+                                add_shopping_cart
+                            </span>
+                        </button>
+                    </span>
+                }
+            }
 
                     </form>
                 </div>
