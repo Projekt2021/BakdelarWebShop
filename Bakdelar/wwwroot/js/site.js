@@ -127,10 +127,8 @@ function changeItemCount(itemID1, amount) {
             $('.shopping-basket-table').html(response);
             getItemCount();
             getTotalCost();
+            updateBasketDropdown(itemID1);
             restore();
-        }
-        else {
-            updateBasketDropdown(id);
         }
     });
 }
@@ -385,7 +383,7 @@ function updateBasketDropdown(id) {
         },
     }).done(function (response) { //
         $('.inner-basket').html(response);
-        //console.log(response);
+        console.log(response);
 
         if (onProductPage(id) == true) {
             getNumberInStock(id);
