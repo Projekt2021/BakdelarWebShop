@@ -170,8 +170,14 @@ namespace Bakdelar.Pages.Shared
                 return Partial("_ShoppingBasketEditPage", shoppingBasket);
             }
             var shoppingItem = shoppingBasket.FirstOrDefault(p => p.ID == itemID);
+            if(newAmount == 0)
+            {
+                shoppingBasket.Remove(shoppingItem);
+            }
+            else
+            { 
             shoppingItem.ItemCount = newAmount;
-
+            }
 
             Product = await GetFromApi.GetProductAsync(itemID);
 
@@ -181,6 +187,8 @@ namespace Bakdelar.Pages.Shared
                 shoppingItem.ItemCount = Product.AvailableQuantity.Value;
                 Product.NumberOfSold = Product.AvailableQuantity.Value;
             }
+
+            await GetFromApi.PutProductAsync(Product);
             SessionMethods.UpdateShoppingBasket(_session, shoppingBasket);
             return Partial("_ShoppingBasketEditPage", shoppingBasket);
         }

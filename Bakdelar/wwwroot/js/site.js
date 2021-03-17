@@ -93,6 +93,9 @@ function restore() {
     $(".form-inline .form-control").change(function () {
         let itemID = $(this).attr("id").split("-")[2];
         let newAmount = $(this).val();
+        if (newAmount == 0 || "") {
+            newAmount = 1;
+        }
         console.log(itemID);
         changeItemCount(itemID, newAmount)
     });
