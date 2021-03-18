@@ -94,10 +94,12 @@ function restore() {
         let itemID = $(this).attr("id").split("-")[2];
         let newAmount = $(this).val();
         if (newAmount == 0 || "") {
-            newAmount = 1;
+            removeItemDropdown(itemID);
         }
+        else {
         console.log(itemID);
-        changeItemCount(itemID, newAmount)
+            changeItemCount(itemID, newAmount)
+        }
     });
 }
 
@@ -541,6 +543,7 @@ function removeItemDropdown(id) {
         //restore();
         if (currentPage == "/ShoppingBasket") {
             updateShoppingBasketPage()
+            
         }
     });
 }
@@ -601,6 +604,6 @@ function updateShoppingBasketPage() {
     }).done(function (response) { //
         $('.shopping-basket-table').html(response);
         //console.log(response);
-        //restore();
+        restore();
     });
 }
