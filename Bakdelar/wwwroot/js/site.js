@@ -8,7 +8,7 @@
 let ShoppingBasketContainer = $('#keep-open');
 let currentPage = window.location.pathname;
 const HandlerLink = "/shared/AjaxHelper?handler=";
-
+var amount;
 
 //function updatePagePostAjax(id, handler, data, htmlElement, popoverhide = false) {
 //    let url = HandlerLink + handler;
@@ -89,11 +89,15 @@ function restore() {
         });
 
     });
+    $(".form-inline .form-control").click(function () {
+        amount = $(this).val();
+    }
 
     $(".form-inline .form-control").change(function () {
         let itemID = $(this).attr("id").split("-")[2];
         let newAmount = $(this).val();
         if (newAmount == 0 || "") {
+            $(this).val(amount);
         }
         else {
         console.log(itemID);
