@@ -90,7 +90,9 @@ function restore() {
 
     });
     $(".form-inline .form-control").click(function () {
+       
         amount = $(this).val();
+        console.log(amount);
     });
 
     $(".form-inline .form-control").change(function () {
