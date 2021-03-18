@@ -1,0 +1,16 @@
+﻿@model List<Classes.ShoppingBasketItem>
+@{
+    decimal totalPrice = Model.Sum(item => item.ItemCount * item.Price);
+
+    @if (totalPrice < 300)
+    {
+
+        decimal remaining = 300 - totalPrice;
+
+        <div id="shipping-cost-banner" class="text-warning bg-dark mx-auto w-100 border rounded border-dark m-3 text-center font-weight-bolder h1">Kvar till fri frakt: @remaining kr</div>
+    }
+    @if (totalPrice >= 300)
+    {
+        <div id="shipping-cost-banner" class="text-dark bg-success w-100 mx-auto border rounded border-dark my-3 text-center font-weight-bolder h1">Du har nu fri frakt!</div>
+    }
+}

@@ -3,13 +3,10 @@
 
 @{
     decimal totalPrice = 0;
-    if(Model != null && Model.Any())
+    if (Model != null && Model.Any())
     {
-        foreach (var item in Model)
-        {
 
-            totalPrice += item.Price * item.ItemCount;
-        }
+        totalPrice = Model.Sum(item => item.Price * item.ItemCount);
     }
 }
 Totalt: @totalPrice kr

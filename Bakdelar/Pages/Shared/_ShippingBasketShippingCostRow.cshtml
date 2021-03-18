@@ -1,0 +1,42 @@
+﻿@model decimal
+@if (Model < 300)
+{
+    decimal shippingFee = MethodClasses.StaticValues.ShippingFee;
+        <td>
+        </td>
+
+        <td>
+            Frakt
+        </td>
+        <td>
+            1 st
+        </td>
+        <td>
+            @shippingFee kr
+        </td>
+        <td>
+            @shippingFee kr
+        </td>
+        <td>
+        </td>
+}
+else
+{
+        <td>
+        </td>
+
+        <td>
+            Fri frakt
+        </td>
+        <td>
+            1 st
+        </td>
+        <td>
+            0,00 kr
+        </td>
+        <td>
+            0,00 kr
+        </td>
+        <td>
+        </td>
+}

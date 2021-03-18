@@ -72,7 +72,7 @@
 
                                     @item.Price kr
                                 </td>
-                                <td>
+                                <td id="total-price-@item.ID">
                                     @{
                                         var price = item.Price * item.ItemCount;
                                         @Html.Raw($"{price} kr");
@@ -100,7 +100,7 @@
 
                             @if (totalPrice < 300)
                             {
-                                <tr>
+                                <tr id="shipping-cost-row">
                                     <td>
                                     </td>
 
@@ -122,7 +122,7 @@
                             }
                             else
                             {
-                                <tr>
+                                <tr id="shipping-cost-row">
                                     <td>
                                     </td>
 
@@ -150,17 +150,17 @@
 
                         decimal remaining = 300 - totalPrice;
 
-                        <div class="text-warning bg-dark mx-auto w-100 border rounded border-dark m-3 text-center font-weight-bolder h1">Kvar till fri frakt: @remaining kr</div>
+                        <div id="shipping-cost-banner" class="text-warning bg-dark mx-auto w-100 border rounded border-dark m-3 text-center font-weight-bolder h1">Kvar till fri frakt: @remaining kr</div>
                     }
                     if (totalPrice >= 300)
                     {
 
 
-                        <div class="text-dark bg-success w-100 mx-auto border rounded border-dark my-3 text-center font-weight-bolder h1">Du har nu fri frakt!</div>
+                        <div id="shipping-cost-banner" class="text-dark bg-success w-100 mx-auto border rounded border-dark my-3 text-center font-weight-bolder h1">Du har nu fri frakt!</div>
                     }
 
                     <div class="flex-row ">
-                        <div class="mx-auto text-right pt-3 h4 w-100">
+                        <div id="total-cost-below" class="mx-auto text-right pt-3 h4 w-100">
                             @if (totalPrice < 300)
                             {
                                 totalPrice += shippingFee;
