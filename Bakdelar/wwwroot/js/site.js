@@ -275,7 +275,7 @@ function openPopover_Dropdown(id) {
         }).popover('toggle');
 
 
-    
+
 
     thisElement = $('.hidden-popover-menu');
     thisElement.on('click', function (e2) {
@@ -447,7 +447,7 @@ function getNumberInStock(id) {
     var request_method = 'post'; //get form GET/POST method
     var form_data = { UpdateStockProductID: id }; //Encode form elements for submission
     console.log(form_data);
-    $.ajax({ 
+    $.ajax({
         url: url,
         type: request_method,
         data: form_data,
@@ -475,7 +475,7 @@ function updateBasketDropdown(id) {
         },
     }).done(function (response) { //
         $('.inner-basket').html(response);
-        //console.log(response);
+        console.log(response);
 
         if (onProductPage(id) == true) {
             getNumberInStock(id);
@@ -604,4 +604,3 @@ function updateShoppingBasketPage() {
         //restore();
     });
 }
-
