@@ -94,7 +94,6 @@ function restore() {
         let itemID = $(this).attr("id").split("-")[2];
         let newAmount = $(this).val();
         if (newAmount == 0 || "") {
-            removeItemDropdown(itemID);
         }
         else {
         console.log(itemID);
