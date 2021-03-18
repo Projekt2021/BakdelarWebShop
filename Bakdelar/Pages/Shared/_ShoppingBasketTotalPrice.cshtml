@@ -1,15 +1,19 @@
 ﻿@using Bakdelar.Classes;
 @model List<ShoppingBasketItem>
+@{
+    decimal totalPrice = Model.Sum(item => item.Price * item.ItemCount);
+    decimal shippingFee = MethodClasses.StaticValues.ShippingFee;
+}
 
 @{
-    decimal totalPrice = 0;
-    if(Model != null && Model.Any())
+    if (totalPrice < 300)
     {
-        foreach (var item in Model)
-        {
+        @Html.Raw($"Varor totalt: {totalPrice} kr<br />Frakt: {shippingFee} kr<br />Totalt: {totalPrice + shippingFee} kr" +
+    $"<br /><br />{300 - totalPrice} kr kvar till fri frakt");
+    }
+    else
+    {
 
-            totalPrice += item.Price * item.ItemCount;
-        }
+        @Html.Raw($"Varor totalt: {totalPrice} kr<br />Frakt: 0 kr<br />Totalt: {totalPrice} kr");
     }
 }
-Totalt: @totalPrice kr

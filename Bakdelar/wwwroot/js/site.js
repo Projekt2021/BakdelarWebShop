@@ -390,6 +390,7 @@ function updateBasketDropdown(id) {
         }
         getItemCount();
         restore();
+        getTotalCost();
     });
 }
 
@@ -412,6 +413,7 @@ function updateBasket(id) {
         getItemCount();
         getNumberInStock(id);
         restore();
+        getTotalCost();
     });
 }
 
