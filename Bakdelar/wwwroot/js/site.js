@@ -91,7 +91,7 @@ function restore() {
     });
     $(".form-inline .form-control input[name='NewCount']").click(function () {
         amount = $(this).val();
-    }
+    });
 
     $(".form-inline .form-control").change(function () {
         let itemID = $(this).attr("id").split("-")[2];
@@ -100,7 +100,7 @@ function restore() {
             $(this).val(amount);
         }
         else {
-        console.log(itemID);
+            console.log(itemID);
             changeItemCount(itemID, newAmount)
         }
     });
