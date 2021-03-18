@@ -82,7 +82,7 @@ namespace DataAccess
                                       new List<ProductImage> { new ProductImage { ImageURL = "\\images\\product\\Köksmaskiner.Mixer.png" },
                                       new ProductImage { ImageURL = "\\images\\product\\Köksmaskiner.Mixer2.jpg" } }),
 
-                                      new Product("Stavmixer", "Mixer i stavupplägg", 158, 12, 62, null, false, new DateTime(2021, 01, 30),
+                                      new Product("Stavmixer", "Mixer i stavupplägg", 150, 12, 62, null, false, new DateTime(2021, 01, 30),
                                       context.Categories.Where(x => x.CategoryName == "Köksmaskiner").Select(x => x.CategoryId).FirstOrDefault(),
                                       new List<ProductImage> { new ProductImage { ImageURL = "\\images\\product\\Köksmaskiner.Stavmixer.png" },
                                       new ProductImage { ImageURL = "\\images\\product\\Köksmaskiner.Stavmixer2.jpg" } }, 1),
