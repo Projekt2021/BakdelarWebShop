@@ -89,7 +89,7 @@ function restore() {
         });
 
     });
-    $(".form-inline .form-control").click(function () {
+    $(".form-inline .form-control input[name='NewCount']").click(function () {
         amount = $(this).val();
     }
 
