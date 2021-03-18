@@ -549,6 +549,7 @@ function removeItemDropdown(id) {
             updateShoppingBasketPage()
 
         }
+        getTotalCost();
     });
 }
 
