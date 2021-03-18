@@ -98,8 +98,17 @@ function restore() {
     $(".form-inline .form-control").change(function () {
         let itemID = $(this).attr("id").split("-")[2];
         let newAmount = $(this).val();
+        console.log(newAmount);
+        let maxAmount = parseInt($(this).attr('max'));
+        console.log(maxAmount);
         if (newAmount == 0 || "") {
             $(this).val(amount);
+        }
+        else if (newAmount > maxAmount)
+        {
+            $(this).val(maxAmount);
+
+            changeItemCount(itemID, maxAmount)
         }
         else {
             console.log(itemID);
