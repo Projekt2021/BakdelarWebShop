@@ -159,7 +159,9 @@ function changeItemCount(itemID1, amount) {
         },
     }).done(function (response) { //
         let itemCost = response.costItems;
+        let totalCost = response.totalCost;
         $('#total-price-' + itemID1).html(itemCost);
+        $('#total-cost-below').html("Totalt: " + totalCost);
         getItemCount();
             getTotalCost();
             getShippingCostBanner();
@@ -349,9 +351,9 @@ function getTotalCost() {
         },
     }).done(function (response) { //
         $('.shopping-basket-total').html(response);
-        if (currentPage == "/ShoppingBasket") {
-            $("#total-cost-below").html(response);
-        }
+        //if (currentPage == "/ShoppingBasket") {
+        //    $("#total-cost-below").html(response);
+        //}
         //restore();
     });
 }
