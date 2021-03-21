@@ -1,27 +1,207 @@
 ﻿@page
 @model Bakdelar.Pages.CheckoutModel
 
+@using Bakdelar.MethodClasses;
 @using Bakdelar.Areas.Identity.Data;
 @using Microsoft.AspNetCore.Identity;
 @inject UserManager<MyUser> usrMgr
-
+   
 
 
 @{
+        bool validShoppingBasket = Model.ShoppingBasket != null && Model.ShoppingBasket != null && Model.ShoppingBasket.Any();
+        var userID = 0;
 
-}
-<form method="post">
-    <p>Förnamn</p>
-    <input asp-for="Customer.FirstName" />
-    <p>Efternamn</p>
-    <input asp-for="Customer.LastName" />
-    <p>Email</p>
-    <input asp-for="Customer.Email" value="@ViewData["email"]" />
-    <p>Adress</p>
-    <input asp-for="Customer.Address" />
-    <p>Stad</p>
-    <input asp-for="Customer.City" />
-    <p>Postkod</p>
-    <input asp-for="Customer.ZipCode" />
-    <input type="submit" />
-</form>
+        decimal shippingFee = StaticValues.ShippingFee;
+
+
+        <div class="row shopping-basket-table">
+            <div class="flex-column w-100">
+                <div class="justify-content-center w-75 mx-auto">
+                    @if (validShoppingBasket)
+                    {
+                        decimal totalPrice = Model.ShoppingBasket.Sum(item => item.ItemCount * item.Price);
+
+
+
+                        <table class="table m-0 border  border-dark">
+
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th scope="col">
+                                        @Html.DisplayNameFor(model => model.ShoppingBasket.FirstOrDefault().ImageLink)
+                                    </th>
+                                    <th scope="col">
+                                        @Html.DisplayNameFor(model => model.ShoppingBasket.FirstOrDefault().ProductName)
+                                    </th>
+                                    <th scope="col">
+                                        @Html.DisplayNameFor(model => model.ShoppingBasket.FirstOrDefault().ItemCount)
+
+                                        @*<th>
+                                                @Html.DisplayNameFor(model => model.ShoppingBasket.FirstOrDefault().Discount)
+                                            </th>*@
+                                    <th scope="col">
+                                        Styckpris
+                                    </th>
+                                    <th scope="col">
+                                        Pris
+                                    </th>
+                                    <th scope="col">
+
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model.ShoppingBasket)
+                                {
+                                    <tr>
+                                        <td>
+                                            <img src="@item.ImageLink" style="height: 50px; height: 50px;" />
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.ProductName)
+                                        </td>
+
+
+                                        <td>
+                                            <div class="form-inline">
+                                                <input class="form-control" id="change-amount-@item.ID" style="border-radius: 1rem; width: 4.5rem;"
+                                                       type="number" step="1" value="@item.ItemCount" name="NewCount"
+                                                       min="1" max="@item.StockLevel" />
+                                                <span class="material-icons" style="color: green;user-select: none;">
+                                                    check_circle_outline
+                                                </span>
+                                            </div>
+                                        </td>
+                                        @*<td>
+                                                @Html.DisplayFor(modelItem => item.Discount)
+                                            </td>*@
+                                        <td>
+
+                                            @item.Price kr
+                                        </td>
+                                        <td id="total-price-@item.ID">
+                                            @{
+                                                var price = item.Price * item.ItemCount;
+                                                @Html.Raw($"{price} kr");
+                                            }
+                                        </td>
+                                        <td>
+
+                                            <div class="d-none" id="hidden-popover-@item.ID">
+                                                <p>Är du säkert?</p>
+                                                <a href='javascript:void(0)' onclick="removeItemDropdown(@item.ID)">Ja</a>
+                                                <a href='javascript:void(0)' onclick='closePopover(@item.ID)'>Nej</a>
+                                            </div>
+                                            <button type="button" class="btn text-white button-remove-item" data-toggle="popover-remove-item-@item.ID"
+                                                    onclick="openPopover(@item.ID)">
+
+                                                <i class="material-icons text-danger">
+                                                    not_interested
+                                                </i>
+                                            </button>
+                                        </td>
+
+
+                                    </tr>
+                                }
+
+                                @if (totalPrice < 300)
+                                {
+                                    <tr id="shipping-cost-row">
+                                        <td>
+                                        </td>
+
+                                        <td>
+                                            Frakt
+                                        </td>
+                                        <td>
+                                            1 st
+                                        </td>
+                                        <td>
+                                            @shippingFee kr
+                                        </td>
+                                        <td>
+                                            @shippingFee kr
+                                        </td>
+                                        <td>
+                                        </td>
+                                    </tr>
+                                }
+                                else
+                                {
+                                    <tr id="shipping-cost-row">
+                                        <td>
+                                        </td>
+
+                                        <td>
+                                            Fri frakt
+                                        </td>
+                                        <td>
+                                            1 st
+                                        </td>
+                                        <td>
+                                            0,00 kr
+                                        </td>
+                                        <td>
+                                            0,00 kr
+                                        </td>
+                                        <td>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                        @if (totalPrice < 300)
+                        {
+
+                            decimal remaining = 300 - totalPrice;
+
+                            <div id="shipping-cost-banner" class="text-warning bg-dark mx-auto w-100 border rounded border-dark m-3 text-center font-weight-bolder h1">Kvar till fri frakt: @remaining kr</div>
+                        }
+                        @if (totalPrice >= 300)
+                        {
+                            <div id="shipping-cost-banner" class="text-dark bg-success w-100 mx-auto border rounded border-dark my-3 text-center font-weight-bolder h1">Du har nu fri frakt!</div>
+                        }
+                        <div class="flex-row ">
+                            <div id="total-cost-below" class="mx-auto text-right pt-3 h4 w-100">
+                                @if (totalPrice < 300)
+                                {
+                                    totalPrice += shippingFee;
+                                }
+                                Totalt: @totalPrice kr
+                            </div>
+                        </div>
+
+
+                    }
+                    else
+                    {
+                        <h1 class="text-center">Du har inga varor i varukorgen!</h1>
+                    }
+                </div>
+
+
+            </div>
+        </div>
+    }
+    @if(validShoppingBasket)
+    {
+
+    <form method="post">
+        <p>Förnamn</p>
+        <input asp-for="Customer.FirstName" value="@ViewData["firstname"]" />
+        <p>Efternamn</p>
+        <input asp-for="Customer.LastName" value="@ViewData["lastName"]" />
+        <p>Email</p>
+        <input asp-for="Customer.Email" value="@ViewData["email"]" />
+        <p>Adress</p>
+        <input asp-for="Customer.Address" value="@ViewData["street"]" />
+        <p>Stad</p>
+        <input asp-for="Customer.City" value="@ViewData["city"]" />
+        <p>Postkod</p>
+        <input asp-for="Customer.ZipCode" value="@ViewData["zip"]" />
+        <input type="submit" />
+    </form>
+
+    }

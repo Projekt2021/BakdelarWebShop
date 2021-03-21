@@ -11,6 +11,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Bakdelar.Areas.Identity.Data;
+using Microsoft.EntityFrameworkCore;
+using Bakdelar.Classes;
 
 namespace Bakdelar.Pages
 {
@@ -19,12 +21,27 @@ namespace Bakdelar.Pages
         public IServiceProvider _service { get; set; }
         public OrderDbContext _context { get; set; }
 
+        public List<ShoppingBasketItem> ShoppingBasket { get; set; }
+
+
+
+
         public void OnGet([FromServices] OrderDbContext context, [FromServices] UserManager<MyUser> userManager, [FromServices] SignInManager<MyUser> signInManager)
         {
             _context = context;
+            ShoppingBasket = HttpContext.Session.GetBasket();
             if (signInManager.IsSignedIn(User))
             {
-                ViewData["email"] = userManager.GetUserAsync(User).Result.Email;
+                var user = userManager.Users
+                                      .Include(a => a.Address)
+                                      .Single(x => x.NormalizedEmail == userManager.GetUserAsync(User).Result.NormalizedEmail);
+                ViewData["email"] = user.Email;
+                var address = user.Address;
+                ViewData["street"] = address.Street;
+                ViewData["zip"] = address.ZipCode;
+                ViewData["city"] = address.City;
+                ViewData["firstname"] = user.FirstName;
+                ViewData["lastName"] = user.LastName;
             }
 
         }

@@ -10,6 +10,8 @@ namespace Bakdelar.Areas.Identity.Data
 {
     public class MyUser : IdentityUser
     {
+
+        //derivative of IdentityUser with more user data
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public Address Address { get; set; }

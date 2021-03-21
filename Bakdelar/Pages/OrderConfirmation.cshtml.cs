@@ -12,10 +12,10 @@ namespace Bakdelar.Pages
 {
     public class OrderConfirmationModel : PageModel
     {
-        [BindProperty(SupportsGet =true)]
+        [BindProperty(SupportsGet = true)]
         public int ID { get; set; }
 
-        public Dictionary<int,string> ProductImages { get; set; }
+        public Dictionary<int, string> ProductImages { get; set; }
 
         public Order Order { get; set; }
 
@@ -23,12 +23,14 @@ namespace Bakdelar.Pages
         public void OnGet([FromServices] OrderDbContext context)
         {
             Order = context.Orders.Where(order => order.OrderID == ID).Include(order => order.OrderItems).FirstOrDefault();
-            int i = 0;
-            ProductImages = new Dictionary<int, string>();
-            foreach(var item in Order.OrderItems)
+            if (Order != null)
             {
-                ProductView product = MethodClasses.GetFromApi.GetProductAsync(item.ProductID).Result;
-                ProductImages.Add(item.ProductID, product.ProductImageView.FirstOrDefault().ImageURL);
+                ProductImages = new Dictionary<int, string>();
+                foreach (var item in Order.OrderItems)
+                {
+                    ProductView product = MethodClasses.GetFromApi.GetProductAsync(item.ProductID).Result;
+                    ProductImages.Add(item.ProductID, product.ProductImageView.FirstOrDefault().ImageURL);
+                }
             }
         }
     }
