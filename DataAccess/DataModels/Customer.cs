@@ -15,6 +15,13 @@ namespace DataAccess.DataModels
         [Required, MaxLength(500), StringLength(500)]
         public string UserAddress { get; set; }
 
+        [Required, MaxLength(100), StringLength(100)]
+        public string FirstName { get; set; }
+
+        [Required, MaxLength(100), StringLength(100)]
+        public string LastName { get; set; }
+
+
         [Required, MaxLength(20), StringLength(20)]
         public string UserPhoneNumber { get; set; }
         public ICollection<Cart> Carts { get; set; }

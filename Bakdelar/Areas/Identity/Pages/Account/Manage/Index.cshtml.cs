@@ -35,6 +35,16 @@ namespace Bakdelar.Areas.Identity.Pages.Account.Manage
             [Phone]
             [Display(Name = "Phone number")]
             public string PhoneNumber { get; set; }
+
+            [Display(Name = "First Name")]
+            public string FirstName { get; set; }
+
+            [Display(Name = "Last Name")]
+            public string LastName { get; set; }
+
+            [Display(Name = "Address")]
+            public string Address { get; set; }
+
         }
 
         private async Task LoadAsync(IdentityUser user)
@@ -86,6 +96,8 @@ namespace Bakdelar.Areas.Identity.Pages.Account.Manage
                     return RedirectToPage();
                 }
             }
+
+            //var firstName = await _userManager.getNa
 
             await _signInManager.RefreshSignInAsync(user);
             StatusMessage = "Your profile has been updated";
