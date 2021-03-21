@@ -21,11 +21,10 @@ namespace DataAccess.DataModels
         [Required, MaxLength(100), StringLength(100)]
         public string LastName { get; set; }
 
-
-        [Required, MaxLength(20), StringLength(20)]
-        public string UserPhoneNumber { get; set; }
         public ICollection<Cart> Carts { get; set; }
         public ICollection<Purchase> Purchases { get; set; }
+
+        public Guid UserId { get; set; }
 
         //[ForeignKey("ApplicationUser")]
         //public string UserId { get; set; }
