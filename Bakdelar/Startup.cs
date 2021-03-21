@@ -1,6 +1,10 @@
+using Bakdelar.Areas.Identity.Data;
 using Bakdelar.MethodClasses;
+using Bakdelar.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -28,6 +32,26 @@ namespace Bakdelar
             services.AddSession(options =>
             {
                 options.IdleTimeout = TimeSpan.FromMinutes(20);
+            });
+
+
+            services.AddDbContext<OrderDbContext>
+            (options => options.UseSqlServer(Configuration.GetConnectionString("AuthenticationDbContextConnection")));
+
+
+
+            services.AddDbContext<AuthenticationDbContext>(options =>
+                 options.UseSqlServer(Configuration.GetConnectionString("AuthenticationDbContextConnection")),
+                 ServiceLifetime.Transient);
+
+            services.AddIdentity<MyUser, IdentityRole>(options => options.SignIn.RequireConfirmedAccount = false)
+               .AddRoles<IdentityRole>()
+               .AddEntityFrameworkStores<AuthenticationDbContext>();
+
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("RequireAdministratorRole",
+                     policy => policy.RequireRole("Admin"));
             });
             //    .AddNewtonsoftJson();
 

@@ -7,6 +7,7 @@ using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using System.Text;
 using System.Threading.Tasks;
+using Bakdelar.Areas.Identity.Data;
 using Bakdelar.Classes;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -22,7 +23,7 @@ namespace Bakdelar.Pages.Admin.Product
     public class EditModel : PageModel
     {
         private readonly ILogger<IndexModel> _logger;
-        private readonly UserManager<IdentityUser> _userManager;
+        private readonly UserManager<MyUser> _userManager;
         private readonly IConfiguration _configuration;
         private readonly IHostingEnvironment _hostingEnviroment;
         
@@ -30,7 +31,7 @@ namespace Bakdelar.Pages.Admin.Product
 
         public EditModel(
            IConfiguration configuration,
-           UserManager<IdentityUser> userManager,
+           UserManager<MyUser> userManager,
            ILogger<IndexModel> logger,
            IHostingEnvironment environment)
         {

@@ -1,0 +1,27 @@
+﻿@page
+@model Bakdelar.Pages.CheckoutModel
+
+@using Bakdelar.Areas.Identity.Data;
+@using Microsoft.AspNetCore.Identity;
+@inject UserManager<MyUser> usrMgr
+
+
+
+@{
+
+}
+<form method="post">
+    <p>Förnamn</p>
+    <input asp-for="Customer.FirstName" />
+    <p>Efternamn</p>
+    <input asp-for="Customer.LastName" />
+    <p>Email</p>
+    <input asp-for="Customer.Email" value="@ViewData["email"]" />
+    <p>Adress</p>
+    <input asp-for="Customer.Address" />
+    <p>Stad</p>
+    <input asp-for="Customer.City" />
+    <p>Postkod</p>
+    <input asp-for="Customer.ZipCode" />
+    <input type="submit" />
+</form>
