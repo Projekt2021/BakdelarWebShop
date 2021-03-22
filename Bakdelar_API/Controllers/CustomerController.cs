@@ -1,4 +1,6 @@
 ﻿using DataAccess;
+using DataAccess.DataModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -7,7 +9,10 @@ using System.Threading.Tasks;
 
 namespace Bakdelar_API.Controllers
 {
-    public class CustomerController : Controller
+    [Authorize]
+    [Route("api/[controller]")]
+    [ApiController]
+    public class CustomerController : ControllerBase
     {
         private readonly BakdelarAppDbContext _context;
 
@@ -16,10 +21,16 @@ namespace Bakdelar_API.Controllers
             _context = context;
         }
 
-
-        public IActionResult Index()
+        [HttpPost("{id}")]
+        public async Task<IActionResult> AddCustomer(string id)
         {
-            return View();
+            if (!_context.Customer.Any(x => x.UserId == Guid.Parse(id)))
+            {
+                _context.Customer.Add(new Customer { UserId = Guid.Parse(id) });
+                await _context.SaveChangesAsync();
+            }
+            return NoContent();
         }
+
     }
 }

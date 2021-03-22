@@ -12,6 +12,9 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Net.Http.Json;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
@@ -104,6 +107,9 @@ namespace Bakdelar.Areas.Identity.Pages.Account
 
                     HttpContext.Response.Cookies.Append("access_token", token, new CookieOptions { HttpOnly = true, Secure = true });
 
+                    // Check record exists in Customer table or not else Add to save name and address of customer
+                    await AddRecordInCustomer(user.Id, token);
+
                     _logger.LogInformation("User logged in.");
 
                     if (roles.Any(x => x == "Admin"))
@@ -130,6 +136,17 @@ namespace Bakdelar.Areas.Identity.Pages.Account
 
             // If we got this far, something failed, redisplay form
             return Page();
+        }
+
+        private async Task AddRecordInCustomer(string id, string token)
+        {
+            if (!string.IsNullOrEmpty(token))
+            {
+                using HttpClient httpClient = new HttpClient();
+                httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+                HttpResponseMessage response = await httpClient.PostAsJsonAsync($"{_configuration.GetValue<String>("APIEndpoint")}api/customer/{id}", id);
+            }
         }
 
         private String GetToken(IdentityUser user, string role)
