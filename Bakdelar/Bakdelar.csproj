@@ -15,10 +15,6 @@
     <None Remove="wwwroot\jquery-validation\**" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Content Remove="Areas\Identity\Pages\_ValidationScriptsPartial.cshtml" />
-  </ItemGroup>
-
    <ItemGroup>
     <None Remove="ProductImages\Ingredienser.Bakpulver.png" />
     <None Remove="ProductImages\Ingredienser.GrönKaramellfärg.png" />
