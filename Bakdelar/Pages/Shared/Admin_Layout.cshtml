@@ -4,6 +4,7 @@
     <meta http-equiv="sv-se" content="swedish">
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <title>@ViewData["Title"] - Admin</title>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
@@ -32,6 +33,7 @@
             &copy; 2021 - Bakdelar - <a asp-area="" asp-page="/Privacy">Privacy</a>
         </div>
     </footer>
+  
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

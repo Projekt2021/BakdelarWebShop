@@ -10,7 +10,7 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form method="post" enctype="multipart/form-data">
+        <form method="post" lang="sv-se" enctype="multipart/form-data" id="formEdit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="ProductView.ProductId" />
             <div class="form-group">
@@ -23,12 +23,12 @@
                 <input asp-for="ProductView.ProductDescription" class="form-control" />
                 <span asp-validation-for="ProductView.ProductDescription" class="text-danger"></span>
             </div>
-            <div class="form-group" lang="sv-se">
+            <div class="form-group">
                 <label asp-for="ProductView.ProductPrice" class="control-label"></label>
                 <input asp-for="ProductView.ProductPrice" class="form-control" />
                 <span asp-validation-for="ProductView.ProductPrice" class="text-danger"></span>
             </div>
-            <div class="form-group" lang="sv-se">
+            <div class="form-group">
                 <label asp-for="ProductView.SpecialPrice" class="control-label"></label>
                 <input asp-for="ProductView.SpecialPrice" class="form-control" />
                 <span asp-validation-for="ProductView.SpecialPrice" class="text-danger"></span>
@@ -84,6 +84,6 @@
     <a asp-page="./Index">Back to List</a>
 </div>
 
-@*@section Scripts {
+@section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}*@
+}
