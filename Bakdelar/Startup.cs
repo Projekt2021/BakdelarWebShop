@@ -72,7 +72,7 @@ namespace Bakdelar
             {
                 app.UseDeveloperExceptionPage();
 
-                app.UseBrowserLink();
+               // app.UseBrowserLink();
             }
             else
             {
