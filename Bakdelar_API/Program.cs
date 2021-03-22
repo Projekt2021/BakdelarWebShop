@@ -19,9 +19,9 @@ namespace Bakdelar_API
             {
                 var context = services.GetRequiredService<BakdelarAppDbContext>();
 
-                context.Products.RemoveRange(context.Products);
-                context.ProductImages.RemoveRange(context.ProductImages);
-                context.SaveChanges();
+                //context.Products.RemoveRange(context.Products);
+                //context.ProductImages.RemoveRange(context.ProductImages);
+                //context.SaveChanges();
                 SeedData.Seeding(context);
                 SeedData.SeedingProducts(context);
             }

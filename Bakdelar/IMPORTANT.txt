@@ -1,1 +1,10 @@
 ﻿!!!have to add address and firstname/lastname manually to DB!!!
+
+
+BAKDELAR -> START
+update-database -context Bakdelar.Areas.Identity.Data.AuthenticationDbContext
+update-database -context Bakdelar.Models.OrderDbContext
+
+
+BAKDELAR API
+update-database
