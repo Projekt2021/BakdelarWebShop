@@ -6,9 +6,9 @@
 
 
 let ShoppingBasketContainer = $('#keep-open');
-
+let currentPage = window.location.pathname.toLowerCase();
 const HandlerLink = "/shared/AjaxHelper?handler=";
-
+var amount;
 
 //function updatePagePostAjax(id, handler, data, htmlElement, popoverhide = false) {
 //    let url = HandlerLink + handler;
@@ -89,7 +89,155 @@ function restore() {
         });
 
     });
+    $(".form-inline .form-control").click(function () {
+       
+        amount = $(this).val();
+        console.log(amount);
+    });
+
+    $(".form-inline .form-control").change(function () {
+        let itemID = $(this).attr("id").split("-")[2];
+        let newAmount = $(this).val();
+        console.log(newAmount);
+        let maxAmount = parseInt($(this).attr('max'));
+        console.log(maxAmount);
+        if (newAmount == 0 || "") {
+            $(this).val(amount);
+        }
+        else if (newAmount > maxAmount)
+        {
+            $(this).val(maxAmount);
+
+            changeItemCount(itemID, maxAmount)
+        }
+        else {
+            console.log(itemID);
+            changeItemCount(itemID, newAmount)
+        }
+    });
 }
+
+
+//function changeItemCount(itemID1, amount) {
+
+//    let url = HandlerLink + "UpdateItemCountShoppingBasket";
+//    var request_method = 'post'; //get form GET/POST method
+//    let item = Number(itemID1);
+//    var form_data =
+//    {
+//        itemID: itemID1,
+//        newAmount: amount
+//    }; //Encode form elements for submission
+//    console.log(form_data)
+//    console.log(form_data);
+//    $.ajax({
+//        url: url,
+//        type: request_method,
+//        data: form_data,
+//        beforeSend: function (xhr) {
+//            xhr.setRequestHeader("XSRF-TOKEN", $('input:hidden[name="__RequestVerificationToken"]').val());
+//        },
+//    }).done(function (response) { //
+//        if (response.length > 2) {
+
+//            $('.shopping-basket-table').html(response);
+//            getItemCount();
+//            getTotalCost();
+//            restore();
+//        }
+//        else {
+//            updateBasketDropdown(id);
+//        }
+//    });
+//}
+
+
+
+
+function changeItemCount(itemID1, amount) {
+
+    let url = HandlerLink + "ChangeCountItem";
+    var request_method = 'post'; //get form GET/POST method
+    var form_data =
+    {
+        id: itemID1,
+        newAmount: amount
+    }; //Encode form elements for submission
+    $.ajax({
+        url: url,
+        type: request_method,
+        data: form_data,
+        dataType: 'json',
+        beforeSend: function (xhr) {
+            xhr.setRequestHeader("XSRF-TOKEN", $('input:hidden[name="__RequestVerificationToken"]').val());
+        },
+    }).done(function (response) { //
+        let itemCost = response.costItems;
+        let totalCost = response.totalCost;
+        $('#total-price-' + itemID1).html(itemCost);
+        $('#total-cost-below').html("Totalt: " + totalCost);
+        getItemCount();
+            getTotalCost();
+            getShippingCostBanner();
+        updateBasketDropdown(itemID1);
+        getShippingCostRow();
+    });
+}
+
+
+
+function getShippingCostRow() {
+
+    let url = HandlerLink + "GetShippingCostRow";
+    var request_method = 'post'; //get form GET/POST method
+    var form_data = {}//Encode form elements for submission
+    $.ajax({
+        url: url,
+        type: request_method,
+        data: form_data,
+        beforeSend: function (xhr) {
+            xhr.setRequestHeader("XSRF-TOKEN", $('input:hidden[name="__RequestVerificationToken"]').val());
+        },
+    }).done(function (response) { //
+        $('#shipping-cost-row').html(response);
+    });
+}
+
+
+function getShippingCostBanner() {
+
+    let url = HandlerLink + "GetShippingCostBanner";
+    var request_method = 'post'; //get form GET/POST method
+    var form_data = {}; //Encode form elements for submission
+    console.log(form_data);
+    $.ajax({
+        url: url,
+        type: request_method,
+        data: form_data,
+        beforeSend: function (xhr) {
+            xhr.setRequestHeader("XSRF-TOKEN", $('input:hidden[name="__RequestVerificationToken"]').val());
+        },
+    }).done(function (response) { //
+        $('#shipping-cost-banner').replaceWith(response);
+    });
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -105,6 +253,7 @@ function openPopover(id) {
             html: true,
             title: 'Ta bort vara',
             sanitize: false,
+            trigger: 'focus',
             content: function () {
                 return $('#hidden-popover-' + id).html()
             }
@@ -144,7 +293,7 @@ function openPopover_Dropdown(id) {
         }).popover('toggle');
 
 
-    
+
 
     thisElement = $('.hidden-popover-menu');
     thisElement.on('click', function (e2) {
@@ -216,7 +365,10 @@ function getTotalCost() {
         },
     }).done(function (response) { //
         $('.shopping-basket-total').html(response);
-        restore();
+        //if (currentPage == "/ShoppingBasket") {
+        //    $("#total-cost-below").html(response);
+        //}
+        //restore();
     });
 }
 
@@ -242,17 +394,22 @@ function reduceByOne(id) {
             xhr.setRequestHeader("XSRF-TOKEN", $('input:hidden[name="__RequestVerificationToken"]').val());
         },
     }).done(function (response) { //
-        $('.item-dropdown-' + id).html(response);
         if (response.length > 2) {
+
+            $('.item-dropdown-' + id).html(response);
             getItemCount();
             if (onProductPage(id) == true) {
                 getNumberInStock(id);
             }
             getTotalCost();
-            restore();
+            //restore();
         }
         else {
             updateBasketDropdown(id);
+        }
+        if (currentPage == "/shoppingbasket" || "/checkout") {
+            console.log("current page is shopping basket")
+            updateShoppingBasketPage();
         }
     });
 }
@@ -281,13 +438,24 @@ function increaseByOne(id) {
             xhr.setRequestHeader("XSRF-TOKEN", $('input:hidden[name="__RequestVerificationToken"]').val());
         },
     }).done(function (response) { //
-        $('.item-dropdown-' + id).html(response);
-        getItemCount();
-        if (onProductPage(id) == true) {
-            getNumberInStock(id);
+
+        if (response.length > 2) {
+            $('.item-dropdown-' + id).html(response);
+            getItemCount();
+            if (onProductPage(id) == true) {
+                getNumberInStock(id);
+            }
+            getTotalCost();
+            //restore();
         }
-        getTotalCost();
-        restore();
+
+        else {
+            updateBasketDropdown(id);
+        }
+        if (currentPage == "/ShoppingBasket" || "/Checkout") {
+            console.log("current page is shopping basket")
+            updateShoppingBasketPage();
+        }
     });
 }
 
@@ -297,7 +465,7 @@ function getNumberInStock(id) {
     var request_method = 'post'; //get form GET/POST method
     var form_data = { UpdateStockProductID: id }; //Encode form elements for submission
     console.log(form_data);
-    $.ajax({ 
+    $.ajax({
         url: url,
         type: request_method,
         data: form_data,
@@ -306,7 +474,7 @@ function getNumberInStock(id) {
         },
     }).done(function (response) { //
         $('#product-buy-options').html(response);
-        restore();
+        //restore();
     });
 }
 
@@ -325,13 +493,14 @@ function updateBasketDropdown(id) {
         },
     }).done(function (response) { //
         $('.inner-basket').html(response);
-        //console.log(response);
+        console.log(response);
 
         if (onProductPage(id) == true) {
             getNumberInStock(id);
         }
         getItemCount();
-        restore();
+        //restore();
+        getTotalCost();
     });
 }
 
@@ -353,7 +522,8 @@ function updateBasket(id) {
         //console.log(response);
         getItemCount();
         getNumberInStock(id);
-        restore();
+        //restore();
+        getTotalCost();
     });
 }
 
@@ -388,7 +558,12 @@ function removeItemDropdown(id) {
         if (onProductPage(id) == true) {
             getNumberInStock(id);
         }
-        restore();
+        //restore();
+        if (currentPage == "/ShoppingBasket" || "/Checkout") {
+            updateShoppingBasketPage()
+
+        }
+        getTotalCost();
     });
 }
 
@@ -424,8 +599,38 @@ function getItemCount() {
         if (response.length == 0) {
             getItemCount();
         }
+        else {
         $('#item-count-basket').html(response);
-        console.log(response);
-        restore();
+            //restore();
+        }
+    });
+}
+
+
+
+function updateShoppingBasketPage() {
+
+    let url = HandlerLink + "UpdateShoppingBasketPage";
+    var request_method = 'post'; //get form GET/POST method
+    var form_data = {}; //Encode form elements for submission
+    $.ajax({
+        url: url,
+        type: request_method,
+        data: form_data,
+        beforeSend: function (xhr) {
+            xhr.setRequestHeader("XSRF-TOKEN", $('input:hidden[name="__RequestVerificationToken"]').val());
+        },
+    }).done(function (response) { //
+
+        if (response.length == 202 && currentPage == "/checkout") {
+            window.location.replace("/");
+
+        }
+        else {
+
+            $('.shopping-basket-table').html(response);
+            console.log(response.length);
+        //restore();
+        }
     });
 }

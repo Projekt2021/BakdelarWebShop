@@ -6,6 +6,7 @@ using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
 using System.Web;
+using Bakdelar.Areas.Identity.Data;
 using Bakdelar.Classes;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -20,13 +21,13 @@ namespace Bakdelar.Pages.Admin.Category
     [Authorize(Policy = "RequireAdministratorRole")]
     public class IndexModel : PageModel
     {
-        private readonly UserManager<IdentityUser> _userManager;
+        private readonly UserManager<MyUser> _userManager;
         private readonly ILogger<IndexModel> _logger;
         private readonly IConfiguration _configuration;
 
         public IndexModel(
             IConfiguration configuration,
-            UserManager<IdentityUser> userManager,
+            UserManager<MyUser> userManager,
             ILogger<IndexModel> logger)
         {
             _configuration = configuration;

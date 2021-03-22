@@ -2,6 +2,8 @@
 @model ProductView
 @{
     var ShoppingItem = new ShoppingBasketItem();
+    //replaces the text "antal i lager" and the form for adding to basket
+    //updates the form to update max value
 }
 
 @{
@@ -39,7 +41,9 @@
 
         if (inStock >= 1)
         {
-            <input type="number" step="1" value="1" asp-for="@ShoppingItem.ItemCount" min="1" max="@Model.AvailableQuantity" />
+            int available = Model.AvailableQuantity.Value - Model.NumberOfSold;
+
+            <input type="number" step="1" value="1" asp-for="@ShoppingItem.ItemCount" min="1" max="@available" />
             <span class="input-group-btn">
                 <button class="btn text-success btn-dark" id="buy" type="button" onclick="updateBasket(@Model.ProductId)">
                     <span class="material-icons">

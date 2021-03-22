@@ -143,7 +143,13 @@ namespace Bakdelar.Pages.Shared
 
         }
 
+        public PartialViewResult OnPostUpdateShoppingBasketPage()
+        {
+            var shoppingBasket = HttpContext.Session.GetBasket();
+            return Partial("_ShoppingBasketEditPage", shoppingBasket);
 
+
+        }
 
 
 
@@ -155,7 +161,37 @@ namespace Bakdelar.Pages.Shared
         }
 
 
+        public async Task<PartialViewResult> OnPostUpdateItemCountShoppingBasket(int itemID, int newAmount)
+        {
+            var shoppingBasket = HttpContext.Session.GetBasket();
+            if (itemID == 0)
+            {
 
+                return Partial("_ShoppingBasketEditPage", shoppingBasket);
+            }
+            var shoppingItem = shoppingBasket.FirstOrDefault(p => p.ID == itemID);
+            if(newAmount == 0)
+            {
+                shoppingBasket.Remove(shoppingItem);
+            }
+            else
+            { 
+            shoppingItem.ItemCount = newAmount;
+            }
+
+            Product = await GetFromApi.GetProductAsync(itemID);
+
+            Product.NumberOfSold = newAmount;
+            if (shoppingItem.ItemCount > Product.AvailableQuantity)
+            {
+                shoppingItem.ItemCount = Product.AvailableQuantity.Value;
+                Product.NumberOfSold = Product.AvailableQuantity.Value;
+            }
+
+            await GetFromApi.PutProductAsync(Product);
+            SessionMethods.UpdateShoppingBasket(_session, shoppingBasket);
+            return Partial("_ShoppingBasketEditPage", shoppingBasket);
+        }
 
 
 
@@ -177,6 +213,10 @@ namespace Bakdelar.Pages.Shared
             {
                 Product.NumberOfSold++;
 
+            }
+            else
+            {
+                Product.NumberOfSold = newAmount;
             }
 
             
@@ -202,9 +242,57 @@ namespace Bakdelar.Pages.Shared
 
 
 
+        public async Task<IActionResult> OnPostChangeCountItemAsync(int id, int newAmount)
+        {
+
+            var shoppingBasket = HttpContext.Session.GetBasket();
+            var shoppingItem = shoppingBasket.FirstOrDefault(p => p.ID == id);
+
+            Product = await GetFromApi.GetProductAsync(id);
+
+            if (newAmount > Product.AvailableQuantity)
+            {
+                newAmount = Product.AvailableQuantity.Value;
+            }
+
+
+            shoppingItem.ItemCount = newAmount;
+            Product.NumberOfSold = newAmount;
+            
+
+            await GetFromApi.PutProductAsync(Product);
+
+            decimal costForItems = shoppingItem.Price * shoppingItem.ItemCount;
+            decimal totalCostForAllItems = shoppingBasket.Sum(item => item.ItemCount * item.Price);
+            if (totalCostForAllItems < 300)
+            {
+                totalCostForAllItems += StaticValues.ShippingFee;
+            }
+            _session.UpdateShoppingBasket(shoppingBasket);
+            return new JsonResult(new { costItems = $"{costForItems} kr", totalCost = $"{totalCostForAllItems} kr" });
+        }
 
 
 
+
+
+
+
+        public PartialViewResult OnPostGetShippingCostBanner()
+        {
+
+            var shoppingBasket = HttpContext.Session.GetBasket();
+            return Partial("_ShoppingBasketShippingBanner", shoppingBasket);
+        }
+
+        public PartialViewResult OnPostGetShippingCostRow()
+        {
+
+            var shoppingBasket = HttpContext.Session.GetBasket();
+
+            decimal totalCostForAllItems = shoppingBasket.Sum(item => item.ItemCount * item.Price);
+            return Partial("_ShippingBasketShippingCostRow", totalCostForAllItems);
+        }
 
 
 
@@ -218,19 +306,7 @@ namespace Bakdelar.Pages.Shared
             if (!def)
             { 
             int ID = ShoppingItem.ID;
-            using (HttpClient httpClient = new HttpClient())
-            {
-                try
-                {
-                    Product = await GetFromApi.GetProductAsync(ID);
-                }
-                catch (Exception)
-                {
-                    if (Product.ProductName == null)
-                    {
-                    }
-                }
-            }
+            Product = await GetFromApi.GetProductAsync(ID);
 
             bool itemAlreadyInBasket = ItemAlreadyInBasket(shoppingBasket);
             bool tooManyItemsAdded = false;

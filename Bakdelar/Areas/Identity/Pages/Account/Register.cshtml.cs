@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
+using Bakdelar.Areas.Identity.Data;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -20,14 +21,14 @@ namespace Bakdelar.Areas.Identity.Pages.Account
     [AllowAnonymous]
     public class RegisterModel : PageModel
     {
-        private readonly SignInManager<IdentityUser> _signInManager;
-        private readonly UserManager<IdentityUser> _userManager;
+        private readonly SignInManager<MyUser> _signInManager;
+        private readonly UserManager<MyUser> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly ILogger<RegisterModel> _logger;
 
         public RegisterModel(
-            UserManager<IdentityUser> userManager,
-            SignInManager<IdentityUser> signInManager,
+            UserManager<MyUser> userManager,
+            SignInManager<MyUser> signInManager,
             RoleManager<IdentityRole> roleManager,
             ILogger<RegisterModel> logger)
         {
@@ -71,18 +72,20 @@ namespace Bakdelar.Areas.Identity.Pages.Account
                 {
                     Name = "Admin"
                 };
-                _roleManager.CreateAsync(role).ConfigureAwait(false);
+                _roleManager.CreateAsync(role).ConfigureAwait(false);               
 
-                role = new IdentityRole
+                return true;
+            }
+
+            if (!_roleManager.RoleExistsAsync("Customer").ConfigureAwait(false).GetAwaiter().GetResult())
+            {
+                var role = new IdentityRole
                 {
                     Name = "Customer"
                 };
                 _roleManager.CreateAsync(role).ConfigureAwait(false);
-                
-                return true;
             }
-            else
-                return false;
+            return false;
         }
 
         public async Task OnGetAsync(string returnUrl = null)
@@ -96,7 +99,7 @@ namespace Bakdelar.Areas.Identity.Pages.Account
             if (ModelState.IsValid)
             {
                 bool isAdminUser = (CreateRole() || _userManager.Users.Count() == 0);
-                var user = new IdentityUser { UserName = Input.Email, Email = Input.Email };
+                var user = new MyUser { UserName = Input.Email, Email = Input.Email };
                 var result = await _userManager.CreateAsync(user, Input.Password);//.ConfigureAwait(false).GetAwaiter().GetResult();
                 if (result.Succeeded)
                 {

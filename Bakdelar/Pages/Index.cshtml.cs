@@ -1,4 +1,5 @@
-﻿using Bakdelar.Classes;
+﻿using Bakdelar.Areas.Identity.Data;
+using Bakdelar.Classes;
 using Bakdelar.MethodClasses;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Http;
@@ -24,12 +25,12 @@ namespace Bakdelar.Pages
     {
 
         private readonly ILogger<IndexModel> _logger;
-        private readonly UserManager<IdentityUser> _userManager;
+        private readonly UserManager<MyUser> _userManager;
         private readonly IConfiguration _configuration;
 
         public IndexModel(
             IConfiguration configuration,
-            UserManager<IdentityUser> userManager,
+            UserManager<MyUser> userManager,
             ILogger<IndexModel> logger)
         {
             _configuration = configuration;
@@ -53,7 +54,7 @@ namespace Bakdelar.Pages
             ProductsMostSold = await GetFromApi.GetAllProductsAsync("/MostSold/4");
             ProductsSelected = await GetFromApi.GetAllProductsAsync("/Selected/4");
             ProductsNew = await GetFromApi.GetAllProductsAsync("/Newest/4");
-
+            var clientAddr = HttpContext.Connection.RemoteIpAddress?.ToString();
             return Page();
         }
     }
