@@ -12,6 +12,19 @@ namespace Bakdelar.Pages
 {
     public class OrderConfirmationModel : PageModel
     {
+
+
+        public OrderDbContext _context { get; set; }
+
+
+
+        public OrderConfirmationModel(OrderDbContext context)
+        {
+            _context = context;
+        }
+
+
+
         [BindProperty(SupportsGet = true)]
         public int ID { get; set; }
 
@@ -20,9 +33,13 @@ namespace Bakdelar.Pages
         public Order Order { get; set; }
 
 
-        public void OnGet([FromServices] OrderDbContext context)
+
+
+
+
+        public void OnGet()
         {
-            Order = context.Orders.Where(order => order.OrderID == ID).Include(order => order.OrderItems).FirstOrDefault();
+            Order = _context.Orders.Where(order => order.OrderID == ID).Include(order => order.OrderItems).FirstOrDefault();
             if (Order != null)
             {
                 ProductImages = new Dictionary<int, string>();

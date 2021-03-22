@@ -18,23 +18,28 @@ namespace Bakdelar.Pages
 {
     public class CheckoutModel : PageModel
     {
-        public IServiceProvider _service { get; set; }
+        public UserManager<MyUser> _userManager { get; set; }
+        public SignInManager<MyUser> _signInManager { get; set; }
         public OrderDbContext _context { get; set; }
 
         public List<ShoppingBasketItem> ShoppingBasket { get; set; }
 
-
-
-
-        public void OnGet([FromServices] OrderDbContext context, [FromServices] UserManager<MyUser> userManager, [FromServices] SignInManager<MyUser> signInManager)
+        public CheckoutModel(OrderDbContext context, UserManager<MyUser> userManager, SignInManager<MyUser> signInManager)
         {
             _context = context;
+            _userManager = userManager;
+            _signInManager = signInManager;
+        }
+
+
+        public void OnGet()
+        {
             ShoppingBasket = HttpContext.Session.GetBasket();
-            if (signInManager.IsSignedIn(User))
+            if (_signInManager.IsSignedIn(User))
             {
-                var user = userManager.Users
+                var user = _userManager.Users
                                       .Include(a => a.Address)
-                                      .Single(x => x.NormalizedEmail == userManager.GetUserAsync(User).Result.NormalizedEmail);
+                                      .Single(x => x.NormalizedEmail == _userManager.GetUserAsync(User).Result.NormalizedEmail);
                 ViewData["email"] = user.Email;
                 var address = user.Address;
                 ViewData["street"] = address.Street;
@@ -46,15 +51,14 @@ namespace Bakdelar.Pages
 
         }
 
-
+        //för att spara data som användaren skriver in i fältet
         [BindProperty]
         public Customer Customer { get; set; }
 
 
-        public async Task<IActionResult> OnPost([FromServices] OrderDbContext context)
+        public async Task<IActionResult> OnPost()
         {
             var session = HttpContext.Session;
-            _context = context;
             string paymentMethod = "";
             DateTime orderDate = DateTime.UtcNow;
             List<OrderItem> orderItems = session.GetBasket()
@@ -62,6 +66,9 @@ namespace Bakdelar.Pages
                                                  .ToList();
             decimal orderCost = orderItems.Sum(item => item.ProductPricePaidTotal);
             bool shippingPaid = orderCost < 300;
+
+
+
 
             decimal shippingFee = StaticValues.ShippingFee;
             if(shippingPaid)
