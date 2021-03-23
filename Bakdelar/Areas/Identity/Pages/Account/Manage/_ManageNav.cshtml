@@ -1,6 +1,7 @@
 ﻿@using Microsoft.AspNetCore.Identity
-@inject SignInManager<IdentityUser> SignInManager
-@inject UserManager<IdentityUser> UserManager
+@using Bakdelar.Areas.Identity.Data 
+@inject SignInManager<MyUser> SignInManager
+@inject UserManager<MyUser> UserManager
 @{
     var hasExternalLogins = (await SignInManager.GetExternalAuthenticationSchemesAsync()).Any();
     var roles = await UserManager.GetRolesAsync(await UserManager.GetUserAsync(User));

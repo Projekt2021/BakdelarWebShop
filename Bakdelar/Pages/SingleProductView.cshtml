@@ -114,36 +114,39 @@ else
                     }
                 }
 
-                <form id="buyForm" method="post">
-                    <input type="hidden" value="@Model.Product.ProductId" asp-for="ShoppingItem.ID" />
-                    <input type="hidden" value="@Model.Product.ProductName" asp-for="ShoppingItem.ProductName" />
-                    <input type="hidden" value="@Model.Product.AvailableQuantity" asp-for="ShoppingItem.StockLevel" />
-                    <input type="hidden" value="@Model.Product.ProductImageView[0].ImageURL" asp-for="ShoppingItem.ImageLink" />
-                    @if (Model.Product.SpecialPrice != null)
-                    {
-                        <input type="hidden" value="@Model.Product.SpecialPrice" asp-for="ShoppingItem.Price" />
-                        <input type="hidden" value="true" asp-for="ShoppingItem.Discount" />
-                    }
-                    else
-                    {
-                        <input type="hidden" value="@Model.Product.ProductPrice" asp-for="ShoppingItem.Price" />
-                        <input type="hidden" value="false" asp-for="ShoppingItem.Discount" />
-                    }
-                    @{
+            <form id="buyForm" method="post">
+                <input type="hidden" value="@Model.Product.ProductId" asp-for="ShoppingItem.ID" />
+                <input type="hidden" value="@Model.Product.ProductName" asp-for="ShoppingItem.ProductName" />
+                <input type="hidden" value="@Model.Product.AvailableQuantity" asp-for="ShoppingItem.StockLevel" />
+                <input type="hidden" value="@Model.Product.ProductImageView[0].ImageURL" asp-for="ShoppingItem.ImageLink" />
+                @if (Model.Product.SpecialPrice != null)
+                {
+                    <input type="hidden" value="@Model.Product.SpecialPrice" asp-for="ShoppingItem.Price" />
+                    <input type="hidden" value="true" asp-for="ShoppingItem.Discount" />
+                }
+                else
+                {
+                    <input type="hidden" value="@Model.Product.ProductPrice" asp-for="ShoppingItem.Price" />
+                    <input type="hidden" value="false" asp-for="ShoppingItem.Discount" />
+                }
+                @{
 
-                        if (inStock >= 1)
-                        {
-                            <input type="number" step="1" value="1" asp-for="ShoppingItem.ItemCount" min="1" max="@Model.Product.AvailableQuantity" />
-                            <span class="input-group-btn">
-                                <button class="btn text-success btn-dark" id="buy" type="button" onclick="updateBasket(@Model.Product.ProductId)">
-                                    <span class="material-icons">
-                                        add_shopping_cart
-                                    </span>
-                                </button>
-                            </span>
-                        }
+                    if (inStock >= 1)
+                    {
+                       
+                            int available = Model.Product.AvailableQuantity.Value - Model.Product.NumberOfSold;
+                            
+                        <input type="number" step="1" value="1" asp-for="ShoppingItem.ItemCount" min="1" max="@available" />
+                        <span class="input-group-btn">
+                            <button class="btn text-success btn-dark" id="buy" type="button" onclick="updateBasket(@Model.Product.ProductId)">
+                                <span class="material-icons">
+                                    add_shopping_cart
+                                </span>
+                            </button>
+                        </span>
                     }
-                </form>
+                }
+            </form>
             </div>
         </div>
     </div>
