@@ -2,8 +2,11 @@
 
 @using Bakdelar.MethodClasses; 
 @{
+    decimal shippingFee = StaticValues.ShippingFee;
     Layout = null;
     var shoppingBasket = Model;
+
+    decimal? totalPrice = shoppingBasket?.Sum(item => item.Price * item.ItemCount);
 }
 
 <div class="inner-basket">
@@ -15,7 +18,6 @@
         else
         {
 
-            decimal totalPrice = 0;
             foreach (var item in shoppingBasket)
             {
                 <div class="d-none" id="hidden-popover-dropdown-@item.ID">
@@ -25,7 +27,6 @@
                         <a href='javascript:void(0)' class="popover-dropdown-no-link" onclick='closePopover_Dropdown(@item.ID)'>Nej</a>
                     </div>
                 </div>
-                totalPrice += item.Price * item.ItemCount;
                 decimal priceForItems = item.Price * item.ItemCount;
                 //decimal priceForItems = item.Price * item.ItemCount;
                 <div class="dropdown-item px-1 d-inline-flex item-dropdown-@item.ID">
@@ -70,36 +71,12 @@
                     </div>
                 </div>
 
-                @*@if (shoppingBasket.LastOrDefault() != item)
-                    {
-
-                        <div class="dropdown-divider"></div>
-                    }*@
-                decimal shippingFee = StaticValues.ShippingFee;
-
-                <div class="dropdown-divider"></div>
-                @if (totalPrice < 300)
+                @if (shoppingBasket.LastOrDefault() != item)
                 {
-                    <h6 class="dropdown-header text-left shopping-basket-total">
-                        Varor totalt: @totalPrice kr
-                        <br />
-                        Frakt: @shippingFee kr
-                        <br />
-                        Totalt: @(totalPrice + shippingFee) kr
-                        <br /><br />
-                        @(300 - totalPrice) kr kvar till fri frakt
-                    </h6>
+
+                    <div class="dropdown-divider"></div>
                 }
-                else
-                {
-                    <h6 class="dropdown-header text-left shopping-basket-total">
-                        Varor totalt: @totalPrice kr
-                        <br />
-                        Frakt: 0 kr
-                        <br />
-                        Totalt: @totalPrice kr
-                    </h6>
-                }
+
 
             }
             @*<div class="dropdown-divider"></div>
@@ -108,9 +85,33 @@
         }
 
     }
-    
+
+
     @if (shoppingBasket != null && shoppingBasket.Any())
     {
+        <div class="dropdown-divider"></div>
+        @if (totalPrice < 300)
+        {
+            <h6 class="dropdown-header text-left shopping-basket-total">
+                Varor totalt: @totalPrice kr
+                <br />
+                Frakt: @shippingFee kr
+                <br />
+                Totalt: @(totalPrice + shippingFee) kr
+                <br /><br />
+                @(300 - totalPrice) kr kvar till fri frakt
+            </h6>
+        }
+        else
+        {
+            <h6 class="dropdown-header text-left shopping-basket-total">
+                Varor totalt: @totalPrice kr
+                <br />
+                Frakt: 0 kr
+                <br />
+                Totalt: @totalPrice kr
+            </h6>
+        }
         <div class="dropdown-divider"></div>
         <a class="dropdown-item" href="@Url.Content("~/Checkout")">
             <h6 class="dropdown-header">Till kassan</h6>

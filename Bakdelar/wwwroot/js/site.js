@@ -90,7 +90,7 @@ function restore() {
 
     });
     $(".form-inline .form-control").click(function () {
-       
+
         amount = $(this).val();
         console.log(amount);
     });
@@ -104,8 +104,7 @@ function restore() {
         if (newAmount == 0 || "") {
             $(this).val(amount);
         }
-        else if (newAmount > maxAmount)
-        {
+        else if (newAmount > maxAmount) {
             $(this).val(maxAmount);
 
             changeItemCount(itemID, maxAmount)
@@ -155,36 +154,36 @@ function restore() {
 
 
 function changeItemCount(itemID1, amount) {
-    
+
     if (spamProtection == false) {
         spamProtection = true;
-    let url = HandlerLink + "ChangeCountItem";
-    var request_method = 'post'; //get form GET/POST method
-    var form_data =
-    {
-        id: itemID1,
-        newAmount: amount
-    }; //Encode form elements for submission
-    $.ajax({
-        url: url,
-        type: request_method,
-        data: form_data,
-        dataType: 'json',
-        beforeSend: function (xhr) {
-            xhr.setRequestHeader("XSRF-TOKEN", $('input:hidden[name="__RequestVerificationToken"]').val());
-        },
-    }).done(function (response) { //
-        let itemCost = response.costItems;
-        let totalCost = response.totalCost;
-        $('#total-price-' + itemID1).html(itemCost);
-        $('#total-cost-below').html("Totalt: " + totalCost);
-        getItemCount();
+        let url = HandlerLink + "ChangeCountItem";
+        var request_method = 'post'; //get form GET/POST method
+        var form_data =
+        {
+            id: itemID1,
+            newAmount: amount
+        }; //Encode form elements for submission
+        $.ajax({
+            url: url,
+            type: request_method,
+            data: form_data,
+            dataType: 'json',
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader("XSRF-TOKEN", $('input:hidden[name="__RequestVerificationToken"]').val());
+            },
+        }).done(function (response) { //
+            let itemCost = response.costItems;
+            let totalCost = response.totalCost;
+            $('#total-price-' + itemID1).html(itemCost);
+            $('#total-cost-below').html("Totalt: " + totalCost);
+            getItemCount();
             getTotalCost();
             getShippingCostBanner();
-        updateBasketDropdown(itemID1);
-        getShippingCostRow();
-        spamProtection = false;
-    });
+            updateBasketDropdown(itemID1);
+            getShippingCostRow();
+            spamProtection = false;
+        });
     }
 }
 
@@ -527,7 +526,7 @@ function updateBasketDropdown(id) {
 
 function updateBasket(id) {
 
-    let url = HandlerLink+"UpdateBasket";
+    let url = HandlerLink + "UpdateBasket";
     var request_method = 'post'; //get form GET/POST method
     var form_data = $('#buyForm').serialize(); //Encode form elements for submission
     console.log(form_data);
@@ -667,7 +666,7 @@ function updateShoppingBasketPage() {
 
             $('.shopping-basket-table').html(response);
             console.log(response.length);
-        //restore();
+            //restore();
         }
     });
 }
