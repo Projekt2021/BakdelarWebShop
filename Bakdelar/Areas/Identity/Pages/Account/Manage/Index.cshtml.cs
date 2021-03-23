@@ -2,10 +2,15 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Net.Http.Json;
 using System.Threading.Tasks;
+using Bakdelar.Classes;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.Extensions.Configuration;
 
 namespace Bakdelar.Areas.Identity.Pages.Account.Manage
 {
@@ -13,11 +18,14 @@ namespace Bakdelar.Areas.Identity.Pages.Account.Manage
     {
         private readonly UserManager<IdentityUser> _userManager;
         private readonly SignInManager<IdentityUser> _signInManager;
+        private readonly IConfiguration _configuration;
 
         public IndexModel(
+            IConfiguration configuration,
             UserManager<IdentityUser> userManager,
             SignInManager<IdentityUser> signInManager)
         {
+            _configuration = configuration;
             _userManager = userManager;
             _signInManager = signInManager;
         }
@@ -28,37 +36,7 @@ namespace Bakdelar.Areas.Identity.Pages.Account.Manage
         public string StatusMessage { get; set; }
 
         [BindProperty]
-        public InputModel Input { get; set; }
-
-        public class InputModel
-        {
-            [Phone]
-            [Display(Name = "Phone number")]
-            public string PhoneNumber { get; set; }
-
-            [Display(Name = "First Name")]
-            public string FirstName { get; set; }
-
-            [Display(Name = "Last Name")]
-            public string LastName { get; set; }
-
-            [Display(Name = "Address")]
-            public string Address { get; set; }
-
-        }
-
-        private async Task LoadAsync(IdentityUser user)
-        {
-            var userName = await _userManager.GetUserNameAsync(user);
-            var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
-
-            Username = userName;
-
-            Input = new InputModel
-            {
-                PhoneNumber = phoneNumber
-            };
-        }
+        public CustomerView Customer { get; set; }
 
         public async Task<IActionResult> OnGetAsync()
         {
@@ -68,7 +46,31 @@ namespace Bakdelar.Areas.Identity.Pages.Account.Manage
                 return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
             }
 
-            await LoadAsync(user);
+            await GetCustomer(user);
+
+            return Page();
+        }
+
+        private async Task<IActionResult> GetCustomer(IdentityUser user)
+        {
+            Username = await _userManager.GetUserNameAsync(user);
+
+            var token = HttpContext.Request.Cookies["access_token"];
+
+            if (string.IsNullOrEmpty(token))
+            {
+                return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+            }
+            string userId = user.Id;
+            using HttpClient client = new HttpClient();
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+            Customer = await client.GetFromJsonAsync<CustomerView>($"{_configuration.GetValue<String>("APIEndpoint")}api/customer/{userId}");
+
+            if (Customer == null)
+            {
+                return NotFound();
+            }
             return Page();
         }
 
@@ -82,22 +84,27 @@ namespace Bakdelar.Areas.Identity.Pages.Account.Manage
 
             if (!ModelState.IsValid)
             {
-                await LoadAsync(user);
+                await GetCustomer(user);
                 return Page();
             }
 
-            var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
-            if (Input.PhoneNumber != phoneNumber)
+            var token = HttpContext.Request.Cookies["access_token"];
+            if (string.IsNullOrEmpty(token))
             {
-                var setPhoneResult = await _userManager.SetPhoneNumberAsync(user, Input.PhoneNumber);
-                if (!setPhoneResult.Succeeded)
-                {
-                    StatusMessage = "Unexpected error when trying to set phone number.";
-                    return RedirectToPage();
-                }
+                return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
             }
+            string userId = _userManager.GetUserId(User);
+            using HttpClient httpClient = new HttpClient();
+            httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
-            //var firstName = await _userManager.getNa
+            HttpResponseMessage response = await httpClient.PutAsJsonAsync(
+                $"{_configuration.GetValue<String>("APIEndpoint")}api/customer/{userId}", new CustomerView
+                {
+                    FirstName = Customer.FirstName,
+                    LastName = Customer.LastName,
+                    Address = Customer.Address,
+                    PhoneNumber = Customer.PhoneNumber
+                });
 
             await _signInManager.RefreshSignInAsync(user);
             StatusMessage = "Your profile has been updated";
