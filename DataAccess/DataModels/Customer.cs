@@ -21,6 +21,9 @@ namespace DataAccess.DataModels
         [MaxLength(100), StringLength(100)]
         public string LastName { get; set; }
 
+        [MaxLength(100), StringLength(100)]
+        public string PhoneNumber { get; set; }
+
         public ICollection<Cart> Carts { get; set; }
         public ICollection<Purchase> Purchases { get; set; }
 
