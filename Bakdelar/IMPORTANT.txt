@@ -3,7 +3,7 @@
 
 BAKDELAR -> START
 update-database -context Bakdelar.Areas.Identity.Data.AuthenticationDbContext
-update-database -context Bakdelar.Models.OrderDbContext
+?? kanske inte behövs -> update-database -context Bakdelar.Models.OrderDbContext
 
 
 BAKDELAR API

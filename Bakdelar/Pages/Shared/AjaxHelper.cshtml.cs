@@ -200,16 +200,36 @@ namespace Bakdelar.Pages.Shared
         {
             var shoppingBasket = HttpContext.Session.GetBasket();
             var shoppingItem = shoppingBasket.FirstOrDefault(p => p.ID == UpdateCountID);
-            shoppingItem.ItemCount += newAmount;
-
 
             Product = await GetFromApi.GetProductAsync(id);
 
-            if (newAmount == -1)
-            {
-                Product.NumberOfSold--;
-            }
-            else if (newAmount == 1)
+
+
+
+
+            int maxAllowed = (Product.AvailableQuantity.Value - Product.NumberOfSold);
+
+
+            //om man försöker lägga till fler än vad som finns på lager
+            if(newAmount <= maxAllowed && newAmount > 0)
+            { 
+            shoppingItem.ItemCount += newAmount;
+
+
+            //switch(newAmount)
+            //{
+            //    case -1:
+            //    case 1:
+            //        Product.NumberOfSold+=newAmount;
+            //        break;
+
+
+            //    default:
+            //        Product.NumberOfSold = newAmount;
+            //        break;
+
+            //}
+            if (newAmount == 1)
             {
                 Product.NumberOfSold++;
 
@@ -218,20 +238,30 @@ namespace Bakdelar.Pages.Shared
             {
                 Product.NumberOfSold = newAmount;
             }
-
-            
                 await GetFromApi.PutProductAsync(Product);
 
-            if (shoppingItem.ItemCount == 0)
-            {
-                shoppingBasket.Remove(shoppingItem);
-            }
-            else if (shoppingItem.ItemCount > Product.AvailableQuantity)
-            {
-                shoppingItem.ItemCount = Product.AvailableQuantity.Value;
-            }
+                
+            //if (shoppingItem.ItemCount > Product.AvailableQuantity)
+            //{
+            //    shoppingItem.ItemCount = Product.AvailableQuantity.Value;
+            //}
             SessionMethods.UpdateShoppingBasket(_session, shoppingBasket);
-            return Partial("_UpdateItemCount", shoppingItem);
+
+            }
+            else if (newAmount == -1)
+            {
+                shoppingItem.ItemCount--;
+                Product.NumberOfSold--;
+
+                await GetFromApi.PutProductAsync(Product);
+                if (shoppingItem.ItemCount == 0)
+                {
+                    shoppingBasket.Remove(shoppingItem);
+                }
+
+                SessionMethods.UpdateShoppingBasket(_session, shoppingBasket);
+            }
+                return Partial("_UpdateItemCount", shoppingItem);
         }
 
 

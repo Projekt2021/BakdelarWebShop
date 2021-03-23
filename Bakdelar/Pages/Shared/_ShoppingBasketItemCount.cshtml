@@ -4,12 +4,13 @@
     var shoppingBasket = Model;
     if (shoppingBasket == null || !shoppingBasket.Any())
     {
-        @Html.Raw("0");
+        int zero = 0;
+        @zero
     }
     else
     {
         int sum = shoppingBasket.Sum(item => item.ItemCount);
-        @Html.Raw($"{sum}");
+        @sum
         
         @*@Html.Raw($"{shoppingBasket.Count}");*@
     }
