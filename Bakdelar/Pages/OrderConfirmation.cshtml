@@ -9,7 +9,9 @@
                 {
                     decimal totalPrice = Model.Order.OrderCost;
 
-
+                    <h2>Tack för din beställning!</h2>
+                    <h6>En bekräftelse på köpet skickas till din E-post</h6>
+                    <br />
 
                     <table class="table m-0 border  border-dark">
 
@@ -71,22 +73,51 @@
                             }
                         </tbody>
                     </table>
-                    <div class="">Betalt: @Model.Order.OrderCost</div>
-                    @if (Model.Order.ShippingPaid)
-                    {
 
-                        <div class="">Varav frakt @Model.Order.ShippingFee</div>
-                    }
-                    else
-                    {
+                    <div class="row d-flex justify-content-end">
 
-                        <div class="">Ingen frakt betalad</div>
-                    }
+                        <div class="col-6"></div>
 
-                    <div class="font-weight-bold">Beställt av:</div>
-                    <div class="">@Model.Order.CustomerFirstName @Model.Order.CustomerLastName</div>
-                    <div class="font-weight-bold">Beställt till:</div>
-                    <div class="">@Model.Order.CustomerAddress @Model.Order.CustomerCity @Model.Order.CustomerZipCode</div>
+                        <div class="col-6 d-flex justify-content-end pr-5">
+                            <table class="mt-3">
+                                <tbody class=" align-text-top">
+                                    <tr>
+                                        <td class="font-weight-bold pr-4">Betalt</td>
+                                        <td>@Model.Order.OrderCost kr</td>
+                                    </tr>
+
+                                    <tr>
+                                        <td class="font-weight-bold pr-4">Varav frakt</td>
+                                        @if (Model.Order.ShippingPaid)
+                                        {
+                                            <td>@Model.Order.ShippingFee kr</td>
+                                        }
+                                        else
+                                        {
+                                            <td>Gratis frakt</td>
+                                        }
+                                    </tr>
+
+                                    <tr><td><br /></td><td><br /></td></tr>
+
+                                    <tr>
+                                        <td class="font-weight-bold">Skickas till</td>
+                                        <td>@Model.Order.CustomerFirstName @Model.Order.CustomerLastName</td>
+                                    </tr>
+
+                                    <tr>
+                                        <td class="font-weight-bold"></td>
+                                        <td> @Model.Order.CustomerAddress</td>
+                                    </tr>
+
+                                    <tr>
+                                        <td class="font-weight-bold"></td>
+                                        <td>@Model.Order.CustomerZipCode @Model.Order.CustomerCity</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                 }
                 else
                 {
