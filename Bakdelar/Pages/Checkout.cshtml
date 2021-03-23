@@ -17,225 +17,233 @@
     decimal shippingFee = StaticValues.ShippingFee;
 
 
-    <div class="row shopping-basket-table">
-        <div class="flex-column w-100">
-            <div class="justify-content-center w-75 mx-auto">
-                @if (validShoppingBasket)
-                {
+    @if (validShoppingBasket)
+    {
+        <div class="row mt-0 mx-2 border border-dark rounded-bottom rounded-left rounded-right">
+
+            <div class="col pt-4 border-right border-dark">
+                <div class="mx-auto mt-3 py-3 justify-content-center w-100">
+                    <div class="row shopping-basket-table">
+                        <div class="flex-column w-100">
+                            <div class="justify-content-center w-75 mx-auto">
+                                @if (validShoppingBasket)
+                                {
+                                    <table class="table m-0 border w-100 border-dark">
+
+                                        <thead class="thead-dark">
+                                            <tr>
+                                                <th scope="col">
+                                                    @Html.DisplayNameFor(model => model.ShoppingBasket.FirstOrDefault().ImageLink)
+                                                </th>
+                                                <th scope="col">
+                                                    @Html.DisplayNameFor(model => model.ShoppingBasket.FirstOrDefault().ProductName)
+                                                </th>
+                                                <th scope="col">
+                                                    @Html.DisplayNameFor(model => model.ShoppingBasket.FirstOrDefault().ItemCount)
+
+                                                    @*<th>
+                                                            @Html.DisplayNameFor(model => model.ShoppingBasket.FirstOrDefault().Discount)
+                                                        </th>*@
+                                                <th scope="col">
+                                                    Styckpris
+                                                </th>
+                                                <th scope="col">
+                                                    Pris
+                                                </th>
+                                                <th scope="col">
+
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach (var item in Model.ShoppingBasket)
+                                            {
+                                                <tr>
+                                                    <td>
+                                                        <img src="@item.ImageLink" style="height: 50px; height: 50px;" />
+                                                    </td>
+                                                    <td>
+                                                        @Html.DisplayFor(modelItem => item.ProductName)
+                                                    </td>
 
 
+                                                    <td>
+                                                        <div class="form-inline">
+                                                            <input class="form-control" id="change-amount-@item.ID" style="border-radius: 1rem; width: 4.5rem;"
+                                                                   type="number" step="1" value="@item.ItemCount" name="NewCount"
+                                                                   min="1" max="@item.StockLevel" />
+                                                            <span class="material-icons" style="color: green;user-select: none;">
+                                                                check_circle_outline
+                                                            </span>
+                                                        </div>
+                                                    </td>
+                                                    @*<td>
+                                                            @Html.DisplayFor(modelItem => item.Discount)
+                                                        </td>*@
+                                                    <td>
 
-                    <table class="table m-0 border  border-dark">
+                                                        @item.Price kr
+                                                    </td>
+                                                    <td id="total-price-@item.ID">
+                                                        @{
+                                                            var price = item.Price * item.ItemCount;
+                                                            @Html.Raw($"{price} kr");
+                                                        }
+                                                    </td>
+                                                    <td>
 
-                        <thead class="thead-dark">
-                            <tr>
-                                <th scope="col">
-                                    @Html.DisplayNameFor(model => model.ShoppingBasket.FirstOrDefault().ImageLink)
-                                </th>
-                                <th scope="col">
-                                    @Html.DisplayNameFor(model => model.ShoppingBasket.FirstOrDefault().ProductName)
-                                </th>
-                                <th scope="col">
-                                    @Html.DisplayNameFor(model => model.ShoppingBasket.FirstOrDefault().ItemCount)
+                                                        <div class="d-none" id="hidden-popover-@item.ID">
+                                                            <p>Är du säkert?</p>
+                                                            <a href='javascript:void(0)' onclick="removeItemDropdown(@item.ID)">Ja</a>
+                                                            <a href='javascript:void(0)' onclick='closePopover(@item.ID)'>Nej</a>
+                                                        </div>
+                                                        <button type="button" class="btn text-white button-remove-item" data-toggle="popover-remove-item-@item.ID"
+                                                                onclick="openPopover(@item.ID)">
 
-                                    @*<th>
-                                            @Html.DisplayNameFor(model => model.ShoppingBasket.FirstOrDefault().Discount)
-                                        </th>*@
-                                <th scope="col">
-                                    Styckpris
-                                </th>
-                                <th scope="col">
-                                    Pris
-                                </th>
-                                <th scope="col">
-
-                                </th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach (var item in Model.ShoppingBasket)
-                            {
-                                <tr>
-                                    <td>
-                                        <img src="@item.ImageLink" style="height: 50px; height: 50px;" />
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.ProductName)
-                                    </td>
+                                                            <i class="material-icons text-danger">
+                                                                not_interested
+                                                            </i>
+                                                        </button>
+                                                    </td>
 
 
-                                    <td>
-                                        <div class="form-inline">
-                                            <input class="form-control" id="change-amount-@item.ID" style="border-radius: 1rem; width: 4.5rem;"
-                                                   type="number" step="1" value="@item.ItemCount" name="NewCount"
-                                                   min="1" max="@item.StockLevel" />
-                                            <span class="material-icons" style="color: green;user-select: none;">
-                                                check_circle_outline
-                                            </span>
+                                                </tr>
+                                            }
+
+                                            @if (totalPrice < 300)
+                                            {
+                                                <tr id="shipping-cost-row">
+                                                    <td>
+                                                    </td>
+
+                                                    <td>
+                                                        Frakt
+                                                    </td>
+                                                    <td>
+                                                        1 st
+                                                    </td>
+                                                    <td>
+                                                        @shippingFee kr
+                                                    </td>
+                                                    <td>
+                                                        @shippingFee kr
+                                                    </td>
+                                                    <td>
+                                                    </td>
+                                                </tr>
+                                            }
+                                            else
+                                            {
+                                                <tr id="shipping-cost-row">
+                                                    <td>
+                                                    </td>
+
+                                                    <td>
+                                                        Fri frakt
+                                                    </td>
+                                                    <td>
+                                                        1 st
+                                                    </td>
+                                                    <td>
+                                                        0,00 kr
+                                                    </td>
+                                                    <td>
+                                                        0,00 kr
+                                                    </td>
+                                                    <td>
+                                                    </td>
+                                                </tr>
+                                            }
+                                        </tbody>
+                                    </table>
+                                    @if (totalPrice < 300)
+                                    {
+
+                                        decimal remaining = 300 - totalPrice.Value;
+
+                                        <div id="shipping-cost-banner" class="text-warning bg-dark mx-auto w-100 border rounded border-dark m-3 text-center font-weight-bolder h1">Kvar till fri frakt: @remaining kr</div>
+                                    }
+                                    @if (totalPrice >= 300)
+                                    {
+                                        <div id="shipping-cost-banner" class="text-dark bg-success w-100 mx-auto border rounded border-dark my-3 text-center font-weight-bolder h1">Du har nu fri frakt!</div>
+                                    }
+
+                                    <div class="flex-row ">
+                                        <div id="total-cost-below" class="mx-auto text-right pt-3 h4 w-100">
+                                            @if (totalPrice < 300)
+                                            {
+                                                totalPrice += shippingFee;
+                                            }
+                                            Totalt: @totalPrice kr
                                         </div>
-                                    </td>
-                                    @*<td>
-                                            @Html.DisplayFor(modelItem => item.Discount)
-                                        </td>*@
-                                    <td>
+                                    </div>
 
-                                        @item.Price kr
-                                    </td>
-                                    <td id="total-price-@item.ID">
-                                        @{
-                                            var price = item.Price * item.ItemCount;
-                                            @Html.Raw($"{price} kr");
-                                        }
-                                    </td>
-                                    <td>
-
-                                        <div class="d-none" id="hidden-popover-@item.ID">
-                                            <p>Är du säkert?</p>
-                                            <a href='javascript:void(0)' onclick="removeItemDropdown(@item.ID)">Ja</a>
-                                            <a href='javascript:void(0)' onclick='closePopover(@item.ID)'>Nej</a>
-                                        </div>
-                                        <button type="button" class="btn text-white button-remove-item" data-toggle="popover-remove-item-@item.ID"
-                                                onclick="openPopover(@item.ID)">
-
-                                            <i class="material-icons text-danger">
-                                                not_interested
-                                            </i>
-                                        </button>
-                                    </td>
+                                }
+                            </div>
 
 
-                                </tr>
-                            }
-
-                            @if (totalPrice < 300)
-                            {
-                                <tr id="shipping-cost-row">
-                                    <td>
-                                    </td>
-
-                                    <td>
-                                        Frakt
-                                    </td>
-                                    <td>
-                                        1 st
-                                    </td>
-                                    <td>
-                                        @shippingFee kr
-                                    </td>
-                                    <td>
-                                        @shippingFee kr
-                                    </td>
-                                    <td>
-                                    </td>
-                                </tr>
-                            }
-                            else
-                            {
-                                <tr id="shipping-cost-row">
-                                    <td>
-                                    </td>
-
-                                    <td>
-                                        Fri frakt
-                                    </td>
-                                    <td>
-                                        1 st
-                                    </td>
-                                    <td>
-                                        0,00 kr
-                                    </td>
-                                    <td>
-                                        0,00 kr
-                                    </td>
-                                    <td>
-                                    </td>
-                                </tr>
-                            }
-                        </tbody>
-                    </table>
-                    @if (totalPrice < 300)
-                    {
-
-                        decimal remaining = 300 - totalPrice.Value;
-
-                        <div id="shipping-cost-banner" class="text-warning bg-dark mx-auto w-100 border rounded border-dark m-3 text-center font-weight-bolder h1">Kvar till fri frakt: @remaining kr</div>
-                    }
-                    @if (totalPrice >= 300)
-                    {
-                        <div id="shipping-cost-banner" class="text-dark bg-success w-100 mx-auto border rounded border-dark my-3 text-center font-weight-bolder h1">Du har nu fri frakt!</div>
-                    }
-
-                    <div class="flex-row ">
-                        <div id="total-cost-below" class="mx-auto text-right pt-3 h4 w-100">
-                            @if (totalPrice < 300)
-                            {
-                                totalPrice += shippingFee;
-                            }
-                            Totalt: @totalPrice kr
                         </div>
                     </div>
-
-                }
-                else
-                {
-                    <h1 class="text-center">Du har inga varor i varukorgen!</h1>
-                }
+                </div>
             </div>
+            <div class="flex-column pt-4  mr-4">
+
+                <div class="container-fluid mr-4 py-3">
+                    <div class="flex-row">
+                        <div class="h4 text-center mx-auto pb-3">Kundinformation</div>
+                        <form method="post">
+                            <div class="d-flex mx-auto justify-content-center w-100">
+                                <div class="flex-column justify-content-end">
+
+                                    <div class="font-weight-bold">
+                                        Förnamn
+                                    </div>
+                                    <input class="form-control w-100 d-inline-flex" asp-for="Customer.FirstName" value="@ViewData["firstname"]" />
+
+                                    <div class="font-weight-bold">
+                                        Email
+                                    </div>
+                                    <input class="form-control w-100 d-inline-flex" asp-for="Customer.Email" value="@ViewData["email"]" />
 
 
-        </div>
-    </div>
-}
-@if (validShoppingBasket)
-{
-<div class="container-fluid w-50 shadow border-success rounded p-3">
-<div class="flex-row">
-    <div class="h4 text-center mx-auto pb-3">Kundinformation</div>
-    <form method="post">
-        <div class="d-flex mx-auto justify-content-center w-75">
-            <div class="flex-column justify-content-end">
+                                    <div class="font-weight-bold">
+                                        Postkod
+                                    </div>
+                                    <input class="form-control w-100 d-inline-flex" asp-for="Customer.ZipCode" value="@ViewData["zip"]" />
+                                </div>
 
-                <div class="font-weight-bold">
-                    Förnamn
+
+                                <div class="flex-column justify-content-end ml-3">
+                                    <div class="font-weight-bold">
+                                        Efternamn
+                                    </div>
+                                    <input class="form-control w-100 d-inline-flex" asp-for="Customer.LastName" value="@ViewData["lastName"]" />
+
+                                    <div class="font-weight-bold">
+                                        Adress
+                                    </div>
+                                    <input class="form-control w-100 d-inline-flex" asp-for="Customer.Address" value="@ViewData["street"]" />
+
+                                    <div class="font-weight-bold">
+                                        Stad
+                                    </div>
+                                    <input class="form-control w-100 d-inline-flex" asp-for="Customer.City" value="@ViewData["city"]" />
+
+                                </div>
+                            </div>
+                            <div class="d-flex justify-content-center mt-4 mb-2">
+                                <input type="submit" value="Skicka order" />
+                            </div>
+
+                        </form>
+                    </div>
                 </div>
-                <input class="form-control w-100 d-inline-flex" asp-for="Customer.FirstName" value="@ViewData["firstname"]" />
-
-                <div class="font-weight-bold">
-                    Email
-                </div>
-                <input class="form-control w-100 d-inline-flex" asp-for="Customer.Email" value="@ViewData["email"]" />
-
-
-                <div class="font-weight-bold">
-                    Postkod
-                </div>
-                <input class="form-control w-100 d-inline-flex" asp-for="Customer.ZipCode" value="@ViewData["zip"]" />
             </div>
-
-
-            <div class="flex-column justify-content-end ml-3">
-                <div class="font-weight-bold">
-                    Efternamn
-                </div>
-                <input class="form-control w-100 d-inline-flex" asp-for="Customer.LastName" value="@ViewData["lastName"]" />
-
-                <div class="font-weight-bold">
-                    Adress
-                </div>
-                <input class="form-control w-100 d-inline-flex" asp-for="Customer.Address" value="@ViewData["street"]" />
-
-                <div class="font-weight-bold">
-                    Stad
-                </div>
-                <input class="form-control w-100 d-inline-flex" asp-for="Customer.City" value="@ViewData["city"]" />
-
-            </div>
-        </div>
-        <div class="d-flex justify-content-center mt-4 mb-2">
-            <input type="submit" value="Skicka order" />
         </div>
 
-    </form>
-    </div>
-    </div>
+    }
+    else
+    {
+        <h1 class="text-center">Du har inga varor i varukorgen!</h1>
+    }
 }
