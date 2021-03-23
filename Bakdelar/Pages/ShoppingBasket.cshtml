@@ -101,48 +101,6 @@
                                         </i>
                                     </button>
                                 </td>
-
-
-                                    <td>
-                                        <div class="form-inline">
-                                            <input class="form-control" id="change-amount-@item.ID" style="border-radius: 1rem; width: 4.5rem;"
-                                                   type="number" step="1" value="@item.ItemCount" name="NewCount"
-                                                   min="1" max="@item.StockLevel" />
-                                            <span class="material-icons" style="color: green;user-select: none;">
-                                                check_circle_outline
-                                            </span>
-                                        </div>
-                                    </td>
-                                    @*<td>
-                                            @Html.DisplayFor(modelItem => item.Discount)
-                                        </td>*@
-                                    <td>
-
-                                        @item.Price kr
-                                    </td>
-                                    <td id="total-price-@item.ID">
-                                        @{
-                                            var price = item.Price * item.ItemCount;
-                                            @Html.Raw($"{price} kr");
-                                        }
-                                    </td>
-                                    <td>
-
-                                        <div class="d-none" id="hidden-popover-@item.ID">
-                                            <p>Är du säkert?</p>
-                                            <a href='javascript:void(0)' onclick="removeItemDropdown(@item.ID)">Ja</a>
-                                            <a href='javascript:void(0)' onclick='closePopover(@item.ID)'>Nej</a>
-                                        </div>
-                                        <button type="button" class="btn text-white button-remove-item" data-toggle="popover-remove-item-@item.ID"
-                                                onclick="openPopover(@item.ID)">
-
-                                            <i class="material-icons text-danger">
-                                                not_interested
-                                            </i>
-                                        </button>
-                                    </td>
-
-
                                 </tr>
                             }
 
