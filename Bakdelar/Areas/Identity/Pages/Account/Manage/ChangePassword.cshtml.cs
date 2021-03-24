@@ -4,7 +4,6 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Bakdelar.Areas.Identity.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -16,13 +15,13 @@ namespace Bakdelar.Areas.Identity.Pages.Account.Manage
 {
     public class ChangePassword : PageModel
     {
-        private readonly UserManager<MyUser> _userManager;
-        private readonly SignInManager<MyUser> _signInManager;
+        private readonly UserManager<IdentityUser> _userManager;
+        private readonly SignInManager<IdentityUser> _signInManager;
         private readonly ILogger<ChangePassword> _logger;
         private readonly IConfiguration _configuration;
 
-        public ChangePassword(SignInManager<MyUser> signInManager, ILogger<ChangePassword> logger,
-           UserManager<MyUser> userManager, IConfiguration configuration)
+        public ChangePassword(SignInManager<IdentityUser> signInManager, ILogger<ChangePassword> logger,
+           UserManager<IdentityUser> userManager, IConfiguration configuration)
         {
             _signInManager = signInManager;
             _userManager = userManager;

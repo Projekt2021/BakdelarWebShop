@@ -13,18 +13,17 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using System.Text.Json;
-using Bakdelar.Areas.Identity.Data;
 
 namespace Bakdelar.Pages.Shared
 {
     public class SingleProductViewModel : PageModel
     {
         private readonly ILogger<IndexModel> _logger;
-        private readonly UserManager<MyUser> _userManager;
+        private readonly UserManager<IdentityUser> _userManager;
         private readonly IConfiguration _configuration;
         public SingleProductViewModel(
             IConfiguration configuration,
-            UserManager<MyUser> userManager,
+            UserManager<IdentityUser> userManager,
             ILogger<IndexModel> logger)
         {
             _configuration = configuration;

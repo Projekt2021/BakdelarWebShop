@@ -50,56 +50,56 @@
                         <tbody>
                             @foreach (var item in Model.ShoppingBasket)
                             {
-                                <tr>
-                                    <td>
-                                        <img src="@item.ImageLink" style="height: 50px; height: 50px;" />
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.ProductName)
-                                    </td>
+                            <tr>
+                                <td>
+                                    <img src="@item.ImageLink" style="height: 50px; height: 50px;" />
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.ProductName)
+                                </td>
 
 
-                                    <td>
-                                        <div class="form-inline">
-                                            <input class="form-control" id="change-amount-@item.ID" style="border-radius: 1rem; width: 4.5rem;"
-                                                   type="number" step="1" value="@item.ItemCount" name="NewCount"
-                                                   min="1" max="@item.StockLevel" />
-                                            <span class="material-icons" style="color: green;user-select: none;">
-                                                check_circle_outline
-                                            </span>
-                                        </div>
-                                    </td>
-                                    @*<td>
-                                            @Html.DisplayFor(modelItem => item.Discount)
-                                        </td>*@
-                                    <td>
+                                <td>
+                                    <div class="form-inline">
+                                        <input class="form-control" id="change-amount-@item.ID" style="border-radius: 1rem; width: 4.5rem;"
+                                               type="number" step="1" value="@item.ItemCount" name="NewCount"
+                                               min="1" max="@item.StockLevel" />
+                                        <span class="material-icons" style="color: green;user-select: none;">
+                                            check_circle_outline
+                                        </span>
+                                    </div>
+                                </td>
+                                @*<td>
+            @Html.DisplayFor(modelItem => item.Discount)
+        </td>*@
+                                <td>
 
-                                        @item.Price kr
-                                    </td>
-                                    <td id="total-price-@item.ID">
-                                        @{
-                                            var price = item.Price * item.ItemCount;
-                                            @Html.Raw($"{price} kr");
-                                        }
-                                    </td>
-                                    <td>
+                                    @item.Price kr
+                                </td>
+                                <td id="total-price-@item.ID">
+                                    @{
+                                        var price = item.Price * item.ItemCount;
+                                        @Html.Raw($"{price} kr");
+                                    }
+                                </td>
+                                <td>
 
-                                        <div class="d-none" id="hidden-popover-@item.ID">
-                                            <p>Är du säkert?</p>
-                                            <a href='javascript:void(0)' onclick="removeItemDropdown(@item.ID)">Ja</a>
-                                            <a href='javascript:void(0)' onclick='closePopover(@item.ID)'>Nej</a>
-                                        </div>
-                                        <button type="button" class="btn text-white button-remove-item" data-toggle="popover-remove-item-@item.ID"
-                                                onclick="openPopover(@item.ID)">
+                                    <div class="d-none" id="hidden-popover-@item.ID">
+                                        <p>Är du säkert?</p>
+                                        <a href='javascript:void(0)' onclick="removeItemDropdown(@item.ID)">Ja</a>
+                                        <a href='javascript:void(0)' onclick='closePopover(@item.ID)'>Nej</a>
+                                    </div>
+                                    <button type="button" class="btn text-white button-remove-item" data-toggle="popover-remove-item-@item.ID"
+                                            onclick="openPopover(@item.ID)">
 
-                                            <i class="material-icons text-danger">
-                                                not_interested
-                                            </i>
-                                        </button>
-                                    </td>
+                                        <i class="material-icons text-danger">
+                                            not_interested
+                                        </i>
+                                    </button>
+                                </td>
 
 
-                                </tr>
+                            </tr>
                             }
 
                             @if (totalPrice < 300)
@@ -148,34 +148,27 @@
                             }
                         </tbody>
                     </table>
-                    @if (totalPrice < 300)
-                    {
+                        @if (totalPrice < 300)
+                        {
 
                         decimal remaining = 300 - totalPrice;
 
                         <div id="shipping-cost-banner" class="text-warning bg-dark mx-auto w-100 border rounded border-dark m-3 text-center font-weight-bolder h1">Kvar till fri frakt: @remaining kr</div>
-                    }
-                    @if (totalPrice >= 300)
-                    {
+                        }
+                        @if (totalPrice >= 300)
+                        {
                         <div id="shipping-cost-banner" class="text-dark bg-success w-100 mx-auto border rounded border-dark my-3 text-center font-weight-bolder h1">Du har nu fri frakt!</div>
-                    }
+                        }
                     <div class="flex-row ">
-                        <div id="total-cost-below" class="mx-auto text-right pt-3 h4 w-100">
-                            @if (totalPrice < 300)
-                            {
-                                totalPrice += shippingFee;
-                            }
-                            Totalt: @totalPrice kr
+                            <div id="total-cost-below"class="mx-auto text-right pt-3 h4 w-100">
+                                @if (totalPrice < 300)
+                                {
+                                    totalPrice += shippingFee;
+                                }
+                                Totalt: @totalPrice kr
                         </div>
                     </div>
 
-                    <div class="row ">
-                        <div class="col-12 p-3 text-right">
-                            <a class="btn btn-info m-2" href="~/index"> Fortsätt handla </a>
-
-                            <a class="btn btn-info m-2" href="~/checkout"> Beställ </a>
-                        </div>
-                    </div>
 
                 }
                 else

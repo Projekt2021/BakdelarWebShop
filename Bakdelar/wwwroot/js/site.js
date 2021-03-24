@@ -6,7 +6,7 @@
 
 
 let ShoppingBasketContainer = $('#keep-open');
-let currentPage = window.location.pathname.toLowerCase();
+let currentPage = window.location.pathname;
 const HandlerLink = "/shared/AjaxHelper?handler=";
 var amount;
 
@@ -407,7 +407,7 @@ function reduceByOne(id) {
         else {
             updateBasketDropdown(id);
         }
-        if (currentPage == "/shoppingbasket" || "/checkout") {
+        if (currentPage == "/ShoppingBasket") {
             console.log("current page is shopping basket")
             updateShoppingBasketPage();
         }
@@ -452,7 +452,7 @@ function increaseByOne(id) {
         else {
             updateBasketDropdown(id);
         }
-        if (currentPage == "/ShoppingBasket" || "/Checkout") {
+        if (currentPage == "/ShoppingBasket") {
             console.log("current page is shopping basket")
             updateShoppingBasketPage();
         }
@@ -559,7 +559,7 @@ function removeItemDropdown(id) {
             getNumberInStock(id);
         }
         //restore();
-        if (currentPage == "/ShoppingBasket" || "/Checkout") {
+        if (currentPage == "/ShoppingBasket") {
             updateShoppingBasketPage()
 
         }
@@ -621,16 +621,8 @@ function updateShoppingBasketPage() {
             xhr.setRequestHeader("XSRF-TOKEN", $('input:hidden[name="__RequestVerificationToken"]').val());
         },
     }).done(function (response) { //
-
-        if (response.length == 202 && currentPage == "/checkout") {
-            window.location.replace("/");
-
-        }
-        else {
-
-            $('.shopping-basket-table').html(response);
-            console.log(response.length);
-        //restore();
-        }
+        $('.shopping-basket-table').html(response);
+        //console.log(response);
+        restore();
     });
 }
