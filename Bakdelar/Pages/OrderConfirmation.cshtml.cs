@@ -2,8 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Bakdelar.Areas.Identity.Data;
 using Bakdelar.Classes;
 using Bakdelar.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
@@ -15,18 +17,21 @@ namespace Bakdelar.Pages
 
 
         public OrderDbContext _context { get; set; }
+        public UserManager<MyUser> _userManager { get; set; }
 
 
 
-        public OrderConfirmationModel(OrderDbContext context)
+        public OrderConfirmationModel(OrderDbContext context, UserManager<MyUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
 
 
         [BindProperty(SupportsGet = true)]
-        public int ID { get; set; }
+        public int ID { get; set; } 
+        public bool AlreadyViewed { get; set; } 
 
         public Dictionary<int, string> ProductImages { get; set; }
 
@@ -42,11 +47,36 @@ namespace Bakdelar.Pages
             Order = _context.Orders.Where(order => order.OrderID == ID).Include(order => order.OrderItems).FirstOrDefault();
             if (Order != null)
             {
-                ProductImages = new Dictionary<int, string>();
-                foreach (var item in Order.OrderItems)
+                //"9aca5242-25b3-43a3-aa4c-b2f226c3a970"
+                string userID = _userManager.GetUserId(User);
+                bool sameUser = (!string.IsNullOrWhiteSpace(Order.UserID) && 
+                                 !string.IsNullOrWhiteSpace(userID)) && 
+                                 (Order.UserID == userID);
+
+
+
+
+
+                //if ((Order.HasBeenViewed && !sameUser) || !sameUser)
+                //{
+                //    Order = null;
+                //}
+                //else 
+                if(!Order.HasBeenViewed || sameUser)
                 {
-                    ProductView product = MethodClasses.GetFromApi.GetProductAsync(item.ProductID).Result;
-                    ProductImages.Add(item.ProductID, product.ProductImageView.FirstOrDefault().ImageURL);
+                    AlreadyViewed = Order.HasBeenViewed;
+                    Order.HasBeenViewed = true;
+                    _context.SaveChanges();
+                    ProductImages = new Dictionary<int, string>();
+                    foreach (var item in Order.OrderItems)
+                    {
+                        ProductView product = MethodClasses.GetFromApi.GetProductAsync(item.ProductID).Result;
+                        ProductImages.Add(item.ProductID, product.ProductImageView.FirstOrDefault().ImageURL);
+                    }
+                }
+                else
+                {
+                    Order = null;
                 }
             }
         }

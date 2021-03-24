@@ -102,7 +102,8 @@ namespace Bakdelar.Pages
                 ShippingFee = shippingFee,
                 OrderCost = orderCost,
                 OrderItems = orderItems,
-                UserID = userID
+                UserID = userID,
+                HasBeenViewed = false
             };
             _context.Orders.Add(order);
             await _context.SaveChangesAsync();

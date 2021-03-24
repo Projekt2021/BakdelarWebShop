@@ -31,5 +31,7 @@ namespace Bakdelar.Models
 
         public decimal OrderCost { get; set; }
 
+        public bool HasBeenViewed { get; set; }
+
     }
 }

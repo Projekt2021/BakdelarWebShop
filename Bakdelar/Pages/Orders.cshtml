@@ -1,0 +1,64 @@
+﻿@page
+@using Bakdelar.Areas.Identity.Pages.Account.Manage;
+@model Bakdelar.Areas.Identity.Pages.Account.OrdersModel
+@{
+
+    ViewData["Title"] = "Beställningar";
+    if (Model.UserOrders == null || !Model.UserOrders.Any())
+    {
+        <h1>Beställ något först!</h1>
+    }
+    else
+    {
+
+        <div class="row shopping-basket-table">
+            <div class="flex-column w-100">
+                <div class="justify-content-center w-50 mx-auto">
+                    <table class="table m-0 border  border-dark table-hover">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th scope="col">
+                                    Ordernummer
+                                </th>
+                                <th scope="col">
+                                    Datum
+                                </th>
+                                <th scope="col">
+                                    Betalat
+                                </th>
+                                <th scope="col">
+                                    Email
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            @foreach (var order in Model.UserOrders)
+                            {
+                                <tr onclick="location.href='@Url.Content($"/OrderConfirmation/{order.OrderID}")'" style="cursor:pointer">
+                                    <td>
+                                        @order.OrderID
+                                    </td>
+
+
+                                    <td>
+                                        @order.OrderDate.ToShortDateString()
+                                    </td>
+                                    <td>
+
+                                        @order.OrderCost
+                                    </td>
+                                    <td>
+                                        @order.CustomerEmail
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    }
+}
+
+

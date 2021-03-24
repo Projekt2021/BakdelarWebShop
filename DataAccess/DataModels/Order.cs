@@ -34,5 +34,7 @@ namespace DataAccess.DataModels
         [Column(TypeName = "decimal(18,2)")]
         public decimal OrderCost { get; set; }
 
+        public bool HasBeenViewed { get; set; }
+
     }
 }

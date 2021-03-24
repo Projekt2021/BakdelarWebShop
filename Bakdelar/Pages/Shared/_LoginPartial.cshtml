@@ -18,6 +18,9 @@
             <a class="dropdown-item" id="manage" asp-area="Identity" asp-page="/Account/Manage/Index">Hello @UserManager.GetUserName(User).Split('@')[0]!</a>
             @*<a class="dropdown-item" id="manage" asp-area="Identity" asp-page="/Account/Manage/Index">Hello @UserManager.GetUserId(User)</a>*@
             <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="@Url.Content("~/Orders")">Ordrar</a>
+            @*<a class="dropdown-item" id="manage" asp-area="Identity" asp-page="/Account/Manage/Index">Hello @UserManager.GetUserId(User)</a>*@
+            <div class="dropdown-divider"></div>
             <form id="logoutForm" class="dropdown-item" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Page("/Index", new { area = "" })">
                 <button id="logout" type="submit" class="nav-link btn btn-link text-dark" style="padding:0px; margin:0px;">Logout</button>
             </form>
