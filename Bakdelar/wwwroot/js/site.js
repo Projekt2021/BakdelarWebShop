@@ -6,7 +6,7 @@
 let spamProtection = false;
 
 let ShoppingBasketContainer = $('#keep-open');
-let currentPage = window.location.pathname.toLowerCase();
+let currentPage = window.location.pathname;
 const HandlerLink = "/shared/AjaxHelper?handler=";
 var amount;
 

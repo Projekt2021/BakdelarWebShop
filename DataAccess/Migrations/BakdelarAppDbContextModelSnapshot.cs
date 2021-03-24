@@ -296,15 +296,6 @@ namespace DataAccess.Migrations
                     b.Navigation("Product");
                 });
 
-            modelBuilder.Entity("DataAccess.DataModels.OrderItem", b =>
-                {
-                    b.HasOne("DataAccess.DataModels.Order", null)
-                        .WithMany("OrderItems")
-                        .HasForeignKey("OrderID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("DataAccess.DataModels.Product", b =>
                 {
                     b.HasOne("DataAccess.DataModels.Category", "Category")
@@ -349,11 +340,6 @@ namespace DataAccess.Migrations
                     b.Navigation("Carts");
 
                     b.Navigation("Purchases");
-                });
-
-            modelBuilder.Entity("DataAccess.DataModels.Order", b =>
-                {
-                    b.Navigation("OrderItems");
                 });
 
             modelBuilder.Entity("DataAccess.DataModels.Product", b =>
