@@ -1,3 +1,4 @@
+using Bakdelar.Areas.Identity.Data;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -132,7 +133,7 @@ namespace Bakdelar.Areas.Identity.Pages.Account
             return Page();
         }
 
-        private String GetToken(IdentityUser user, string role)
+        private String GetToken(MyUser user, string role)
         {
             var utcNow = DateTime.UtcNow;
 

@@ -150,27 +150,34 @@
                             }
                         </tbody>
                     </table>
-                        @if (totalPrice < 300)
-                        {
+                    @if (totalPrice < 300)
+                    {
 
                         decimal remaining = 300 - totalPrice;
 
                         <div id="shipping-cost-banner" class="text-warning bg-dark mx-auto w-100 border rounded border-dark m-3 text-center font-weight-bolder h1">Kvar till fri frakt: @remaining kr</div>
-                        }
-                        @if (totalPrice >= 300)
-                        {
+                    }
+                    @if (totalPrice >= 300)
+                    {
                         <div id="shipping-cost-banner" class="text-dark bg-success w-100 mx-auto border rounded border-dark my-3 text-center font-weight-bolder h1">Du har nu fri frakt!</div>
-                        }
+                    }
                     <div class="flex-row ">
-                            <div id="total-cost-below"class="mx-auto text-right pt-3 h4 w-100">
-                                @if (totalPrice < 300)
-                                {
-                                    totalPrice += shippingFee;
-                                }
-                                Totalt: @totalPrice kr
+                        <div id="total-cost-below" class="mx-auto text-right pt-3 h4 w-100">
+                            @if (totalPrice < 300)
+                            {
+                                totalPrice += shippingFee;
+                            }
+                            Totalt: @totalPrice kr
                         </div>
                     </div>
 
+                    <div class="row ">
+                        <div class="col-12 p-3 text-right">
+                            <a class="btn btn-info m-2" href="~/index"> Fortsätt handla </a>
+
+                            <a class="btn btn-info m-2" href="~/checkout"> Beställ </a>
+                        </div>
+                    </div>
 
                 }
                 else

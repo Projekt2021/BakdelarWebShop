@@ -5,6 +5,8 @@ namespace Bakdelar.Areas.Identity.Data
 {
     public class AuthenticationDbContext: IdentityDbContext
     {
+
+        DbSet<MyUser> MyUsers { get; set; }
         public AuthenticationDbContext(DbContextOptions<AuthenticationDbContext> options)
             : base(options)
         {

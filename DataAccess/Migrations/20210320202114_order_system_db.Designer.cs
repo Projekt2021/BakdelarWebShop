@@ -4,19 +4,21 @@ using DataAccess;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DataAccess.Migrations
 {
     [DbContext(typeof(BakdelarAppDbContext))]
-    partial class BakdelarAppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210320202114_order_system_db")]
+    partial class order_system_db
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
-                .HasAnnotation("ProductVersion", "5.0.4")
+                .HasAnnotation("ProductVersion", "5.0.3")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
             modelBuilder.Entity("DataAccess.DataModels.Cart", b =>
@@ -93,12 +95,6 @@ namespace DataAccess.Migrations
                     b.Property<string>("CustomerAddress")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("CustomerCOAddress")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("CustomerCity")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("CustomerEmail")
                         .HasColumnType("nvarchar(max)");
 
@@ -108,20 +104,11 @@ namespace DataAccess.Migrations
                     b.Property<string>("CustomerLastName")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("CustomerPhoneNumber")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("CustomerZipCode")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<DateTime?>("DeliveryDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<bool>("HasBeenViewed")
-                        .HasColumnType("bit");
-
                     b.Property<decimal>("OrderCost")
-                        .HasColumnType("decimal(18,2)");
+                        .HasColumnType("decimal(5,2)");
 
                     b.Property<DateTime>("OrderDate")
                         .HasColumnType("datetime2");
@@ -129,14 +116,11 @@ namespace DataAccess.Migrations
                     b.Property<string>("PaymentMethod")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<decimal?>("ShippingFee")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<int?>("ShippingFee")
+                        .HasColumnType("int");
 
                     b.Property<bool>("ShippingPaid")
                         .HasColumnType("bit");
-
-                    b.Property<string>("UserID")
-                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("OrderID");
 
@@ -159,14 +143,11 @@ namespace DataAccess.Migrations
                     b.Property<int>("ProductID")
                         .HasColumnType("int");
 
-                    b.Property<string>("ProductName")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<decimal>("ProductPricePaidEach")
-                        .HasColumnType("decimal(18,2)");
+                        .HasColumnType("decimal(5,2)");
 
                     b.Property<decimal>("ProductPricePaidTotal")
-                        .HasColumnType("decimal(18,2)");
+                        .HasColumnType("decimal(5,2)");
 
                     b.HasKey("OrderItemID");
 

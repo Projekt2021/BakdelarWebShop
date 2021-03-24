@@ -25,23 +25,6 @@ namespace Bakdelar
                 {
                     webBuilder.UseStartup<Startup>();
                     webBuilder.UseUrls("http://*:5000;https://*:5001");
-                })
-                .ConfigureServices((context, services) =>
-                {
-                    services.AddDbContext<AuthenticationDbContext>(options =>
-                         options.UseSqlServer(context.Configuration.GetConnectionString("AuthenticationDbContextConnection")),
-                         ServiceLifetime.Transient);
-
-                    services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = false)
-                       .AddRoles<IdentityRole>()
-                       .AddEntityFrameworkStores<AuthenticationDbContext>();
-
-                    services.AddAuthorization(options =>
-                    {
-                        options.AddPolicy("RequireAdministratorRole",
-                             policy => policy.RequireRole("Admin"));
-                    });
-
                 });
     }
 }
