@@ -1,20 +1,24 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
+using System.Security.Claims;
 using System.Text;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 using Bakdelar.Areas.Identity.Data;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
-
+using Microsoft.IdentityModel.Tokens;
 
 namespace Bakdelar.Areas.Identity.Pages.Account
 {
@@ -25,17 +29,23 @@ namespace Bakdelar.Areas.Identity.Pages.Account
         private readonly UserManager<MyUser> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly ILogger<RegisterModel> _logger;
+        private readonly IConfiguration _configuration;
+        private readonly AuthenticationDbContext _authContext;
 
         public RegisterModel(
             UserManager<MyUser> userManager,
             SignInManager<MyUser> signInManager,
             RoleManager<IdentityRole> roleManager,
-            ILogger<RegisterModel> logger)
+            ILogger<RegisterModel> logger,
+            IConfiguration configuration,
+            AuthenticationDbContext authenticationDbContext)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _logger = logger;
             _roleManager = roleManager;
+            _configuration = configuration;
+            _authContext = authenticationDbContext;
         }
 
         [BindProperty]
@@ -112,7 +122,30 @@ namespace Bakdelar.Areas.Identity.Pages.Account
 
                     // dbcontext error - will fix this later
                     //_signInManager.SignInAsync(user, isPersistent: false).GetAwaiter().GetResult();
+                    var loginUuser = await _signInManager.PasswordSignInAsync(Input.Email, Input.Password, true, lockoutOnFailure: false);
+                    if (loginUuser.Succeeded)
+                    {
 
+                        user = _authContext.MyUsers.Where(user => user.Email == Input.Email).FirstOrDefault();
+                        var roles = await _userManager.GetRolesAsync(user);
+                        string token = GetToken(user, roles.FirstOrDefault());
+                        HttpContext.Response.Cookies.Append("access_token", token, new CookieOptions { HttpOnly = true, Secure = true });
+
+                        _logger.LogInformation("User logged in.");
+
+                        if (roles.Any(x => x == "Admin"))
+                        { 
+                            return LocalRedirect("/Admin/Product/");
+                        }
+                        else if(string.IsNullOrWhiteSpace(user.FirstName))
+                        {
+                            return LocalRedirect("/Identity/Account/Manage/CustomerInfo");
+                        }
+                        else
+                        {
+                            return LocalRedirect(returnUrl);
+                        }
+                    }
                     return LocalRedirect(returnUrl);
                 }
                 foreach (var error in result.Errors)
@@ -124,5 +157,33 @@ namespace Bakdelar.Areas.Identity.Pages.Account
             // If we got this far, something failed, redisplay form
             return Page();
         }
+
+
+
+        public String GetToken(MyUser user, string role)
+        {
+            var utcNow = DateTime.UtcNow;
+
+            List<Claim> claims = new List<Claim>() {
+                    new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+                    new Claim (JwtRegisteredClaimNames.UniqueName,user.Email),
+                    new Claim (JwtRegisteredClaimNames.Sub,user.Id.ToString()),		    
+                    // Add the ClaimType Role which carries the Role of the user
+                    new Claim (ClaimTypes.Role, role)
+            };
+            var signingKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(this._configuration.GetValue<String>("Tokens:Key")));
+            var signingCredentials = new SigningCredentials(signingKey, SecurityAlgorithms.HmacSha256);
+
+            var jwt = new JwtSecurityToken(
+                    signingCredentials: signingCredentials,
+                    claims: claims,
+                    notBefore: utcNow,
+                    expires: utcNow.AddMinutes(this._configuration.GetValue<int>("Tokens:Lifetime")),
+                    audience: this._configuration.GetValue<String>("Tokens:Audience"),
+                    issuer: this._configuration.GetValue<String>("Tokens:Issuer")
+                );
+            return new JwtSecurityTokenHandler().WriteToken(jwt);
+        }
     }
+
 }
