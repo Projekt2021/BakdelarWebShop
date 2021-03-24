@@ -22,13 +22,13 @@ namespace Bakdelar.Areas.Identity.Pages.Account
     [AllowAnonymous]
     public class LoginModel : PageModel
     {
-        private readonly UserManager<MyUser> _userManager;
-        private readonly SignInManager<MyUser> _signInManager;
+        private readonly UserManager<IdentityUser> _userManager;
+        private readonly SignInManager<IdentityUser> _signInManager;
         private readonly ILogger<LoginModel> _logger;
         private readonly IConfiguration _configuration;
-        public LoginModel(SignInManager<MyUser> signInManager,
+        public LoginModel(SignInManager<IdentityUser> signInManager,
             ILogger<LoginModel> logger,
-            UserManager<MyUser> userManager, IConfiguration configuration)
+            UserManager<IdentityUser> userManager, IConfiguration configuration)
         {
             _userManager = userManager;
             _signInManager = signInManager;
