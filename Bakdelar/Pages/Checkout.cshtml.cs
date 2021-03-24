@@ -69,7 +69,13 @@ namespace Bakdelar.Pages
             bool shippingPaid = orderCost < 300;
 
 
+            string userID = null;
 
+
+            if (_signInManager.IsSignedIn(User))
+            {
+                userID = _userManager.GetUserId(User);
+            }
 
             decimal shippingFee = StaticValues.ShippingFee;
             if(shippingPaid)
@@ -95,7 +101,8 @@ namespace Bakdelar.Pages
                 ShippingPaid = shippingPaid,
                 ShippingFee = shippingFee,
                 OrderCost = orderCost,
-                OrderItems = orderItems
+                OrderItems = orderItems,
+                UserID = userID
             };
             _context.Orders.Add(order);
             await _context.SaveChangesAsync();

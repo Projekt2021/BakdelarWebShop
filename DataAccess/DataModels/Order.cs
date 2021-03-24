@@ -11,7 +11,7 @@ namespace DataAccess.DataModels
     {
         public int OrderID { get; set; }
         public List<OrderItem> OrderItems { get; set; }
-
+        public string UserID { get; set; }
         [DataType(DataType.Date)]
         public DateTime OrderDate { get; set; }
 
@@ -22,7 +22,6 @@ namespace DataAccess.DataModels
         public string CustomerAddress { get; set; }
         public string CustomerCOAddress { get; set; }
         public string CustomerPhoneNumber { get; set; }
-
         public string CustomerZipCode { get; set; }
         public string CustomerCity { get; set; }
         public string CustomerEmail { get; set; }

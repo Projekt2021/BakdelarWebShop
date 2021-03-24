@@ -12,6 +12,7 @@ namespace Bakdelar.Models
         public int OrderID { get; set; }
         public List<OrderItem> OrderItems { get; set; }
 
+        public string UserID { get; set; }
         [DataType(DataType.Date)]
         public DateTime OrderDate { get; set; }
         public DateTime? DeliveryDate { get; set; }
