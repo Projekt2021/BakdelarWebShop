@@ -42,11 +42,12 @@ namespace Bakdelar.Pages
                                       .Single(x => x.NormalizedEmail == _userManager.GetUserAsync(User).Result.NormalizedEmail);
                 ViewData["email"] = user.Email;
                 var address = user.Address;
-                ViewData["street"] = address.Street;
-                ViewData["zip"] = address.ZipCode;
-                ViewData["city"] = address.City;
+                ViewData["street"] = address?.Street;
+                ViewData["zip"] = address?.ZipCode;
+                ViewData["city"] = address?.City;
                 ViewData["firstname"] = user.FirstName;
                 ViewData["lastName"] = user.LastName;
+                ViewData["phonenumber"] = user.PhoneNumber;
             }
 
         }
@@ -86,6 +87,7 @@ namespace Bakdelar.Pages
                 CustomerLastName = Customer.LastName,
                 CustomerEmail = Customer.Email,
                 CustomerAddress = Customer.Address,
+                CustomerCOAddress = Customer.AddressCO,
                 CustomerZipCode = Customer.ZipCode,
                 CustomerCity = Customer.City,
                 PaymentMethod = paymentMethod,

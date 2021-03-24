@@ -16,6 +16,9 @@ namespace Bakdelar.Models
         [Required]
         [Display(Name = "Efternamn")]
         public string LastName { get; set; }
+        [Required]
+        [Display(Name = "Telefonnummer")]
+        public string PhoneNumber { get; set; }
 
         [Required]
         [Display(Name = "Gatuadress")]
@@ -28,6 +31,20 @@ namespace Bakdelar.Models
         [Required]
         [Display(Name = "Postort")]
         public string City { get; set; }
+
+        [Display(Name = "C/O")]
+        public string AddressCO { get; set; }
+
+        //[Required]
+        //[Display(Name = "Postnummer C/O")]
+        //public string ZipCodeCO { get; set; }
+
+        //[Required]
+        //[Display(Name = "Postort C/O")]
+        //public string CityCO { get; set; }
+
+
+
 
         [Required]
         [Display(Name = "E-post")]
