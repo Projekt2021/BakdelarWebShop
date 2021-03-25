@@ -1,6 +1,14 @@
 ﻿@page
 @using Bakdelar.Areas.Identity.Pages.Account.Manage;
 @model Bakdelar.Areas.Identity.Pages.Account.OrdersModel
+
+@using Microsoft.AspNetCore.Identity
+@using Bakdelar.Areas.Identity.Data;
+
+@inject SignInManager<MyUser> signInManager
+@inject UserManager<MyUser> userManager
+@inject AuthenticationDbContext authenticationDbContext
+
 @{
 
     ViewData["Title"] = "Beställningar";
@@ -10,6 +18,19 @@
     }
     else
     {
+        @if (Model.IsAdmin)
+        {
+            <h3 class="text-center">Du är inloggad som administratör och har till gång till alla ordrar</h3>
+            <br />
+        }
+        else
+        {
+            string userId = userManager.GetUserId(User);
+            string firstName = authenticationDbContext.MyUsers.Find(userId).FirstName;
+
+            <h3 class="text-center">Inloggad som @firstName, alla dina ordrar visas</h3>
+            <br />
+        }
 
         <div class="row shopping-basket-table">
             <div class="flex-column w-100">

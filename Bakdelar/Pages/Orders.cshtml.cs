@@ -17,6 +17,9 @@ namespace Bakdelar.Areas.Identity.Pages.Account
 
         public List<Order> UserOrders { get; set; }
 
+        public bool IsAdmin { get; set; }
+
+
         public UserManager<MyUser> _userManager { get; set; }
         public AuthenticationDbContext _authDbContext { get; set; }
         public SignInManager<MyUser> _signInManager { get; set; }
@@ -34,7 +37,10 @@ namespace Bakdelar.Areas.Identity.Pages.Account
         {
             string userID = _userManager.GetUserId(User);
             var user = _userManager.GetUserAsync(User).Result;
-            if (_userManager.IsInRoleAsync(user, "Admin").Result)
+
+            IsAdmin = _userManager.IsInRoleAsync(user, "Admin").Result;
+
+            if (IsAdmin)
             {
                 UserOrders = _orderDbContext.Orders.ToList();
             }
