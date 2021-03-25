@@ -52,7 +52,7 @@ namespace Bakdelar.Pages
                 bool sameUser = (!string.IsNullOrWhiteSpace(Order.UserID) &&
                                  !string.IsNullOrWhiteSpace(userID)) &&
                                  (Order.UserID == userID);
-
+                bool isAdmin = false;
 
 
 
@@ -63,7 +63,14 @@ namespace Bakdelar.Pages
                 //}
                 //else 
 
-                var isAdmin = _userManager.IsInRoleAsync(_userManager.GetUserAsync(User).Result, "Admin").Result;
+                try
+                {
+                    isAdmin = _userManager.IsInRoleAsync(_userManager.GetUserAsync(User).Result, "Admin").Result;
+                }
+                catch
+                {
+                    isAdmin = false;
+                }   
 
                 //bool isAdmin = isAdminASync.Result;
 
