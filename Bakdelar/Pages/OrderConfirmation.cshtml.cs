@@ -19,7 +19,7 @@ namespace Bakdelar.Pages
         public OrderDbContext _context { get; set; }
         public UserManager<MyUser> _userManager { get; set; }
 
-
+        //public SignInManager<MyUser> _signInManager { get; set; }
 
         public OrderConfirmationModel(OrderDbContext context, UserManager<MyUser> userManager)
         {
@@ -30,8 +30,8 @@ namespace Bakdelar.Pages
 
 
         [BindProperty(SupportsGet = true)]
-        public int ID { get; set; } 
-        public bool AlreadyViewed { get; set; } 
+        public int ID { get; set; }
+        public bool AlreadyViewed { get; set; }
 
         public Dictionary<int, string> ProductImages { get; set; }
 
@@ -49,8 +49,8 @@ namespace Bakdelar.Pages
             {
                 //"9aca5242-25b3-43a3-aa4c-b2f226c3a970"
                 string userID = _userManager.GetUserId(User);
-                bool sameUser = (!string.IsNullOrWhiteSpace(Order.UserID) && 
-                                 !string.IsNullOrWhiteSpace(userID)) && 
+                bool sameUser = (!string.IsNullOrWhiteSpace(Order.UserID) &&
+                                 !string.IsNullOrWhiteSpace(userID)) &&
                                  (Order.UserID == userID);
 
 
@@ -62,7 +62,13 @@ namespace Bakdelar.Pages
                 //    Order = null;
                 //}
                 //else 
-                if(!Order.HasBeenViewed || sameUser)
+
+                var isAdmin = _userManager.IsInRoleAsync(_userManager.GetUserAsync(User).Result, "Admin").Result;
+
+                //bool isAdmin = isAdminASync.Result;
+
+
+                if (!Order.HasBeenViewed || sameUser|| isAdmin)
                 {
                     AlreadyViewed = Order.HasBeenViewed;
                     Order.HasBeenViewed = true;
@@ -74,6 +80,7 @@ namespace Bakdelar.Pages
                         ProductImages.Add(item.ProductID, product.ProductImageView.FirstOrDefault().ImageURL);
                     }
                 }
+               
                 else
                 {
                     Order = null;
