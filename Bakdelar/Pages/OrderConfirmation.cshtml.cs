@@ -19,8 +19,6 @@ namespace Bakdelar.Pages
         public OrderDbContext _context { get; set; }
         public UserManager<MyUser> _userManager { get; set; }
 
-        //public SignInManager<MyUser> _signInManager { get; set; }
-
         public OrderConfirmationModel(OrderDbContext context, UserManager<MyUser> userManager)
         {
             _context = context;
@@ -47,21 +45,12 @@ namespace Bakdelar.Pages
             Order = _context.Orders.Where(order => order.OrderID == ID).Include(order => order.OrderItems).FirstOrDefault();
             if (Order != null)
             {
-                //"9aca5242-25b3-43a3-aa4c-b2f226c3a970"
                 string userID = _userManager.GetUserId(User);
                 bool sameUser = (!string.IsNullOrWhiteSpace(Order.UserID) &&
                                  !string.IsNullOrWhiteSpace(userID)) &&
                                  (Order.UserID == userID);
                 bool isAdmin = false;
 
-
-
-
-                //if ((Order.HasBeenViewed && !sameUser) || !sameUser)
-                //{
-                //    Order = null;
-                //}
-                //else 
 
                 try
                 {
@@ -71,8 +60,6 @@ namespace Bakdelar.Pages
                 {
                     isAdmin = false;
                 }   
-
-                //bool isAdmin = isAdminASync.Result;
 
 
                 if (!Order.HasBeenViewed || sameUser|| isAdmin)
