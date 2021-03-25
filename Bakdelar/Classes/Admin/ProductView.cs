@@ -11,16 +11,18 @@ namespace Bakdelar.Classes
     {
         public int ProductId { get; set; }
 
-        [Required]
+        //[Required]
         [Display(Name = "Product Name")]
         public string ProductName { get; set; }
 
         [Display(Name = "Description")]
         public string ProductDescription { get; set; }
-
+        
         [Required]
         [Display(Name = "Price")]
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:f}")]
+        //[DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:f}")]
+        [RegularExpression(@"^[0-9]+(,[0-9]{1,2})$", ErrorMessage = "Valid Decimal number with maximum 2 decimal places.")]
+        ////[Range(0, 9999.99)]
         public decimal ProductPrice { get; set; }
 
         [Display(Name="Special Prize")]

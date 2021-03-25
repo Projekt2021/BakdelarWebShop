@@ -17,6 +17,10 @@ namespace Bakdelar
     {
         public Startup(IConfiguration configuration)
         {
+            CultureInfo ci = new CultureInfo("sv-SE");
+            CultureInfo.DefaultThreadCurrentCulture = ci;
+            CultureInfo.DefaultThreadCurrentUICulture = ci;
+
             Configuration = configuration;
             GetFromApi.SetupLinks(Configuration);
         }
