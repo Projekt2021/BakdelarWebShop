@@ -12,38 +12,38 @@ namespace Bakdelar.Classes
         public int ProductId { get; set; }
 
         [Required]
-        [Display(Name = "Produktnamn")]
+        [Display(Name = "Product Name")]
         public string ProductName { get; set; }
 
-        [Display(Name = "Beskrivning")]
+        [Display(Name = "Description")]
         public string ProductDescription { get; set; }
-        
+
         [Required]
-        [Display(Name = "Pris")]
-        [RegularExpression(@"^[0-9]+(,[0-9]{1,2})$", ErrorMessage = "Tal med två decimaler, tack. Ditt fån.")]
+        [Display(Name = "Price")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:f}")]
         public decimal ProductPrice { get; set; }
 
-        [Display(Name="Nedsatt pris, yo")]
+        [Display(Name="Special Prize")]
         public decimal? SpecialPrice { get; set; }
 
-        [Display(Name = "I lager")]
+        [Display(Name = "Available Quantity")]
         public int? AvailableQuantity { get; set; }
 
-        [Display(Name = "Vikt")]
+        [Display(Name = "Weight")]
         public double? ProductWeight { get; set; }
 
-        [Display(Name = "Kampanj")]
+        [Display(Name = "Selected")]
         public bool IsSelected { get; set; }
 
-        [Display(Name = "Antal sålda")]
+        [Display(Name = "Sold Count")]
         public int NumberOfSold { get; set; }
 
-        [Display(Name = "Tillagd datum")]
+        [Display(Name = "Date Entered")]
         [DisplayFormat(DataFormatString = "{0:yyyy/MM/dd}")]
         public DateTime DateEntered { get; set; }
 
         [Required]
-        [Display(Name = "Kategori")]
+        [Display(Name = "Category")]
         public int CategoryId { get; set; }
         
         public CategoryView Category { get; set; }
