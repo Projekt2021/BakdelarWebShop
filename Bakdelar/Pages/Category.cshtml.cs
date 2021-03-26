@@ -6,6 +6,7 @@ using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
 using Bakdelar.Classes;
+using Bakdelar.MethodClasses;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -38,17 +39,24 @@ namespace Bakdelar.Pages
 
             if (!string.IsNullOrWhiteSpace(Id))
             {
-                if (!string.IsNullOrWhiteSpace(Id))
-                {
-                    using var httpClient = new HttpClient();
-                    Products = await httpClient.GetFromJsonAsync<List<Classes.ProductView>>($"{_configuration.GetValue<String>("APIEndpoint")}api/Category/Search?Id={Id}");
-                    
-                    //        //Products = Products.Skip(12 * PageNo - 1)
-                    //        //                   .Take(12)
-                    //        //                   .ToList();
+                using var httpClient = new HttpClient();
+                Products = await httpClient.GetFromJsonAsync<List<Classes.ProductView>>($"{_configuration.GetValue<String>("APIEndpoint")}api/Category/Search?Id={Id}");
 
-                }
+                //        //Products = Products.Skip(12 * PageNo - 1)
+                //        //                   .Take(12)
+                //        //                   .ToList();
+
+
                 await SetBreadcrumb();
+            }
+            else if (!string.IsNullOrWhiteSpace(Filter))
+            {
+                string filter = Filter.ToLower();
+                if (filter == "newest" || filter == "selected" ||
+                    filter == "mostsold" || filter == "sale")
+                {
+                    Products = await GetFromApi.GetAllProductsAsync($"/{filter}/0");
+                }
             }
 
 
@@ -63,8 +71,9 @@ namespace Bakdelar.Pages
                 CategoryName = categoryView.CategoryName;
                 ViewData["breadcrumb"] = new BreadcrumbsView() { Category = categoryView };
             }
+            //else if()
         }
 
-      
+
     }
 }

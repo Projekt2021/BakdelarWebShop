@@ -1,0 +1,46 @@
+﻿@page
+@model Bakdelar.Areas.Identity.Pages.Account.Manage.UpdateAddressModel
+
+@{
+    ViewData["Title"] = "Update address";
+    ViewData["ActivePage"] = Bakdelar.Areas.Identity.Pages.Account.Manage.ManageNavPages.CustomerInfo;
+}
+<h4>@ViewData["Title"]</h4>
+<partial name="_StatusMessage" for="StatusMessage" />
+<div class="row">
+    <div class="col-md-6">
+        <form id="change-password-form" method="post">
+            <div asp-validation-summary="All" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="FirstName">First name</label>
+                <input asp-for="FirstName" value="@Model.FirstName" class="form-control" />
+                @*<span asp-validation-for="Input.OldPassword" class="text-danger"></span>*@
+            </div>
+            <div class="form-group">
+                <label asp-for="LastName">Last name</label>
+                <input asp-for="LastName" value="@Model.LastName" class="form-control" />
+                @*<span asp-validation-for="Input.OldPassword" class="text-danger"></span>*@
+            </div>
+            <div class="form-group">
+                <label asp-for="Address.Street">Street address</label>
+                <input asp-for="Address.Street" value="@Model.Address?.Street" class="form-control" />
+                @*<span asp-validation-for="Input.OldPassword" class="text-danger"></span>*@
+            </div>
+            <div class="form-group">
+                <label asp-for="Address.ZipCode">Zip code</label>
+                <input asp-for="Address.ZipCode" value="@Model.Address?.ZipCode" class="form-control" />
+                @*<span asp-validation-for="Input.NewPassword" class="text-danger"></span>*@
+            </div>
+            <div class="form-group">
+                <label asp-for="Address.City">City</label>
+                <input asp-for="Address.City" value="@Model.Address?.City" class="form-control" />
+                @*<span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>*@
+            </div>
+            <button type="submit" class="btn btn-primary">Spara</button>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

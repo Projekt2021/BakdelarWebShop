@@ -53,8 +53,8 @@ namespace Bakdelar
                  options.UseSqlServer(Configuration.GetConnectionString("AuthenticationDbContextConnection")),
                  ServiceLifetime.Transient);
 
-            services.AddIdentity<MyUser, IdentityRole>(options => options.SignIn.RequireConfirmedAccount = false)
-               .AddRoles<IdentityRole>()
+            services.AddDefaultIdentity<MyUser>(options => options.SignIn.RequireConfirmedAccount = false)
+                .AddRoles<IdentityRole>()
                .AddEntityFrameworkStores<AuthenticationDbContext>();
 
             services.AddAuthorization(options =>

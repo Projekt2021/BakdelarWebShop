@@ -12,12 +12,15 @@ namespace Bakdelar.Models
         public int OrderID { get; set; }
         public List<OrderItem> OrderItems { get; set; }
 
+        public string UserID { get; set; }
         [DataType(DataType.Date)]
         public DateTime OrderDate { get; set; }
         public DateTime? DeliveryDate { get; set; }
         public string CustomerFirstName { get; set; }
         public string CustomerLastName { get; set; }
         public string CustomerAddress { get; set; }
+        public string CustomerCOAddress { get; set; }
+        public string CustomerPhoneNumber { get; set; }
         public string CustomerZipCode { get; set; }
         public string CustomerCity { get; set; }
         public string CustomerEmail { get; set; }
@@ -27,6 +30,8 @@ namespace Bakdelar.Models
         public decimal? ShippingFee { get; set; }
 
         public decimal OrderCost { get; set; }
+
+        public bool HasBeenViewed { get; set; }
 
     }
 }

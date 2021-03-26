@@ -11,7 +11,7 @@ namespace DataAccess.DataModels
     {
         public int OrderID { get; set; }
         public List<OrderItem> OrderItems { get; set; }
-
+        public string UserID { get; set; }
         [DataType(DataType.Date)]
         public DateTime OrderDate { get; set; }
 
@@ -20,7 +20,8 @@ namespace DataAccess.DataModels
         public string CustomerFirstName { get; set; }
         public string CustomerLastName { get; set; }
         public string CustomerAddress { get; set; }
-
+        public string CustomerCOAddress { get; set; }
+        public string CustomerPhoneNumber { get; set; }
         public string CustomerZipCode { get; set; }
         public string CustomerCity { get; set; }
         public string CustomerEmail { get; set; }
@@ -32,6 +33,8 @@ namespace DataAccess.DataModels
 
         [Column(TypeName = "decimal(18,2)")]
         public decimal OrderCost { get; set; }
+
+        public bool HasBeenViewed { get; set; }
 
     }
 }

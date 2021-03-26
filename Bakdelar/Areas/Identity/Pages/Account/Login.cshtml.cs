@@ -27,8 +27,9 @@ namespace Bakdelar.Areas.Identity.Pages.Account
         private readonly ILogger<LoginModel> _logger;
         private readonly IConfiguration _configuration;
         public LoginModel(SignInManager<MyUser> signInManager,
-            ILogger<LoginModel> logger,
-            UserManager<MyUser> userManager, IConfiguration configuration)
+                          ILogger<LoginModel> logger,
+                          UserManager<MyUser> userManager, 
+                          IConfiguration configuration)
         {
             _userManager = userManager;
             _signInManager = signInManager;
@@ -133,7 +134,7 @@ namespace Bakdelar.Areas.Identity.Pages.Account
             return Page();
         }
 
-        private String GetToken(MyUser user, string role)
+        public String GetToken(MyUser user, string role)
         {
             var utcNow = DateTime.UtcNow;
 

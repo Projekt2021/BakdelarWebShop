@@ -107,8 +107,6 @@
                             <div class="dropdown-divider"></div>
                         }
 
-                        @*<div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="Checkout">Till kassan</a>*@
 
                     }
 
@@ -137,9 +135,19 @@
                             Totalt: @totalPrice kr
                         </h6>
                     }
+
                 }
             }
+            @if (shoppingBasket != null && shoppingBasket.Any())
+            {
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="@Url.Content("~/Checkout")">
+                    <h6 class="dropdown-header">Till kassan</h6>
+                </a>
+            }
         </div>
+
+        
     </div>
 </div>
 

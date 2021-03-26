@@ -12,7 +12,9 @@ namespace Bakdelar.Areas.Identity.Data
     {
 
         //derivative of IdentityUser with more user data
+        [Required]
         public string FirstName { get; set; }
+        [Required]
         public string LastName { get; set; }
         public Address Address { get; set; }
     }
@@ -24,8 +26,11 @@ namespace Bakdelar.Areas.Identity.Data
         public int ID { get; set; }
         [ForeignKey("MyUser")]
         public string MyUserID { get; set; }
+        [Required]
         public string Street { get; set; }
+        [Required]
         public string ZipCode { get; set; }
+        [Required]
         public string City { get; set; }
     }
 }

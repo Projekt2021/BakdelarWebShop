@@ -16,7 +16,7 @@ namespace DataAccess.Migrations
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
-                .HasAnnotation("ProductVersion", "5.0.3")
+                .HasAnnotation("ProductVersion", "5.0.4")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
             modelBuilder.Entity("DataAccess.DataModels.Cart", b =>
@@ -93,6 +93,9 @@ namespace DataAccess.Migrations
                     b.Property<string>("CustomerAddress")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("CustomerCOAddress")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("CustomerCity")
                         .HasColumnType("nvarchar(max)");
 
@@ -105,11 +108,17 @@ namespace DataAccess.Migrations
                     b.Property<string>("CustomerLastName")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("CustomerPhoneNumber")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("CustomerZipCode")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("DeliveryDate")
                         .HasColumnType("datetime2");
+
+                    b.Property<bool>("HasBeenViewed")
+                        .HasColumnType("bit");
 
                     b.Property<decimal>("OrderCost")
                         .HasColumnType("decimal(18,2)");
@@ -125,6 +134,9 @@ namespace DataAccess.Migrations
 
                     b.Property<bool>("ShippingPaid")
                         .HasColumnType("bit");
+
+                    b.Property<string>("UserID")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("OrderID");
 
