@@ -61,7 +61,7 @@ namespace Bakdelar.Pages.Admin.Category
         {
             if (!ModelState.IsValid)
             {
-                return Page();
+                return RedirectToPage("./Index");//Page();
             }
 
             var token = HttpContext.Request.Cookies["access_token"];
@@ -79,7 +79,7 @@ namespace Bakdelar.Pages.Admin.Category
             {
                 return RedirectToPage("./Index");
             }
-            return Page();
+            return RedirectToPage("./Index"); //Page();
         }
     }
 }

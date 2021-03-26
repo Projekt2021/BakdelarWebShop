@@ -9,6 +9,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
+using System.Globalization;
 
 namespace Bakdelar
 {
@@ -16,6 +17,10 @@ namespace Bakdelar
     {
         public Startup(IConfiguration configuration)
         {
+            CultureInfo ci = new CultureInfo("sv-SE");
+            CultureInfo.DefaultThreadCurrentCulture = ci;
+            CultureInfo.DefaultThreadCurrentUICulture = ci;
+
             Configuration = configuration;
             GetFromApi.SetupLinks(Configuration);
         }
@@ -25,6 +30,10 @@ namespace Bakdelar
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            CultureInfo ci = new CultureInfo("sv-SE");
+            CultureInfo.DefaultThreadCurrentCulture = ci;
+            CultureInfo.DefaultThreadCurrentUICulture = ci;
+
             services.AddHttpContextAccessor();
             services.AddHttpClient();
             services.AddRazorPages().AddRazorRuntimeCompilation();
@@ -53,6 +62,7 @@ namespace Bakdelar
                 options.AddPolicy("RequireAdministratorRole",
                      policy => policy.RequireRole("Admin"));
             });
+
             //    .AddNewtonsoftJson();
 
             //services.AddHttpClient<IContactsClient,
@@ -68,6 +78,10 @@ namespace Bakdelar
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            CultureInfo ci = new CultureInfo("sv-SE");
+            CultureInfo.DefaultThreadCurrentCulture = ci;
+            CultureInfo.DefaultThreadCurrentUICulture = ci;
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
