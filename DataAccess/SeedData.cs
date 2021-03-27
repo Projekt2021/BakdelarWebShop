@@ -70,7 +70,7 @@ namespace DataAccess
                                       new Product("Baktermometer", "Termometer för bröd", 68, 11, 12, null, false, new DateTime(2021, 03, 01),
                                       context.Categories.Where(x => x.CategoryName == "Köksmaskiner").Select(x => x.CategoryId).FirstOrDefault(),
                                       new List<ProductImage> { new ProductImage { ImageURL = "\\images\\product\\Köksmaskiner.Baktermometer.png" },
-                                      new ProductImage { ImageURL = "\\images\\product\\Köksmaskiner.Baktermometer2.jpg" } },1),
+                                      new ProductImage { ImageURL = "\\images\\product\\Köksmaskiner.Baktermometer2.png" } },1),
 
                                       new Product("Köksassistent", "Knådar deg och vispar", 539, 2, 675, 399, false, new DateTime(2021, 01, 09),
                                       context.Categories.Where(x => x.CategoryName == "Köksmaskiner").Select(x => x.CategoryId).FirstOrDefault(),
