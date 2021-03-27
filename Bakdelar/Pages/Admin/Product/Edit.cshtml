@@ -54,12 +54,11 @@
                 <span asp-validation-for="ProductView.CategoryId" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label>Välj nytt produkt bild:</label>
+                <label>Lägg till ny bild:</label>
                 <input type="file" id="fileUpload" name="files" multiple />
             </div>
-
             <div class="form-group">
-                <input type="submit" value="Update" class="btn btn-primary" id="btnCreateProduct1" />
+                <input type="submit" value="Uppdatera" class="btn btn-primary" id="btnCreateProduct1" />
             </div>
         </form>
         <form method="post" id="imageform">
@@ -69,7 +68,7 @@
                     {
                         <li>
                             <img src="@image.ImageURL" width="50" height="50" />
-                            <button asp-page-handler="DeleteImage" asp-route-id="@image.ImageId" form="imageform" onclick="return confirm('Are you sure you want to delete?')" class="btn btn-danger btn-sm">Delete</button>
+                            <button asp-page-handler="DeleteImage" asp-route-id="@image.ImageId" form="imageform" onclick="return confirm('Bilden tas bort!')" class="btn btn-danger btn-sm">Ta bort</button>
                             @*<input type="submit" value="Delete" class="btn btn-danger" />*@
                         </li>
                     }
@@ -78,9 +77,8 @@
         </form>
     </div>
 </div>
-
 <div>
-    <a asp-page="./Index">Back to List</a>
+    <a asp-page="./Index">Tillbaka till listan</a>
 </div>
 
 @section Scripts {

@@ -20,16 +20,19 @@ namespace Bakdelar.Classes
         
         [Required]
         [Display(Name = "Pris")]
-        [RegularExpression(@"^[0-9]+(,[0-9]{1,2})$", ErrorMessage = "Tal med två decimaler, tack. Ditt fån.")]
+        [RegularExpression(@"^[0-9]{1,3}(,[0-9]{0,2})?$", ErrorMessage = "Decimaltal upp till 999,99, tack. Ditt fån.")]
         public decimal ProductPrice { get; set; }
 
         [Display(Name="Nedsatt pris, yo")]
+        [RegularExpression(@"^[0-9]{1,3}(,[0-9]{0,2})?$", ErrorMessage = "Decimaltal upp till 999,99, tack.")]
         public decimal? SpecialPrice { get; set; }
 
         [Display(Name = "I lager")]
+        [RegularExpression(@"^\d{0,4}$", ErrorMessage = "Ange ett heltal, tack.")]
         public int? AvailableQuantity { get; set; }
 
         [Display(Name = "Vikt")]
+        [RegularExpression(@"^\d{0,4}$", ErrorMessage = "Ange ett heltal, tack.")]
         public double? ProductWeight { get; set; }
 
         [Display(Name = "Kampanjvara")]
@@ -42,8 +45,6 @@ namespace Bakdelar.Classes
         [DisplayFormat(DataFormatString = "{0:yyyy/MM/dd}")]
         public DateTime DateEntered { get; set; }
 
-        [Required]
-        [Display(Name = "Kategori")]
         public int CategoryId { get; set; }
         
         [Display(Name = "Kategori")]
