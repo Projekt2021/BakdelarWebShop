@@ -4,9 +4,9 @@
     Layout = "Admin_Layout";
 }
 
-<h1>Delete</h1>
+<h1>Ta bort</h1>
 
-<h3>Are you sure you want to delete this?</h3>
+<h3>Vill du på heder och samvete ta bort produkten?</h3>
 <div>
     <hr />
     <dl class="row">
@@ -62,8 +62,8 @@
 
     <form method="post">
         <input type="hidden" asp-for="Product.ProductId" />
-        <input type="submit" value="Delete" class="btn btn-danger" /> |
-        <a asp-page="./Index">Back to List</a>
+        <input type="submit" value="Ta bort" class="btn btn-danger" /> |
+        <a asp-page="./Index">Återgå</a>
     </form>
 </div>
 
