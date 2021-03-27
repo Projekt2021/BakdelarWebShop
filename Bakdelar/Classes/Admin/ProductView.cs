@@ -32,7 +32,7 @@ namespace Bakdelar.Classes
         [Display(Name = "Vikt")]
         public double? ProductWeight { get; set; }
 
-        [Display(Name = "Kampanj")]
+        [Display(Name = "Kampanjvara")]
         public bool IsSelected { get; set; }
 
         [Display(Name = "Antal sålda")]
@@ -46,8 +46,10 @@ namespace Bakdelar.Classes
         [Display(Name = "Kategori")]
         public int CategoryId { get; set; }
         
+        [Display(Name = "Kategori")]
         public CategoryView Category { get; set; }
 
+        [Display(Name = "Bildgalleri")]
         public List<ProductImageView> ProductImageView { get; set; }
 
     }

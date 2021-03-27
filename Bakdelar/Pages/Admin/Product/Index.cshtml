@@ -11,7 +11,7 @@
 </p>
 
 <table class="table">
-    <thead>
+    <thead class="text-nowrap">
         <tr>
             <th>
                 @Html.DisplayNameFor(model => model.Product[0].ProductName)
@@ -91,16 +91,16 @@
                     </ul>
                     @*@Html.DisplayFor(modelItem => item.ProductImageView)*@
                 </td>
-                <td>
-                    <a asp-page="./Edit" asp-route-id="@item.ProductId">Edit</a> |
+                <td class="text-nowrap">
+                    <a asp-page="./Edit" asp-route-id="@item.ProductId">Ändra</a> |
                     @*<a asp-page="./Details" asp-route-id="@item.ProductId">Details</a> |*@
-                    <a asp-page="./Delete" asp-route-id="@item.ProductId">Delete</a>
+                    <a asp-page="./Delete" asp-route-id="@item.ProductId">Ta bort</a>
                 </td>
             </tr>
         }
     </tbody>
 
     @section Scripts {
-        @*@{await Html.RenderPartialAsync("_ValidationScriptsPartial");}*@
+        @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
     }
 </table>
