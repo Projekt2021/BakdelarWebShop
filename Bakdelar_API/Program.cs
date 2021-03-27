@@ -4,7 +4,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using System;
-using System.Globalization;
 
 namespace Bakdelar_API
 {
@@ -31,10 +30,6 @@ namespace Bakdelar_API
                 var logger = services.GetRequiredService<ILogger<Program>>();
                 logger.LogError(ex, "An error occurred seeding the DB.");
             }
-
-            CultureInfo ci = new CultureInfo("sv-SE");
-            CultureInfo.DefaultThreadCurrentCulture = ci;
-            CultureInfo.DefaultThreadCurrentUICulture = ci;
 
             host.Run();
         }
