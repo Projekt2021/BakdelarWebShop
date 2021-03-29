@@ -27,7 +27,7 @@ namespace Bakdelar.Models
         public string PaymentMethod { get; set; }
 
         public bool ShippingPaid { get; set; }
-        public decimal? ShippingFee { get; set; }
+        public decimal ShippingFee { get; set; }
 
         public decimal OrderCost { get; set; }
 

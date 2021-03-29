@@ -19,6 +19,13 @@ namespace Bakdelar.Areas.Identity.Pages.Account
 
         public bool IsAdmin { get; set; }
 
+        public decimal SumOfSales { get; set; }
+        public int NumberOfOrders{ get; set; }
+        public int NumberOfShippingFees { get; set; }
+        public decimal TotalShippingFee { get; set; }
+        public int ReturningCustomers { get; set; }
+
+
 
         public UserManager<MyUser> _userManager { get; set; }
         public AuthenticationDbContext _authDbContext { get; set; }
@@ -35,7 +42,7 @@ namespace Bakdelar.Areas.Identity.Pages.Account
 
         public void OnGet()
         {
-            string userID = _userManager.GetUserId(User);
+            string userID = _userManager.GetUserId(User); 
             var user = _userManager.GetUserAsync(User).Result;
 
             IsAdmin = _userManager.IsInRoleAsync(user, "Admin").Result;
@@ -43,6 +50,14 @@ namespace Bakdelar.Areas.Identity.Pages.Account
             if (IsAdmin)
             {
                 UserOrders = _orderDbContext.Orders.ToList();
+
+                SumOfSales = UserOrders.Sum(o => o.OrderCost - o.ShippingFee);
+                NumberOfOrders = UserOrders.Count;
+                NumberOfShippingFees = UserOrders.Where(o => o.ShippingPaid == true).Count();
+                TotalShippingFee = UserOrders.Sum(o => o.ShippingFee);
+                ReturningCustomers = UserOrders.GroupBy(o => o.UserID)
+                                        .Where(g => g.Count() > 1 && g.Key != null)
+                                        .Count();
             }
             else
             {
