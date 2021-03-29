@@ -32,6 +32,7 @@ namespace Bakdelar.Pages.Admin.Category
             _userManager = userManager;
             _logger = logger;
         }
+
         [BindProperty]
         public CategoryView Category { get; set; }
         public async Task<IActionResult> OnGet(int? id)
@@ -43,10 +44,10 @@ namespace Bakdelar.Pages.Admin.Category
                 return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
             }
 
-            using HttpClient client = new HttpClient();
+            using HttpClient client = new();
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
-            Category = await client.GetFromJsonAsync<CategoryView>($"{_configuration.GetValue<String>("APIEndpoint")}api/category/{id.Value}");
+            Category = await client.GetFromJsonAsync<CategoryView>($"{_configuration.GetValue<string>("APIEndpoint")}api/category/{id.Value}");
 
             if (Category == null)
             {

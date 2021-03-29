@@ -3,9 +3,7 @@
 @{
     Layout = "Admin_Layout";
 }
-<h1>Edit</h1>
-
-<h4>Produkt</h4>
+<h1>Ändra Produkt</h1>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -24,12 +22,12 @@
             </div>
             <div class="form-group">
                 <label asp-for="ProductView.ProductPrice" class="control-label"></label>
-                <input asp-for="ProductView.ProductPrice" class="form-control" />
+                <input asp-for="ProductView.ProductPrice" class="form-control" id="ord"/>
                 <span asp-validation-for="ProductView.ProductPrice" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="ProductView.SpecialPrice" class="control-label"></label>
-                <input asp-for="ProductView.SpecialPrice" class="form-control" />
+                <input asp-for="ProductView.SpecialPrice" class="form-control" id="rea"/>
                 <span asp-validation-for="ProductView.SpecialPrice" class="text-danger"></span>
             </div>
             <div class="form-group">
