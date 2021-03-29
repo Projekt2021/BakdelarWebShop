@@ -1,6 +1,9 @@
 ﻿$.validator.methods.number = function (value, element) {
     return this.optional(element) || /\d{1,3}(,{1}\d{1,2}){0,1}/.test(value);
 }
+////$.validator.methods.number = function (value, element) {
+////    return this.optional(element) || /\d{1,3}(,{1}\d{1,2}){0,1}/.test(value);
+////}
 //jQuery.validator.addMethod("greaterThanZero", function (value, element, parameter) {
 //    console.log("YAY");
 //    return this.optional(element) || (parseFloat(value) < parseFloat(parameter));
@@ -23,4 +26,4 @@
     //    $('.test').css('background-color', 'red');
     //    $('.result').html('The numbers are different!');
     //}
-})
+//})
