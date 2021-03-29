@@ -6,8 +6,6 @@
 @using Microsoft.AspNetCore.Identity;
 @inject UserManager<MyUser> usrMgr
 
-
-
 @{
 
     decimal? totalPrice = Model.ShoppingBasket?.Sum(item => item.ItemCount * item.Price);
@@ -16,13 +14,12 @@
 
     decimal shippingFee = StaticValues.ShippingFee;
 
-
     @if (validShoppingBasket)
     {
-        <div class="row mt-0 mx-2 border border-dark rounded-bottom rounded-left rounded-right">
+        <div class="row border border-dark rounded-bottom rounded-left rounded-right">
 
-            <div class="col border-right border-dark">
-                <div class="mx-auto mt-3 py-3 justify-content-center w-100">
+            <div class="col" style="border-right:thin solid">
+                <div>
                     <div class="row shopping-basket-table">
                         <div class="flex-column w-100">
                             <div class="justify-content-center w-75 mx-auto">
@@ -42,8 +39,8 @@
                                                     @Html.DisplayNameFor(model => model.ShoppingBasket.FirstOrDefault().ItemCount)
 
                                                     @*<th>
-                                            @Html.DisplayNameFor(model => model.ShoppingBasket.FirstOrDefault().Discount)
-                                        </th>*@
+                                                            @Html.DisplayNameFor(model => model.ShoppingBasket.FirstOrDefault().Discount)
+                                                        </th>*@
                                                 <th scope="col">
                                                     Styckpris
                                                 </th>
@@ -78,8 +75,8 @@
                                                         </div>
                                                     </td>
                                                     @*<td>
-                                            @Html.DisplayFor(modelItem => item.Discount)
-                                        </td>*@
+                                                            @Html.DisplayFor(modelItem => item.Discount)
+                                                        </td>*@
                                                     <td>
 
                                                         @item.Price kr
@@ -188,14 +185,13 @@
 
                 </div>
             </div>
-            <div class="flex-column pt-4 my-auto mr-4">
+            <div class="flex-column my-auto">
                 <form method="post">
-                    <div class="container-fluid mr-4 ">
-                        <div class="flex-row">
-                            <div class="h4 text-center mx-auto pb-3">Kundinformation</div>
-
-                            <div class="d-flex mx-auto justify-content-center w-100">
-                                <div class="flex-column justify-content-end">
+                    <div class="container-fluid">
+                        <div class="flex-column">
+                            <p class="h4 text-center">Kundinformation</p>
+                            <div class="d-flex justify-content-center">
+                                <div class="flex-row pr-1">
 
                                     <div class="font-weight-bold">
                                         Förnamn
@@ -207,11 +203,9 @@
                                     </div>
                                     <input class="form-control w-100 d-inline-flex" asp-for="Customer.Email" value="@ViewData["email"]" required />
 
-
                                 </div>
 
-
-                                <div class="flex-column justify-content-end ml-3">
+                                <div class="flex-row pl-1">
 
                                     <div class="font-weight-bold">
                                         Efternamn
@@ -225,11 +219,10 @@
                                 </div>
                             </div>
 
-                            <div class="h4 text-center mx-auto my-2">Adress</div>
-                            <div class="d-flex mx-auto ">
-                                <div class="flex-column justify-content-end ml-3">
+                            <p class="h4 text-center">Adress</p>
 
-
+                            <div class="d-flex justify-content-center">
+                                <div class="flex-row pr-1">
                                     <div class="font-weight-bold">
                                         Adress
                                     </div>
@@ -238,11 +231,9 @@
                                         Postnummer
                                     </div>
                                     <input class="form-control w-100 d-inline-flex" asp-for="Customer.ZipCode" value="@ViewData["zip"]" required />
-
-
                                 </div>
 
-                                <div class="flex-column justify-content-end ml-3">
+                                <div class="flex-row pl-1">
                                     <div class="font-weight-bold">
                                         C/O (frivilligt)
                                     </div>
@@ -253,10 +244,12 @@
                                     <input class="form-control w-100 d-inline-flex" asp-for="Customer.City" value="@ViewData["city"]" required />
 
                                 </div>
-
                             </div>
-                            <div class="d-flex justify-content-center mt-4 mb-2">
-                                <input type="submit" class="btn btn-info m-2" value="Skicka beställning" />
+                            <div class="text-center mt-2 ml-2">
+                                <input type="submit" class="btn btn-info" value="Skicka beställning" />
+                            </div>
+                            <div>
+                                <b>När du slutför din order godkänner du samtidigt våra köpvillkor</b>
                             </div>
                         </div>
                     </div>
