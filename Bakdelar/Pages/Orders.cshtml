@@ -20,6 +20,10 @@
     {
         @if (Model.IsAdmin)
         {
+            decimal PercentSignedInOrders = Math.Round((decimal)Model.NumberOfSignedInOrders * 100 / Model.NumberOfOrders, 0);
+            decimal PercentReturningCustomers = Math.Round((decimal)Model.ReturningCustomers * 100 / Model.NumberOfCustomers, 0);
+            decimal PercentOrdersWithShippingFee = Math.Round((decimal)Model.NumberOfShippingFees * 100 / Model.NumberOfOrders, 0);
+
             <h5 class="text-center">Inloggad som administratör</h5>
             <br />
 
@@ -34,12 +38,16 @@
                         <td>@Model.NumberOfOrders st</td>
                     </tr>
                     <tr>
-                        <td class="font-weight-bold pr-4">Antal beställningar med fraktkostnad</td>
-                        <td>@Model.NumberOfShippingFees st (totalt @Model.TotalShippingFee kr)</td>
+                        <td class="font-weight-bold pr-4">Andel beställningar med fraktkostnad</td>
+                        <td>@PercentOrdersWithShippingFee% (@Model.NumberOfShippingFees av @Model.NumberOfOrders, totalt @Model.TotalShippingFee kr)</td>
                     </tr>
                     <tr>
-                        <td class="font-weight-bold pr-4">Antal återkommande kunder</td>
-                        <td>@Model.ReturningCustomers st</td>
+                        <td class="font-weight-bold pr-4">Andel återkommande kunder</td>
+                        <td>@PercentReturningCustomers% (@Model.ReturningCustomers av @Model.NumberOfCustomers)</td>
+                    </tr>
+                    <tr>
+                        <td class="font-weight-bold pr-4">Andel beställningar med inloggad kund</td>
+                        <td>@PercentSignedInOrders% (@Model.NumberOfSignedInOrders av @Model.NumberOfOrders)</td>
                     </tr>
                 </table>
             </div>
