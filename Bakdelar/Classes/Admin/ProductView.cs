@@ -20,11 +20,11 @@ namespace Bakdelar.Classes
         
         [Required]
         [Display(Name = "Pris")]
-        [RegularExpression(@"^[0-9]{1,3}(,[0-9]{0,2})?$", ErrorMessage = "Decimaltal upp till 999,99, tack. Ditt fån.")]
+        //[RegularExpression(@"^[0-9]{1,3}(,[0-9]{0,2})?$", ErrorMessage = "Decimaltal upp till 999,99, tack. Ditt fån.")]
         public decimal ProductPrice { get; set; }
 
         [Display(Name="Reapris")]
-        [RegularExpression(@"^[0-9]{1,3}(,[0-9]{0,2})?$", ErrorMessage = "Decimaltal upp till 999,99, tack.")]
+        //[RegularExpression(@"^[0-9]{1,3}(,[0-9]{0,2})?$", ErrorMessage = "Decimaltal upp till 999,99, tack.")]
         public decimal? SpecialPrice { get; set; }
 
         [Display(Name = "I lager")]
