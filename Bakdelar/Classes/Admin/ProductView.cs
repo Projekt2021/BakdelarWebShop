@@ -20,20 +20,20 @@ namespace Bakdelar.Classes
         
         [Required]
         [Display(Name = "Pris")]
-        //[RegularExpression(@"^[0-9]{1,3}(,[0-9]{0,2})?$", ErrorMessage = "Decimaltal upp till 999,99, tack. Ditt fån.")]
+        [RegularExpression(@"^\d{1,3}(,\d{0,2})?$", ErrorMessage = "Decimaltal upp till 999,99, tack. Ditt fån.")]
         public decimal ProductPrice { get; set; }
 
         [Display(Name="Reapris")]
-        //[RegularExpression(@"^[0-9]{1,3}(,[0-9]{0,2})?$", ErrorMessage = "Decimaltal upp till 999,99, tack.")]
+        [RegularExpression(@"^\d{1,3}(,\d{0,2})?$", ErrorMessage = "Decimaltal upp till 999,99, tack.")]
         public decimal? SpecialPrice { get; set; }
+        
+        [Display(Name = "Vikt")]
+        [RegularExpression(@"^\d{1,3}(,\d{0,2})?$", ErrorMessage = "Decimaltal upp till 999,99, tack.")]
+        public double? ProductWeight { get; set; }
 
         [Display(Name = "I lager")]
         [RegularExpression(@"^\d{0,4}$", ErrorMessage = "Ange ett heltal, tack.")]
         public int? AvailableQuantity { get; set; }
-
-        [Display(Name = "Vikt")]
-        [RegularExpression(@"^\d{0,4}$", ErrorMessage = "Ange ett heltal, tack.")]
-        public double? ProductWeight { get; set; }
 
         [Display(Name = "Kampanjvara")]
         public bool IsSelected { get; set; }
