@@ -26,8 +26,6 @@ namespace Bakdelar.Pages.Admin.Product
         private readonly UserManager<MyUser> _userManager;
         private readonly IConfiguration _configuration;
         private readonly IHostingEnvironment _hostingEnviroment;
-        
-
 
         public EditModel(
            IConfiguration configuration,
@@ -54,12 +52,12 @@ namespace Bakdelar.Pages.Admin.Product
             {
                 return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
             }
-            using HttpClient client = new HttpClient();
+            using HttpClient client = new();
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
-            ProductView = await client.GetFromJsonAsync<ProductView>($"{_configuration.GetValue<String>("APIEndpoint")}api/product/{id.Value}");
-            Categories = await client.GetFromJsonAsync<List<CategoryView>>($"{_configuration.GetValue<String>("APIEndpoint")}api/category");
-
+            ProductView = await client.GetFromJsonAsync<ProductView>($"{_configuration.GetValue<string>("APIEndpoint")}api/product/{id.Value}");
+            Categories = await client.GetFromJsonAsync<List<CategoryView>>($"{_configuration.GetValue<string>("APIEndpoint")}api/category");
+            
             if (ProductView == null)
             {
                 return NotFound();
@@ -78,7 +76,7 @@ namespace Bakdelar.Pages.Admin.Product
 
             ProductView.ProductImageView = new List<ProductImageView>();
             string wwwPath = this._hostingEnviroment.WebRootPath;
-            string path = Path.Combine(this._hostingEnviroment.WebRootPath, _configuration.GetValue<String>("ProducImagePath"));
+            string path = Path.Combine(this._hostingEnviroment.WebRootPath, _configuration.GetValue<string>("ProducImagePath"));
             if (!Directory.Exists(path))
             {
                 Directory.CreateDirectory(path);
@@ -92,7 +90,7 @@ namespace Bakdelar.Pages.Admin.Product
                     postedFile.CopyTo(stream);
                     ProductView.ProductImageView.Add(new ProductImageView
                     {
-                        ImageURL = $"\\{_configuration.GetValue<String>("ProducImagePath")}{ fileName}"
+                        ImageURL = $"\\{_configuration.GetValue<string>("ProducImagePath")}{ fileName}"
                     });
                 }
             }
