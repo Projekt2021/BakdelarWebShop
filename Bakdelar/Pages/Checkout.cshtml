@@ -16,10 +16,10 @@
 
     @if (validShoppingBasket)
     {
-        <div class="row border border-dark rounded-bottom rounded-left rounded-right">
+        <div class="row mt-0 mx-2 border border-dark rounded-bottom rounded-left rounded-right">
 
             <div class="col" style="border-right:thin solid">
-                <div>
+                <div class="mx-auto mt-3 py-3">
                     <div class="row shopping-basket-table">
                         <div class="flex-column w-100">
                             <div class="justify-content-center w-75 mx-auto">
@@ -188,69 +188,71 @@
             <div class="flex-column my-auto">
                 <form method="post">
                     <div class="container-fluid">
-                        <div class="flex-column">
-                            <p class="h4 text-center">Kundinformation</p>
-                            <div class="d-flex justify-content-center">
-                                <div class="flex-row pr-1">
+                        <div class="text-center">
+                            <p class="h4">Kundinformation</p>
+                            <div class="d-flex">
+                                
+                                <div class="pr-1">
 
-                                    <div class="font-weight-bold">
+                                    <p class="font-weight-bold">
                                         Förnamn
-                                    </div>
+                                    </p>
                                     <input class="form-control w-100 d-inline-flex" asp-for="Customer.FirstName" value="@ViewData["firstname"]" required />
 
-                                    <div class="font-weight-bold">
+                                    <p class="font-weight-bold">
                                         Email
-                                    </div>
+                                    </p>
                                     <input class="form-control w-100 d-inline-flex" asp-for="Customer.Email" value="@ViewData["email"]" required />
 
                                 </div>
 
-                                <div class="flex-row pl-1">
+                                <div class="pl-1">
 
-                                    <div class="font-weight-bold">
+                                    <p class="font-weight-bold">
                                         Efternamn
-                                    </div>
+                                    </p>
                                     <input class="form-control w-100 d-inline-flex" asp-for="Customer.LastName" value="@ViewData["lastName"]" required />
-                                    <div class="font-weight-bold">
+                                    
+                                    <p class="font-weight-bold">
                                         Telefonnummer
-                                    </div>
+                                    </p>
                                     <input class="form-control w-100 d-inline-flex" asp-for="Customer.PhoneNumber" value="@ViewData["phonenumber"]" required />
 
                                 </div>
                             </div>
 
-                            <p class="h4 text-center">Adress</p>
+                            <p class="h4">Adress</p>
 
-                            <div class="d-flex justify-content-center">
-                                <div class="flex-row pr-1">
-                                    <div class="font-weight-bold">
+                            <div class="d-flex">
+                                <div class="pr-1">
+                                    <p class="font-weight-bold">
                                         Adress
-                                    </div>
+                                    </p>
                                     <input class="form-control w-100 d-inline-flex" asp-for="Customer.Address" value="@ViewData["street"]" required />
-                                    <div class="font-weight-bold">
+                                    
+                                    <p class="font-weight-bold">
                                         Postnummer
-                                    </div>
+                                    </p>
                                     <input class="form-control w-100 d-inline-flex" asp-for="Customer.ZipCode" value="@ViewData["zip"]" required />
                                 </div>
 
-                                <div class="flex-row pl-1">
-                                    <div class="font-weight-bold">
+                                <div class="pl-1">
+                                    <p class="font-weight-bold">
                                         C/O (frivilligt)
-                                    </div>
+                                    </p>
                                     <input class="form-control w-100 d-inline-flex" asp-for="Customer.AddressCO" />
-                                    <div class="font-weight-bold">
+                                    
+                                    <p class="font-weight-bold">
                                         Ort
-                                    </div>
+                                    </p>
                                     <input class="form-control w-100 d-inline-flex" asp-for="Customer.City" value="@ViewData["city"]" required />
 
                                 </div>
                             </div>
-                            <div class="text-center mt-2 ml-2">
+                            <div class="mt-3">
                                 <input type="submit" class="btn btn-info" value="Skicka beställning" />
                             </div>
-                            <div>
-                                <b>När du slutför din order godkänner du samtidigt våra köpvillkor</b>
-                            </div>
+                            <b style="font-size:smaller">När du slutför din order godkänner du samtidigt våra köpvillkor</b>
                         </div>
                     </div>
                 </form>
