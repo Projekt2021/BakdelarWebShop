@@ -11,14 +11,15 @@ namespace Bakdelar.Classes
     {
         public int ProductId { get; set; }
 
-        [Required]
+        [Required(ErrorMessage ="Detta Fält är obligatoriskt")]
         [Display(Name = "Produktnamn")]
         public string ProductName { get; set; }
 
+        [Required(ErrorMessage = "Detta Fält är obligatoriskt")]
         [Display(Name = "Beskrivning")]
         public string ProductDescription { get; set; }
-        
-        [Required]
+
+        [Required(ErrorMessage = "Detta Fält är obligatoriskt")]
         [Display(Name = "Pris")]
         [RegularExpression(@"^\d{1,3}(,\d{0,2})?$", ErrorMessage = "Decimaltal upp till 999,99, tack. Ditt fån.")]
         public decimal ProductPrice { get; set; }
@@ -38,9 +39,11 @@ namespace Bakdelar.Classes
         [Display(Name = "Kampanjvara")]
         public bool IsSelected { get; set; }
 
+        [Required(ErrorMessage = "Detta Fält är obligatoriskt")]
         [Display(Name = "Antal sålda")]
         public int NumberOfSold { get; set; }
 
+        [Required(ErrorMessage = "Detta Fält är obligatoriskt")]
         [Display(Name = "Tillagd datum")]
         [DisplayFormat(DataFormatString = "{0:yyyy/MM/dd}")]
         public DateTime DateEntered { get; set; }
