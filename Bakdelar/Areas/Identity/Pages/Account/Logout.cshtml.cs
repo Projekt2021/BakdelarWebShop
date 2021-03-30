@@ -29,8 +29,8 @@ namespace Bakdelar.Areas.Identity.Pages.Account
         public async Task<IActionResult> OnPost(string returnUrl = null)
         {
             await _signInManager.SignOutAsync();
-            HttpContext.Response.Cookies.Delete("access_token");          
-            
+            HttpContext.Response.Cookies.Delete("access_token");
+            HttpContext.Response.Cookies.Delete(".AspNet.Consent");
             _logger.LogInformation("User logged out.");
             if (returnUrl != null)
             {

@@ -5,46 +5,64 @@
 @inject UserManager<MyUser> userManager
 @inject AuthenticationDbContext authenticationDbContext
 
-    <ul class="navbar-nav ml-auto">
+<ul class="navbar-nav ml-auto">
 
-        <li class="navbar">
-            <div class="btn-group dropleft">
-                <button class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <span class="material-icons" id="people">people</span>
-                </button>
+    <li class="navbar">
+        <div class="btn-group dropleft">
+            <button class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <span class="material-icons" id="people">people</span>
+            </button>
 
-                @if (signInManager.IsSignedIn(User))
+            @if (signInManager.IsSignedIn(User))
+            {
+                string userId = userManager.GetUserId(User);
+                string firstName = authenticationDbContext.MyUsers.Find(userId).FirstName;
+                if (string.IsNullOrWhiteSpace(firstName))
                 {
-                    string userId = userManager.GetUserId(User);
-                    string firstName = authenticationDbContext.MyUsers.Find(userId).FirstName;
-                    if(string.IsNullOrWhiteSpace(firstName))
-                    {
-                        firstName = userManager.GetUserName(User).Split('@')[0];
-                    }
-
-
-
-                    <div class="dropdown-menu">
-                        <a class="dropdown-item" id="manage" asp-area="Identity" asp-page="/Account/Manage/Index">Hello @firstName!</a>
-                        @*<a class="dropdown-item" id="manage" asp-area="Identity" asp-page="/Account/Manage/Index">Hello @UserManager.GetUserId(User)</a>*@
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="@Url.Content("~/Orders")">Ordrar</a>
-                        @*<a class="dropdown-item" id="manage" asp-area="Identity" asp-page="/Account/Manage/Index">Hello @UserManager.GetUserId(User)</a>*@
-                        <div class="dropdown-divider"></div>
-                        <form id="logoutForm" class="dropdown-item" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Page("/Index", new { area = "" })">
-                            <button id="logout" type="submit" class="nav-link btn btn-link text-dark" style="padding:0px; margin:0px;">Logout</button>
-                        </form>
-                    </div>
+                    firstName = userManager.GetUserName(User).Split('@')[0];
                 }
-                else
-                {
-                    <div class="dropdown-menu">
-                        <a class="dropdown-item" id="login" asp-area="Identity" asp-page="/Account/Login">Login</a>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" id="register" asp-area="Identity" asp-page="/Account/Register">Register</a>
-                    </div>
-                }
-            </div>
-        </li>
-    </ul>
 
+
+
+                <div class="dropdown-menu">
+                    <a class="dropdown-item" id="manage" asp-area="Identity" asp-page="/Account/Manage/Index">Hello @firstName!</a>
+                    @*<a class="dropdown-item" id="manage" asp-area="Identity" asp-page="/Account/Manage/Index">Hello @UserManager.GetUserId(User)</a>*@
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="@Url.Content("~/Orders")">Ordrar</a>
+                    @*<a class="dropdown-item" id="manage" asp-area="Identity" asp-page="/Account/Manage/Index">Hello @UserManager.GetUserId(User)</a>*@
+                    <div class="dropdown-divider"></div>
+                    <form id="logoutForm" class="dropdown-item" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Page("/Index", new { area = "" })">
+                        <button id="logout" type="submit" class="nav-link btn btn-link text-dark" style="padding:0px; margin:0px;">Logout</button>
+                    </form>
+                </div>
+            }
+            else
+            {
+                <div class="dropdown-menu">
+                    <a class="dropdown-item" id="login" asp-area="Identity" asp-page="/Account/Login">Login</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" id="register" asp-area="Identity" asp-page="/Account/Register">Register</a>
+                </div>
+            }
+        </div>
+    </li>
+</ul>
+
+<script>
+    $(document).ready(function () {
+
+        $("#logout").click(function () {
+            debugger;
+            deleteAllCookies();
+        });
+
+        function deleteAllCookies() {
+            var cookies = document.cookie.split(";");
+            for (var i = 0; i < cookies.length; i++) {
+                var expires = new Date();
+                expires.setUTCFullYear(expires.getUTCFullYear() - 1);
+                document.cookie = cookies[i] + '; expires=' + expires.toUTCString() + '; path=/';
+            }
+        }
+    });
+</script>s
