@@ -33,6 +33,8 @@ namespace Bakdelar
                 options.CheckConsentNeeded = context => true;
                 // requires using Microsoft.AspNetCore.Http;
                 options.MinimumSameSitePolicy = SameSiteMode.None;
+
+                //options.ExpireTimeSpan = TimeSpan.FromHours(1);
             });
 
 
