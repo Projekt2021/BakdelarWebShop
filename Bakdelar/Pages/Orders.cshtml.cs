@@ -51,7 +51,7 @@ namespace Bakdelar.Areas.Identity.Pages.Account
 
             if (IsAdmin)
             {
-                UserOrders = _orderDbContext.Orders.ToList();
+                UserOrders = _orderDbContext.Orders.OrderByDescending(o => o.OrderDate).ToList();
 
                 SumOfSales = UserOrders.Sum(o => o.OrderCost - o.ShippingFee);
 
@@ -74,10 +74,12 @@ namespace Bakdelar.Areas.Identity.Pages.Account
                 //ReturningCustomers = UserOrders.GroupBy(o => o.UserID)
                 //                        .Where(g => g.Count() > 1 && g.Key != null)
                 //                        .Count();
+
             }
             else
             {
-                UserOrders = _orderDbContext.Orders.Where(order => order.UserID == userID).ToList();
+                UserOrders = _orderDbContext.Orders.Where(order => order.UserID == userID)
+                                .OrderByDescending(o => o.OrderDate).ToList();
             }
         }
     }
