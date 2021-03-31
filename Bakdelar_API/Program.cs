@@ -4,6 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using System;
+using System.Linq;
 
 namespace Bakdelar_API
 {
@@ -19,9 +20,14 @@ namespace Bakdelar_API
             {
                 var context = services.GetRequiredService<BakdelarAppDbContext>();
 
+                //Random rand = new();
+                //foreach (var product in context.Products)
+                //    product.AvailableQuantity = rand.Next(1,25 +1);
+                
                 //context.Products.RemoveRange(context.Products);
                 //context.ProductImages.RemoveRange(context.ProductImages);
                 //context.SaveChanges();
+
                 SeedData.Seeding(context);
                 SeedData.SeedingProducts(context);
             }
