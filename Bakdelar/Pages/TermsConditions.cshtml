@@ -5,10 +5,10 @@
 }
 
 
-<h1>@ViewData["Title"]</h1>
+<h1 class="col-10 mx-5 my-4">@ViewData["Title"]</h1>
 
 
-<div class="d-flex flex-wrap justify-content-left">
+<div class="col-10 mx-5 justify-content-left">
 
     <h3>Ångerrätt</h3>
     <p>
@@ -67,10 +67,16 @@
 
     <h3>Övrigt</h3>
     <p>
-        Bakdelar erbjuder ingen butiksförsäljning. För att kunna hålla våra låga priser så sköter vi all vår försäljning via 
+        Bakdelar erbjuder ingen butiksförsäljning. För att kunna hålla våra låga priser så sköter vi all vår försäljning via
         internet och all support sker via e-post.
         <br />
         Vi reserverar oss mot felskrivningar och felaktiga priser.
     </p>
+</div>
 
+<div class="container mx-5 justify-content-left">
+    <div class="row">
+        <a href="~/Checkout" class="nav-link active text-info">Gå till Kundkorgen</a>
+        <a href="~/Index" class="nav-link active text-info">Gå till Startsidan</a>
+    </div>
 </div>
