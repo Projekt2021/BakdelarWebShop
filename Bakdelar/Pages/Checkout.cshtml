@@ -6,6 +6,8 @@
 @using Microsoft.AspNetCore.Identity;
 @inject UserManager<MyUser> usrMgr
 
+
+
 @{
 
     decimal? totalPrice = Model.ShoppingBasket?.Sum(item => item.ItemCount * item.Price);
@@ -14,12 +16,13 @@
 
     decimal shippingFee = StaticValues.ShippingFee;
 
+
     @if (validShoppingBasket)
     {
         <div class="row mt-0 mx-2 border border-dark rounded-bottom rounded-left rounded-right">
 
-            <div class="col" style="border-right:thin solid">
-                <div class="mx-auto mt-3 py-3">
+            <div class="col border-right border-dark">
+                <div class="mx-auto mt-3 py-3 justify-content-center w-100">
                     <div class="row shopping-basket-table">
                         <div class="flex-column w-100">
                             <div class="justify-content-center w-75 mx-auto">
@@ -90,7 +93,7 @@
                                                     <td>
 
                                                         <div class="d-none" id="hidden-popover-@item.ID">
-                                                            <p>Är du säkert?</p>
+                                                            <p>Är du säker?</p>
                                                             <a href='javascript:void(0)' onclick="removeItemDropdown(@item.ID)">Ja</a>
                                                             <a href='javascript:void(0)' onclick='closePopover(@item.ID)'>Nej</a>
                                                         </div>
@@ -185,80 +188,75 @@
 
                 </div>
             </div>
-            <div class="flex-column my-auto">
+            <div class="flex-column pt-4 my-auto mr-4">
                 <form method="post">
-                    <div class="container-fluid">
-                        <div class="flex-row text-center">
-                            <p class="h4">Kundinformation</p>
+                    <div class="container-fluid mr-4 ">
+                        <div class="flex-row">
+                            <div class="h4 text-center mx-auto pb-3">Kundinformation</div>
 
                             <div class="d-flex mx-auto justify-content-center w-100">
                                 <div class="flex-column justify-content-end">
-                                    <p class="font-weight-bold">
-                                        Förnamn
-                                    </p>
 
+                                    <div class="font-weight-bold">
+                                        Förnamn
+                                    </div>
                                     <input class="form-control w-100 d-inline-flex" asp-for="Customer.FirstName" value="@ViewData["firstname"]" required />
 
-                                    <p class="font-weight-bold ">
+                                    <div class="font-weight-bold">
                                         Email
-                                    </p>
-
+                                    </div>
                                     <input class="form-control w-100 d-inline-flex" asp-for="Customer.Email" value="@ViewData["email"]" required />
-                                </div>
-                            </div>
 
-                            <div class="d-flex mx-auto justify-content-center w-100">
-                                <div class="flex-column justify-content-end">
-                                    <p class="font-weight-bold">
+
+                                </div>
+
+
+                                <div class="flex-column justify-content-end ml-3">
+
+                                    <div class="font-weight-bold">
                                         Efternamn
-                                    </p>
-
+                                    </div>
                                     <input class="form-control w-100 d-inline-flex" asp-for="Customer.LastName" value="@ViewData["lastName"]" required />
-
-                                    <p class="font-weight-bold">
+                                    <div class="font-weight-bold">
                                         Telefonnummer
-                                    </p>
-
+                                    </div>
                                     <input class="form-control w-100 d-inline-flex" asp-for="Customer.PhoneNumber" value="@ViewData["phonenumber"]" required />
+
                                 </div>
                             </div>
 
-                            <p class="h4">Adress</p>
+                            <div class="h4 text-center mx-auto my-2">Adress</div>
+                            <div class="d-flex mx-auto ">
+                                <div class="flex-column justify-content-end ml-3">
 
-                            <div class="d-flex">
-                                <div class="pr-1">
-                                    <p class="font-weight-bold">
+
+                                    <div class="font-weight-bold">
                                         Adress
-                                    </p>
-
+                                    </div>
                                     <input class="form-control w-100 d-inline-flex" asp-for="Customer.Address" value="@ViewData["street"]" required />
-
-                                    <p class="font-weight-bold">
+                                    <div class="font-weight-bold">
                                         Postnummer
-                                    </p>
-
+                                    </div>
                                     <input class="form-control w-100 d-inline-flex" asp-for="Customer.ZipCode" value="@ViewData["zip"]" required />
-                                </div>
-                            </div>
 
-                            <div class="d-flex">
-                                <div class="pr-1">
-                                    <p class="font-weight-bold">
+
+                                </div>
+
+                                <div class="flex-column justify-content-end ml-3">
+                                    <div class="font-weight-bold">
                                         C/O (frivilligt)
-                                    </p>
-
+                                    </div>
                                     <input class="form-control w-100 d-inline-flex" asp-for="Customer.AddressCO" />
-
-                                    <p class="font-weight-bold">
+                                    <div class="font-weight-bold">
                                         Ort
-                                    </p>
-
+                                    </div>
                                     <input class="form-control w-100 d-inline-flex" asp-for="Customer.City" value="@ViewData["city"]" required />
-                                </div>
-                            </div>
 
-                            <div class="mt-3">
-                                <input type="submit" class="btn btn-info" value="Skicka beställning" />
+                                </div>
+
+                            </div>
+                            <div class="d-flex justify-content-center mt-4 mb-2">
+                                <input type="submit" class="btn btn-info m-2" value="Skicka beställning" />
                             </div>
 
                             <div class="text-center">
@@ -270,8 +268,6 @@
                     </div>
                 </form>
             </div>
-
-
         </div>
 
     }

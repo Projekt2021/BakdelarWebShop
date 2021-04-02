@@ -13,20 +13,20 @@ namespace Bakdelar_API
         public static void Main(string[] args)
         {
             var host = CreateHostBuilder(args).Build();
-
             var services = host.Services.CreateScope().ServiceProvider;
 
             try
             {
                 var context = services.GetRequiredService<BakdelarAppDbContext>();
+                Random rand = new();
 
-                //Random rand = new();
-                //foreach (var product in context.Products)
-                //    product.AvailableQuantity = rand.Next(1,25 +1);
-                
+                foreach (var product in context.Products)
+                    if (product.AvailableQuantity == null || product.AvailableQuantity < 1)
+                        product.AvailableQuantity = rand.Next(1, 25 + 1);
+
                 //context.Products.RemoveRange(context.Products);
                 //context.ProductImages.RemoveRange(context.ProductImages);
-                //context.SaveChanges();
+                context.SaveChanges();
 
                 SeedData.Seeding(context);
                 SeedData.SeedingProducts(context);
