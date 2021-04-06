@@ -48,7 +48,7 @@ namespace Bakdelar.Pages
             {
                 return Page();
             }
-            UpdateNumberSold(id, NewCount);
+            //UpdateNumberSold(id, NewCount);
             
             product.ItemCount = NewCount;
             HttpContext.Session.UpdateShoppingBasket(ShoppingBasket);
@@ -59,20 +59,17 @@ namespace Bakdelar.Pages
         {
             ShoppingBasket = HttpContext.Session.GetBasket();
             var product = ShoppingBasket.Where(item => item.ID == id).FirstOrDefault();
-            UpdateNumberSold(id, 0);
+            //UpdateNumberSold(id, 0);
             ShoppingBasket.Remove(product);
             HttpContext.Session.UpdateShoppingBasket(ShoppingBasket);
             return Page();
         }
-
 
         private async void UpdateNumberSold(int id, int newNumberOfSold)
         {
             var product = await GetFromApi.GetProductAsync(id);
             product.NumberOfSold = newNumberOfSold;
             await GetFromApi.PutProductAsync(product);
-
-            
         }
     }
 }

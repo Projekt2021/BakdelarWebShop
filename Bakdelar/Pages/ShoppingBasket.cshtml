@@ -60,8 +60,8 @@
 
 
                                 @{
-                                    var product = GetFromApi.GetProductAsync(item.ID).Result;
-                                    int available = (product.AvailableQuantity.Value - product.NumberOfSold) + item.ItemCount;
+                                    int available = GetFromApi.GetProductAsync(item.ID).Result.AvailableQuantity.Value;
+                                    //int available = product.AvailableQuantity.Value + item.ItemCount; //(product.AvailableQuantity.Value - product.NumberOfSold) + item.ItemCount;
                                 }
                                 <td>
                                     <div class="form-inline">
@@ -89,7 +89,7 @@
                                 <td>
 
                                     <div class="d-none" id="hidden-popover-@item.ID">
-                                        <p>Är du säkert?</p>
+                                        <p>Säkerligen?</p>
                                         <a href='javascript:void(0)' onclick="removeItemDropdown(@item.ID)">Ja</a>
                                         <a href='javascript:void(0)' onclick='closePopover(@item.ID)'>Nej</a>
                                     </div>

@@ -20,8 +20,8 @@ namespace Bakdelar.Pages.Shared
 
 
         [BindProperty]
-        public Classes.ShoppingBasketItem ShoppingItem { get; set; }
-        public Classes.ProductView Product { get; set; }
+        public ShoppingBasketItem ShoppingItem { get; set; }
+        public ProductView Product { get; set; }
 
 
 
@@ -280,7 +280,8 @@ namespace Bakdelar.Pages.Shared
 
             Product = await GetFromApi.GetProductAsync(id);
 
-            int maxAllowed = (Product.AvailableQuantity.Value - Product.NumberOfSold) + shoppingItem.ItemCount;
+            //int maxAllowed = (Product.AvailableQuantity.Value - Product.NumberOfSold) + shoppingItem.ItemCount;
+            int maxAllowed = Product.AvailableQuantity.Value;
             int newAdded = newAmount - shoppingItem.ItemCount;
 
 

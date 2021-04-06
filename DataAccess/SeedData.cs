@@ -47,7 +47,7 @@ namespace DataAccess
             if (!context.Products.Any())
             {
               
-            context.Products.AddRange(new Product("Grön Karamellfärg", "Färgar bakverk gröna", 40, 60, 8, null, false, new DateTime(2021, 02, 03),
+                context.Products.AddRange(new Product("Grön Karamellfärg", "Färgar bakverk gröna", 40, 60, 8, null, false, new DateTime(2021, 02, 03),
                                       context.Categories.Where(x => x.CategoryName == "Ingredienser").Select(x => x.CategoryId).FirstOrDefault(),
                                       new List<ProductImage> { new ProductImage { ImageURL = "\\images\\product\\Ingredienser.GrönKaramellfärg.png" },
                                       new ProductImage { ImageURL = "\\images\\product\\Ingredienser.GrönKaramellfärg2.jpg" } }),
@@ -123,6 +123,17 @@ namespace DataAccess
                                       new ProductImage { ImageURL = "\\images\\product\\Redskap.BunkeMåttSet2.jpg" } })
                                       ); 
                 
+                context.SaveChanges();
+            }
+            else
+            {
+                Random rand = new Random();
+
+                //foreach (var product in context.Products)
+                //    if (product.AvailableQuantity < 1)
+                //        product.AvailableQuantity += rand.Next(1, 25 + 1);
+
+                context.Products.Where(x => x.AvailableQuantity < 1).ToList().ForEach(x => x.AvailableQuantity += rand.Next(1, 25 + 1));
                 context.SaveChanges();
             }
         }

@@ -13,6 +13,7 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Bakdelar.Areas.Identity.Data;
 using Microsoft.EntityFrameworkCore;
 using Bakdelar.Classes;
+using DataAccess;
 
 namespace Bakdelar.Pages
 {
@@ -105,10 +106,23 @@ namespace Bakdelar.Pages
                 UserID = userID,
                 HasBeenViewed = false
             };
+
             _context.Orders.Add(order);
             await _context.SaveChangesAsync();
+
+            foreach (var product in orderItems)
+                UpdateStock(product.ProductID, product.AmountOrdered);
+
             session.Clear();
             return Redirect($"~/OrderConfirmation/{order.OrderID}");
+        }
+
+        private async void UpdateStock(int id, int newNumberOfSold)
+        {
+            var product = await GetFromApi.GetProductAsync(id);
+            product.AvailableQuantity -= newNumberOfSold;
+            product.NumberOfSold += newNumberOfSold;
+            await GetFromApi.PutProductAsync(product);
         }
     }
 }
