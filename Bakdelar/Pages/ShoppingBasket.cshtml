@@ -43,7 +43,6 @@
                                     Pris
                                 </th>
                                 <th scope="col">
-
                                 </th>
                             </tr>
                         </thead>
@@ -57,7 +56,6 @@
                                 <td>
                                     @Html.DisplayFor(modelItem => item.ProductName)
                                 </td>
-
 
                                 @{
                                     int available = GetFromApi.GetProductAsync(item.ID).Result.AvailableQuantity.Value;
@@ -77,7 +75,6 @@
             @Html.DisplayFor(modelItem => item.Discount)
         </td>*@
                                 <td>
-
                                     @item.Price kr
                                 </td>
                                 <td id="total-price-@item.ID">
@@ -87,12 +84,12 @@
                                     }
                                 </td>
                                 <td>
-
                                     <div class="d-none" id="hidden-popover-@item.ID">
                                         <p>Säkerligen?</p>
                                         <a href='javascript:void(0)' onclick="removeItemDropdown(@item.ID)">Ja</a>
                                         <a href='javascript:void(0)' onclick='closePopover(@item.ID)'>Nej</a>
                                     </div>
+
                                     <button type="button" class="btn text-white button-remove-item" data-toggle="popover-remove-item-@item.ID"
                                             onclick="openPopover(@item.ID)">
 
@@ -109,7 +106,6 @@
                                 <tr id="shipping-cost-row">
                                     <td>
                                     </td>
-
                                     <td>
                                         Frakt
                                     </td>

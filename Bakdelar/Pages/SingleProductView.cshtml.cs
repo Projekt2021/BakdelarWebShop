@@ -41,10 +41,8 @@ namespace Bakdelar.Pages.Shared
         [BindProperty(SupportsGet = true)]
         public int ID { get; set; }
 
-
         [BindProperty]
         public ShoppingBasketItem ShoppingItem { get; set; }
-
 
         public async Task<IActionResult> OnGet()
         {

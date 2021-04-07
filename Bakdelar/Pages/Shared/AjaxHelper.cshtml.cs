@@ -97,9 +97,9 @@ namespace Bakdelar.Pages.Shared
             var shoppingBasket = HttpContext.Session.GetBasket();
 
             var itemToRemove = shoppingBasket.FirstOrDefault(p => p.ID == RemoveItemID);
-            Product = await GetFromApi.GetProductAsync(RemoveItemID);
-            Product.NumberOfSold -= itemToRemove.ItemCount;
-            await GetFromApi.PutProductAsync(Product);
+            //Product = await GetFromApi.GetProductAsync(RemoveItemID);
+            //Product.NumberOfSold -= itemToRemove.ItemCount;
+            //await GetFromApi.PutProductAsync(Product);
             shoppingBasket.Remove(itemToRemove);
             HttpContext.Session.UpdateShoppingBasket(shoppingBasket);
             return Partial("_InnerShoppingBasket", shoppingBasket);
@@ -337,60 +337,97 @@ namespace Bakdelar.Pages.Shared
         {
 
             //skapar ett nytt objekt med default värden, för att kolla om ShoppingItem är "null"
+
+            List<ShoppingBasketItem> shoppingBasket;
             var defaultShoppingItemValues = new ShoppingBasketItem();
             var def = defaultShoppingItemValues.Equals(ShoppingItem);
-            var shoppingBasket = HttpContext.Session.GetBasket();
+
             if (!def)
             {
                 int ID = ShoppingItem.ID;
                 Product = await GetFromApi.GetProductAsync(ID);
 
+                shoppingBasket = HttpContext.Session.GetBasket();
                 bool itemAlreadyInBasket = ItemAlreadyInBasket(shoppingBasket);
-                bool tooManyItemsAdded = false;
-                ShoppingBasketItem item;
-                if (itemAlreadyInBasket)
-                {
-                    item = shoppingBasket.Where(shoppingItem => shoppingItem.ID == ShoppingItem.ID).FirstOrDefault();
-                    tooManyItemsAdded = item.ItemCount + ShoppingItem.ItemCount > Product.AvailableQuantity.Value;
-                }
+                bool tooManyItemsAdded;
 
+                //if (shoppingBasket != null)
+                //{
+                //    ShoppingBasketItem item = shoppingBasket.Where(shoppingItem => shoppingItem.ID == ShoppingItem.ID).FirstOrDefault();
+                //    tooManyItemsAdded = item.ItemCount + ShoppingItem.ItemCount > Product.AvailableQuantity.Value ? tooManyItemsAdded = true : tooManyItemsAdded;
+                //}
 
-                if (ShoppingItem.ItemCount > Product.AvailableQuantity.Value - Product.NumberOfSold)
+                if (shoppingBasket != null)
                 {
-                    return Partial("_InnerShoppingBasket", shoppingBasket);
-                }
+                    ShoppingBasketItem item = shoppingBasket.Where(shoppingItem => shoppingItem.ID == ShoppingItem.ID).FirstOrDefault();
+                    tooManyItemsAdded = item.ItemCount + ShoppingItem.ItemCount > Product.AvailableQuantity.Value ? tooManyItemsAdded = true : tooManyItemsAdded = false;
 
+                    if (tooManyItemsAdded)
+                        return Partial("_InnerShoppingBasket", shoppingBasket);
 
-                if (shoppingBasket == null)
-                {
-                    shoppingBasket = new();
-                    shoppingBasket.Add(ShoppingItem);
-                    Product.NumberOfSold += ShoppingItem.ItemCount;
-                }
-                else if (!itemAlreadyInBasket)
-                {
-                    shoppingBasket.Add(ShoppingItem);
-                    Product.NumberOfSold += ShoppingItem.ItemCount;
-                }
-                else if (tooManyItemsAdded)
-                {
-                    item = shoppingBasket.Where(shoppingItem => shoppingItem.ID == ShoppingItem.ID).FirstOrDefault();
-                    item.ItemCount = Product.AvailableQuantity.Value;
-                    Product.NumberOfSold = Product.AvailableQuantity.Value;
+                    if (itemAlreadyInBasket)
+                    {
+                        item = shoppingBasket.Where(shoppingItem => shoppingItem.ID == ShoppingItem.ID).FirstOrDefault();
+
+                        Product.NumberOfSold += ShoppingItem.ItemCount;
+                        item.ItemCount += ShoppingItem.ItemCount;
+                    }
+                    else
+                        shoppingBasket.Add(ShoppingItem);
                 }
                 else
                 {
-                    item = shoppingBasket.Where(shoppingItem => shoppingItem.ID == ShoppingItem.ID).FirstOrDefault();
+                    shoppingBasket = new();
+                    tooManyItemsAdded = ShoppingItem.ItemCount > Product.AvailableQuantity.Value ? tooManyItemsAdded = true : tooManyItemsAdded = false;
+                    
+                    if (!tooManyItemsAdded)
+                        shoppingBasket.Add(ShoppingItem);
 
-                    Product.NumberOfSold += ShoppingItem.ItemCount;
-                    item.ItemCount += ShoppingItem.ItemCount;
+                    return Partial("_InnerShoppingBasket", shoppingBasket);
+                    
+                    //else
+                    //{
+                    //    shoppingBasket = new();
+                    //    shoppingBasket.Add(ShoppingItem);
+                    //    ShoppingBasketItem item = shoppingBasket.Where(shoppingItem => shoppingItem.ID == ShoppingItem.ID).FirstOrDefault();
+                    //    tooManyItemsAdded = item.ItemCount + ShoppingItem.ItemCount > Product.AvailableQuantity.Value ? tooManyItemsAdded = true : tooManyItemsAdded;
+                    //}
                 }
+                
+            //    else if (!itemAlreadyInBasket)
+            //    {
+            //        if (shoppingBasket == null)
+            //        {
+            //            shoppingBasket = new();
+            //            shoppingBasket.Add(ShoppingItem);
+            //            //Product.NumberOfSold += ShoppingItem.ItemCount;
+            //        }
+            //        else
+            //            shoppingBasket.Add(ShoppingItem);
+            //            //Product.NumberOfSold += ShoppingItem.ItemCount;
+            //    }
+                
+            //    if (tooManyItemsAdded)
+            //    {
+            //        item = shoppingBasket.Where(shoppingItem => shoppingItem.ID == ShoppingItem.ID).FirstOrDefault();
+            //        item.ItemCount = Product.AvailableQuantity.Value;
+            //        //Product.NumberOfSold = Product.AvailableQuantity.Value;
+            //    }
+            //    else
+            //    {
+            //        item = shoppingBasket.Where(shoppingItem => shoppingItem.ID == ShoppingItem.ID).FirstOrDefault();
 
-                HttpContext.Session.UpdateShoppingBasket(shoppingBasket);
+            //        Product.NumberOfSold += ShoppingItem.ItemCount;
+            //        item.ItemCount += ShoppingItem.ItemCount;
+            //    }
 
-                await GetFromApi.PutProductAsync(Product);
+            //    HttpContext.Session.UpdateShoppingBasket(shoppingBasket);
+
+            //    await GetFromApi.PutProductAsync(Product);
+            //
             }
-            return Partial("_InnerShoppingBasket", shoppingBasket);
+
+            return Partial("_InnerShoppingBasket", HttpContext.Session.GetBasket());
         }
     }
 }
