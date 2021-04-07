@@ -1,0 +1,77 @@
+﻿@page
+@model Bakdelar.Pages.RecipesModel
+@{
+    ViewData["Title"] = "Recept";
+}
+
+<div class="col mt-5 ml-5">
+    <h1>Hitta recept på EDAMAM.com</h1>
+    <p>Obs! Amerikanska recept, sök på engelska.</p>
+
+    <form class="form-inline my-2 my-lg-0 d-inline-flex" method="post">
+        <input asp-for="@Model.Ingredient" class="form-control mr-sm-2" type="search" placeholder="Sök...">
+        <span class="input-group-btn">
+            <button class="btn" type="submit">
+                <i class="material-icons">
+                    search
+                </i>
+            </button>
+        </span>
+    </form>
+</div>
+
+
+    @*<form method="post">
+            <div class="form-group">
+                <label asp-for="@Model.Ingredient"></label>
+                <input asp-for="@Model.Ingredient" type="search" placeholder="Sök..."/>
+            </div>
+
+            <div class="form-group">
+                <input type="submit" value="Visa recept" class="btn btn-primary" />
+            </div>
+        </form>*@
+
+    @*@foreach (var recipe in Model.Recipes)
+        {
+            @for (int i = 0; i < recipe.hits.Length; i++)
+            {
+                <p>@recipe.hits[i].recipe.label</p>
+            }
+        }*@
+
+
+    <div class="col mx-5">
+        @if (Model.Recipe != null)
+        {
+            if (Model.Recipe.hits.Length > 0)
+            {
+                <div class="row pt-5">
+                    <div class="col-3">
+                        <img class="img-responsive d-block" style="height: 15vw;" src="@Model.Recipe.hits[0].recipe.image" />
+                    </div>
+                    <div class="col-6">
+                        <a class="nav-link active text-info" href="@Model.Recipe.hits[0].recipe.url">@Model.Recipe.hits[0].recipe.label</a>
+
+                        <p class="mx-3">
+                            @foreach (var ingredient in @Model.Recipe.hits[0].recipe.ingredientLines)
+                            {
+                                @ingredient.ToString()
+                                <br />
+                            }
+                        </p>
+                        <br />
+                        <h6 class="mx-3 alert-info">Klicka på recepttiteln för att komma till det fullständiga receptet, du lämnar då Bakdelar.se.</h6>
+                    </div>
+                </div>
+            }
+            else
+            {
+                <p class="pt-5">Hittade inget recept med "@Model.Ingredient".</p>
+            }
+        }
+    </div>
+
+
+
+
