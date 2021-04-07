@@ -9,7 +9,7 @@
     <p>Obs! Amerikanska recept, sök på engelska.</p>
 
     <form class="form-inline my-2 my-lg-0 d-inline-flex" method="post">
-        <input asp-for="@Model.Ingredient" class="form-control mr-sm-2" type="search" placeholder="Sök...">
+        <input asp-for="@Model.SearchString" class="form-control mr-sm-2" type="search" placeholder="Sök...">
         <span class="input-group-btn">
             <button class="btn" type="submit">
                 <i class="material-icons">
@@ -19,18 +19,7 @@
         </span>
     </form>
 </div>
-
-
-    @*<form method="post">
-            <div class="form-group">
-                <label asp-for="@Model.Ingredient"></label>
-                <input asp-for="@Model.Ingredient" type="search" placeholder="Sök..."/>
-            </div>
-
-            <div class="form-group">
-                <input type="submit" value="Visa recept" class="btn btn-primary" />
-            </div>
-        </form>*@
+   
 
     @*@foreach (var recipe in Model.Recipes)
         {
@@ -67,7 +56,7 @@
             }
             else
             {
-                <p class="pt-5">Hittade inget recept med "@Model.Ingredient".</p>
+                <p class="pt-5">Hittade inget recept med "@Model.SearchString".</p>
             }
         }
     </div>
