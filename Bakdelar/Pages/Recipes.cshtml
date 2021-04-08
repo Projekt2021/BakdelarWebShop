@@ -48,7 +48,7 @@
                         <img class="img-responsive d-block" style="height: 15vw;" src="@Model.Recipe.hits[i].recipe.image" />
                     </div>
                     <div class="col-6 align-text-top">
-                        <a class="nav-link active text-info pt-0" href="@Model.Recipe.hits[i].recipe.url">@Model.Recipe.hits[i].recipe.label</a>
+                        <a class="nav-link active text-info pt-0" target="_blank" href="@Model.Recipe.hits[i].recipe.url">@Model.Recipe.hits[i].recipe.label</a>
 
                         <p class="mx-3">
                             @foreach (var ingredient in @Model.Recipe.hits[i].recipe.ingredientLines)
