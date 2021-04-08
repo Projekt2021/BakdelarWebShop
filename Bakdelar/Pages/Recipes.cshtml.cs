@@ -40,7 +40,7 @@ namespace Bakdelar.Pages
 
 
             Task<string> getRecipeStringTask =
-                client.GetStringAsync($"https://api.edamam.com/search?q={SearchString}&app_id=58e02eb1&app_key=75c99118aeec150db8dabec724cb270f&mealType=snack&from=0&to=1");
+                client.GetStringAsync($"https://api.edamam.com/search?q={SearchString}&app_id=58e02eb1&app_key=75c99118aeec150db8dabec724cb270f&mealType=snack&from=0&to=5");
 
             string recipeString = await getRecipeStringTask;
 
