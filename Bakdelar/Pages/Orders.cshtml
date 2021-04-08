@@ -1,6 +1,14 @@
 ﻿@page
 @using Bakdelar.Areas.Identity.Pages.Account.Manage;
 @model Bakdelar.Areas.Identity.Pages.Account.OrdersModel
+
+@using Microsoft.AspNetCore.Identity
+@using Bakdelar.Areas.Identity.Data;
+
+@inject SignInManager<MyUser> signInManager
+@inject UserManager<MyUser> userManager
+@inject AuthenticationDbContext authenticationDbContext
+
 @{
 
     ViewData["Title"] = "Beställningar";
@@ -10,55 +18,102 @@
     }
     else
     {
+        @if (Model.IsAdmin)
+        {
+            decimal PercentSignedInOrders = Math.Round((decimal)Model.NumberOfSignedInOrders * 100 / Model.NumberOfOrders, 0);
+            decimal PercentReturningCustomers = Math.Round((decimal)Model.ReturningCustomers * 100 / Model.NumberOfCustomers, 0);
+            decimal PercentOrdersWithShippingFee = Math.Round((decimal)Model.NumberOfShippingFees * 100 / Model.NumberOfOrders, 0);
 
-        <div class="row shopping-basket-table">
-            <div class="flex-column w-100">
-                <div class="justify-content-center w-50 mx-auto">
-                    <table class="table m-0 border  border-dark table-hover">
-                        <thead class="thead-dark">
-                            <tr>
-                                <th scope="col">
-                                    Ordernummer
-                                </th>
-                                <th scope="col">
-                                    Datum
-                                </th>
-                                <th scope="col">
-                                    Betalat
-                                </th>
-                                <th scope="col">
-                                    Email
-                                </th>
+            <h5 class="text-center">Inloggad som administratör</h5>
+            <br />
+
+            <div class="col d-flex justify-content-center pr-5">
+                <table class="mt-3">
+                    <tr>
+                        <td class="font-weight-bold pr-4">Total försäljning exklusive frakt</td>
+                        <td>@Model.SumOfSales kr</td>
+                    </tr>
+                    <tr>
+                        <td class="font-weight-bold pr-4">Totalt antal beställningar</td>
+                        <td>@Model.NumberOfOrders st</td>
+                    </tr>
+                    <tr>
+                        <td class="font-weight-bold pr-4">Andel beställningar med fraktkostnad</td>
+                        <td>@PercentOrdersWithShippingFee% (@Model.NumberOfShippingFees av @Model.NumberOfOrders, totalt @Model.TotalShippingFee kr)</td>
+                    </tr>
+                    <tr>
+                        <td class="font-weight-bold pr-4">Andel återkommande kunder</td>
+                        <td>@PercentReturningCustomers% (@Model.ReturningCustomers av @Model.NumberOfCustomers)</td>
+                    </tr>
+                    <tr>
+                        <td class="font-weight-bold pr-4">Andel beställningar med inloggad kund</td>
+                        <td>@PercentSignedInOrders% (@Model.NumberOfSignedInOrders av @Model.NumberOfOrders)</td>
+                    </tr>
+                </table>
+            </div>
+            <br />
+            <h3 class="text-center">Alla beställningar</h3>
+        }
+
+        else
+        {
+            string userId = userManager.GetUserId(User);
+            string firstName = authenticationDbContext.MyUsers.Find(userId).FirstName;
+            string lastName = authenticationDbContext.MyUsers.Find(userId).LastName;
+
+
+            <h5 class="text-center">@firstName @lastName inloggad </h5>
+
+            <br />
+            <h3 class="text-center">Mina beställningar</h3>
+        }
+
+    }
+
+    <div class="row shopping-basket-table">
+        <div class="flex-column w-100">
+            <div class="justify-content-center w-50 mx-auto">
+                <table class="table m-0 border  border-dark table-hover">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th scope="col">
+                                Ordernummer
+                            </th>
+                            <th scope="col">
+                                Datum
+                            </th>
+                            <th scope="col">
+                                Betalat
+                            </th>
+                            <th scope="col">
+                                Email
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        @foreach (var order in Model.UserOrders)
+                        {
+                            <tr onclick="location.href='@Url.Content($"/OrderConfirmation/{order.OrderID}")'" style="cursor:pointer">
+                                <td>
+                                    @order.OrderID
+                                </td>
+                                <td>
+                                    @order.OrderDate.ToShortDateString()
+                                </td>
+                                <td>
+                                    @order.OrderCost
+                                </td>
+                                <td>
+                                    @order.CustomerEmail
+                                </td>
                             </tr>
-                        </thead>
-                        <tbody>
-
-                            @foreach (var order in Model.UserOrders)
-                            {
-                                <tr onclick="location.href='@Url.Content($"/OrderConfirmation/{order.OrderID}")'" style="cursor:pointer">
-                                    <td>
-                                        @order.OrderID
-                                    </td>
-
-
-                                    <td>
-                                        @order.OrderDate.ToShortDateString()
-                                    </td>
-                                    <td>
-
-                                        @order.OrderCost
-                                    </td>
-                                    <td>
-                                        @order.CustomerEmail
-                                    </td>
-                                </tr>
-                            }
-                        </tbody>
-                    </table>
-                </div>
+                        }
+                    </tbody>
+                </table>
             </div>
         </div>
-    }
+    </div>
 }
 
 

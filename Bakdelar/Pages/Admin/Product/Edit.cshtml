@@ -3,18 +3,7 @@
 @{
     Layout = "Admin_Layout";
 }
-<script>
-    $(function () {
-        console.log("laddaddd");
-        $("#btnCreateProduct1").click(function (e) {
-            console.log("CLICK");
-            $("#formEdit").validate();
-        });
-    });
-</script>
-<h1>Edit</h1>
-
-<h4>Product</h4>
+<h1>Ändra Produkt</h1>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -33,12 +22,12 @@
             </div>
             <div class="form-group">
                 <label asp-for="ProductView.ProductPrice" class="control-label"></label>
-                <input asp-for="ProductView.ProductPrice" class="form-control" />
+                <input asp-for="ProductView.ProductPrice" class="form-control" id="ord"/>
                 <span asp-validation-for="ProductView.ProductPrice" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="ProductView.SpecialPrice" class="control-label"></label>
-                <input asp-for="ProductView.SpecialPrice" class="form-control" />
+                <input asp-for="ProductView.SpecialPrice" class="form-control" id="rea"/>
                 <span asp-validation-for="ProductView.SpecialPrice" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -63,12 +52,11 @@
                 <span asp-validation-for="ProductView.CategoryId" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label>Välj nytt produkt bild:</label>
+                <label>Lägg till ny bild:</label>
                 <input type="file" id="fileUpload" name="files" multiple />
             </div>
-
             <div class="form-group">
-                <input type="submit" value="Update" class="btn btn-primary" id="btnCreateProduct1" />
+                <input type="submit" value="Uppdatera" class="btn btn-primary" id="btnCreateProduct1" />
             </div>
         </form>
         <form method="post" id="imageform">
@@ -78,7 +66,7 @@
                     {
                         <li>
                             <img src="@image.ImageURL" width="50" height="50" />
-                            <button asp-page-handler="DeleteImage" asp-route-id="@image.ImageId" form="imageform" onclick="return confirm('Are you sure you want to delete?')" class="btn btn-danger btn-sm">Delete</button>
+                            <button asp-page-handler="DeleteImage" asp-route-id="@image.ImageId" form="imageform" onclick="return confirm('Bilden tas bort!')" class="btn btn-danger btn-sm">Ta bort</button>
                             @*<input type="submit" value="Delete" class="btn btn-danger" />*@
                         </li>
                     }
@@ -87,9 +75,8 @@
         </form>
     </div>
 </div>
-
 <div>
-    <a asp-page="./Index">Back to List</a>
+    <a asp-page="./Index">Tillbaka till listan</a>
 </div>
 
 @section Scripts {

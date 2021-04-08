@@ -29,7 +29,7 @@ namespace Bakdelar.Models
         public decimal CouponValue { get; set; }
 
         public bool ShippingPaid { get; set; }
-        public decimal? ShippingFee { get; set; }
+        public decimal ShippingFee { get; set; }
 
         public decimal OrderCost { get; set; }
 

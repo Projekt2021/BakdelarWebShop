@@ -11,43 +11,49 @@ namespace Bakdelar.Classes
     {
         public int ProductId { get; set; }
 
-        [Required]
-        [Display(Name = "Product Name")]
+        [Required(ErrorMessage ="Detta Fält är obligatoriskt")]
+        [Display(Name = "Produktnamn")]
         public string ProductName { get; set; }
 
-        [Display(Name = "Description")]
+        [Required(ErrorMessage = "Detta Fält är obligatoriskt")]
+        [Display(Name = "Beskrivning")]
         public string ProductDescription { get; set; }
 
-        [Required]
-        [Display(Name = "Price")]
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:f}")]
+        [Required(ErrorMessage = "Detta Fält är obligatoriskt")]
+        [Display(Name = "Pris")]
+        [RegularExpression(@"^\d{1,3}(,\d{0,2})?$", ErrorMessage = "Decimaltal upp till 999,99, tack. Ditt fån.")]
         public decimal ProductPrice { get; set; }
 
-        [Display(Name="Special Prize")]
+        [Display(Name="Reapris")]
+        [RegularExpression(@"^\d{1,3}(,\d{0,2})?$", ErrorMessage = "Decimaltal upp till 999,99, tack.")]
         public decimal? SpecialPrice { get; set; }
-
-        [Display(Name = "Available Quantity")]
-        public int? AvailableQuantity { get; set; }
-
-        [Display(Name = "Weight")]
+        
+        [Display(Name = "Vikt")]
+        [RegularExpression(@"^\d{1,3}(,\d{0,2})?$", ErrorMessage = "Decimaltal upp till 999,99, tack.")]
         public double? ProductWeight { get; set; }
 
-        [Display(Name = "Selected")]
+        [Display(Name = "I lager")]
+        [RegularExpression(@"^\d{0,4}$", ErrorMessage = "Ange ett heltal, tack.")]
+        public int? AvailableQuantity { get; set; }
+
+        [Display(Name = "Kampanjvara")]
         public bool IsSelected { get; set; }
 
-        [Display(Name = "Sold Count")]
+        [Required(ErrorMessage = "Detta Fält är obligatoriskt")]
+        [Display(Name = "Antal sålda")]
         public int NumberOfSold { get; set; }
 
-        [Display(Name = "Date Entered")]
+        [Required(ErrorMessage = "Detta Fält är obligatoriskt")]
+        [Display(Name = "Tillagd datum")]
         [DisplayFormat(DataFormatString = "{0:yyyy/MM/dd}")]
         public DateTime DateEntered { get; set; }
 
-        [Required]
-        [Display(Name = "Category")]
         public int CategoryId { get; set; }
         
+        [Display(Name = "Kategori")]
         public CategoryView Category { get; set; }
 
+        [Display(Name = "Bildgalleri")]
         public List<ProductImageView> ProductImageView { get; set; }
 
     }

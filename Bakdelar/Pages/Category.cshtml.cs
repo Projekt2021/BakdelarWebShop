@@ -40,7 +40,7 @@ namespace Bakdelar.Pages
             if (!string.IsNullOrWhiteSpace(Id))
             {
                 using var httpClient = new HttpClient();
-                Products = await httpClient.GetFromJsonAsync<List<Classes.ProductView>>($"{_configuration.GetValue<String>("APIEndpoint")}api/Category/Search?Id={Id}");
+                Products = await httpClient.GetFromJsonAsync<List<Classes.ProductView>>($"{_configuration.GetValue<string>("APIEndpoint")}api/Category/Search?Id={Id}");
 
                 //        //Products = Products.Skip(12 * PageNo - 1)
                 //        //                   .Take(12)
@@ -64,7 +64,7 @@ namespace Bakdelar.Pages
         private async Task SetBreadcrumb()
         {
             using var httpClient = new HttpClient();
-            var categoryView = await httpClient.GetFromJsonAsync<Classes.CategoryView>($"{_configuration.GetValue<String>("APIEndpoint")}api/Category/{Id}");
+            var categoryView = await httpClient.GetFromJsonAsync<CategoryView>($"{_configuration.GetValue<string>("APIEndpoint")}api/Category/{Id}");
 
             if (categoryView != null)
             {

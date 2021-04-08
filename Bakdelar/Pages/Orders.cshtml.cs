@@ -17,6 +17,18 @@ namespace Bakdelar.Areas.Identity.Pages.Account
 
         public List<Order> UserOrders { get; set; }
 
+        public bool IsAdmin { get; set; }
+
+        public decimal SumOfSales { get; set; }
+        public int NumberOfOrders{ get; set; }
+        public int NumberOfShippingFees { get; set; }
+        public decimal TotalShippingFee { get; set; }
+        public int NumberOfCustomers { get; set; }
+        public int ReturningCustomers { get; set; }
+        public int NumberOfSignedInOrders { get; set; }
+
+
+
         public UserManager<MyUser> _userManager { get; set; }
         public AuthenticationDbContext _authDbContext { get; set; }
         public SignInManager<MyUser> _signInManager { get; set; }
@@ -32,15 +44,42 @@ namespace Bakdelar.Areas.Identity.Pages.Account
 
         public void OnGet()
         {
-            string userID = _userManager.GetUserId(User);
+            string userID = _userManager.GetUserId(User); 
             var user = _userManager.GetUserAsync(User).Result;
-            if (_userManager.IsInRoleAsync(user, "Admin").Result)
+
+            IsAdmin = _userManager.IsInRoleAsync(user, "Admin").Result;
+
+            if (IsAdmin)
             {
-                UserOrders = _orderDbContext.Orders.ToList();
+                UserOrders = _orderDbContext.Orders.OrderByDescending(o => o.OrderDate).ToList();
+
+                SumOfSales = UserOrders.Sum(o => o.OrderCost - o.ShippingFee);
+
+                NumberOfOrders = UserOrders.Count;
+
+                NumberOfShippingFees = UserOrders.Where(o => o.ShippingPaid == true)
+                                        .Count();
+
+                TotalShippingFee = UserOrders.Sum(o => o.ShippingFee);
+
+                NumberOfCustomers = UserOrders.GroupBy(g => g.CustomerEmail)
+                                        .Count();
+
+                ReturningCustomers = UserOrders.GroupBy(o => o.CustomerEmail)
+                                        .Where(g => g.Count() > 1)
+                                        .Count();
+
+                NumberOfSignedInOrders = UserOrders.Where(o => o.UserID != null).Count();
+
+                //ReturningCustomers = UserOrders.GroupBy(o => o.UserID)
+                //                        .Where(g => g.Count() > 1 && g.Key != null)
+                //                        .Count();
+
             }
             else
             {
-                UserOrders = _orderDbContext.Orders.Where(order => order.UserID == userID).ToList();
+                UserOrders = _orderDbContext.Orders.Where(order => order.UserID == userID)
+                                .OrderByDescending(o => o.OrderDate).ToList();
             }
         }
     }

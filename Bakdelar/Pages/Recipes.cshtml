@@ -1,0 +1,73 @@
+﻿@page
+@model Bakdelar.Pages.RecipesModel
+@{
+    ViewData["Title"] = "Recept";
+}
+
+<div class="col mt-5 ml-5">
+    <h1>Hitta recept på EDAMAM.com</h1>
+    <p>Obs! Amerikanska recept, sök på engelska.</p>
+
+    <form class="form-inline my-2 my-lg-0 d-inline-flex" method="post">
+        <input asp-for="@Model.SearchString" class="form-control mr-sm-2" type="search" placeholder="Sök...">
+        <span class="input-group-btn">
+            <button class="btn" type="submit">
+                <i class="material-icons">
+                    search
+                </i>
+            </button>
+        </span>
+    </form>
+</div>
+   
+
+    @*@foreach (var recipe in Model.Recipes)
+        {
+            @for (int i = 0; i < recipe.hits.Length; i++)
+            {
+                <p>@recipe.hits[i].recipe.label</p>
+            }
+        }*@
+
+
+<div class="col mx-5">
+    @if (Model.Recipe != null)
+    {
+        if (Model.Recipe.hits.Length > 0)
+        {
+            <br />
+            <br />
+            <div class="col-8 text-left pl-0">
+                <h6>Klicka på recepttiteln för att komma till det fullständiga receptet, du lämnar då Bakdelar.se.</h6>
+            </div>
+
+            for (int i = 0; i < Model.Recipe.hits.Length; i++)
+            {
+                <div class="row pt-3">
+                    <div class="col-3">
+                        <img class="img-responsive d-block" style="height: 15vw;" src="@Model.Recipe.hits[i].recipe.image" />
+                    </div>
+                    <div class="col-6 align-text-top">
+                        <a class="nav-link active text-info pt-0" target="_blank" href="@Model.Recipe.hits[i].recipe.url">@Model.Recipe.hits[i].recipe.label</a>
+
+                        <p class="mx-3">
+                            @foreach (var ingredient in @Model.Recipe.hits[i].recipe.ingredientLines)
+                            {
+                                @ingredient.ToString()
+                                <br />
+                            }
+                        </p>
+                    </div>
+                </div>
+            }
+        }
+        else
+        {
+            <p class="pt-5">Hittade inget recept med "@Model.SearchString".</p>
+        }
+    }
+</div>
+
+
+
+

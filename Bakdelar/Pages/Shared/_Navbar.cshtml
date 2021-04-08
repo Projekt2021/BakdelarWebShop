@@ -3,29 +3,33 @@
     <div class="container-fluid">
         <div class="row" style="width: 100%">
 
-            <div class="col justify-content-start">
+            <div class="col-1 justify-content-start">
 
                 <ul class="navbar-nav ml-auto">
-                    <li class="navbar">
-                       
+                    <li class="navbar pt-3">
                         <button class="btn navbar-dark btn-secondary" type="button" data-toggle="collapse" data-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">
                             <span class="navbar-toggler-icon"></span>
                         </button>
                     </li>
                 </ul>
             </div>
+
+            <div class="col-3 p-3">
+                <a href="~/recipes" class="text-info text-left m-2 font-size: small">Klicka här för att söka recept</a>
+            </div>
+
             <div class="col">
                 <ul class="navbar-nav mr-auto justify-content-center" id="navbarNavAltMarkup">
                     <li class="navbar-nav">
-                        <a class="nav-item nav-link active navbar-text" href="/">Hem</a>
+                        <a class="nav-item nav-link active navbar-text pt-3" href="/">Hem</a>
                     </li>
                     @*<li class="navbar-nav">
                             <a class="nav-item nav-link navbar-text" href="Categories">Kategorier</a>
                         </li>*@
                     <!--<li class="navbar-nav nav-link navbar-text">-->
-                        @*<a class="nav-item nav-link navbar-text" href="Checkout">*@
-                        <!--Kassa-->
-                        @*</a>*@
+                    @*<a class="nav-item nav-link navbar-text" href="Checkout">*@
+                    <!--Kassa-->
+                    @*</a>*@
                     <!--</li>-->
                 </ul>
 
@@ -49,7 +53,7 @@
                     </li>
                 </ul>
                 <partial name="_LoginPartial" />
-            </div>            
+            </div>
         </div>
     </div>
 </nav>

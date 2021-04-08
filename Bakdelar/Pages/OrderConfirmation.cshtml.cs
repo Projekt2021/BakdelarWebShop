@@ -19,8 +19,6 @@ namespace Bakdelar.Pages
         public OrderDbContext _context { get; set; }
         public UserManager<MyUser> _userManager { get; set; }
 
-
-
         public OrderConfirmationModel(OrderDbContext context, UserManager<MyUser> userManager)
         {
             _context = context;
@@ -30,8 +28,8 @@ namespace Bakdelar.Pages
 
 
         [BindProperty(SupportsGet = true)]
-        public int ID { get; set; } 
-        public bool AlreadyViewed { get; set; } 
+        public int ID { get; set; }
+        public bool AlreadyViewed { get; set; }
 
         public Dictionary<int, string> ProductImages { get; set; }
 
@@ -47,22 +45,24 @@ namespace Bakdelar.Pages
             Order = _context.Orders.Where(order => order.OrderID == ID).Include(order => order.OrderItems).FirstOrDefault();
             if (Order != null)
             {
-                //"9aca5242-25b3-43a3-aa4c-b2f226c3a970"
                 string userID = _userManager.GetUserId(User);
-                bool sameUser = (!string.IsNullOrWhiteSpace(Order.UserID) && 
-                                 !string.IsNullOrWhiteSpace(userID)) && 
+                bool sameUser = (!string.IsNullOrWhiteSpace(Order.UserID) &&
+                                 !string.IsNullOrWhiteSpace(userID)) &&
                                  (Order.UserID == userID);
+                bool isAdmin = false;
 
 
+                try
+                {
+                    isAdmin = _userManager.IsInRoleAsync(_userManager.GetUserAsync(User).Result, "Admin").Result;
+                }
+                catch
+                {
+                    isAdmin = false;
+                }   
 
 
-
-                //if ((Order.HasBeenViewed && !sameUser) || !sameUser)
-                //{
-                //    Order = null;
-                //}
-                //else 
-                if(!Order.HasBeenViewed || sameUser)
+                if (!Order.HasBeenViewed || sameUser|| isAdmin)
                 {
                     AlreadyViewed = Order.HasBeenViewed;
                     Order.HasBeenViewed = true;
@@ -74,6 +74,7 @@ namespace Bakdelar.Pages
                         ProductImages.Add(item.ProductID, product.ProductImageView.FirstOrDefault().ImageURL);
                     }
                 }
+               
                 else
                 {
                     Order = null;
