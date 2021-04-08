@@ -8,6 +8,14 @@
     <Compile Remove="AdminAuthorizationHandler.cs" />
     <Compile Remove="Controllers\ProductImageController.cs" />
   </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="..\Bakdelar\Pages\Index.cshtml.cs" Link="Index.cshtml.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\Bakdelar\Pages\Index.cshtml" Link="Index.cshtml" />
+  </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="5.0.4" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="5.0.3">
