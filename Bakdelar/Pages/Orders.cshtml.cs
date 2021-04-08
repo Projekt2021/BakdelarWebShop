@@ -59,7 +59,7 @@ namespace Bakdelar.Areas.Identity.Pages.Account
 
                 TotalDiscountedOrders = UserOrders.Count(o => o.CouponUsed);
 
-                SumOfSales = UserOrders.Sum(o => o.OrderCost - o.ShippingFee) - TotalDiscounted;
+                SumOfSales = UserOrders.Sum(o => o.OrderCost - o.ShippingFee);
 
                 NumberOfOrders = UserOrders.Count;
 

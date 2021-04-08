@@ -23,6 +23,7 @@
             decimal PercentSignedInOrders = Math.Round((decimal)Model.NumberOfSignedInOrders * 100 / Model.NumberOfOrders, 0);
             decimal PercentReturningCustomers = Math.Round((decimal)Model.ReturningCustomers * 100 / Model.NumberOfCustomers, 0);
             decimal PercentOrdersWithShippingFee = Math.Round((decimal)Model.NumberOfShippingFees * 100 / Model.NumberOfOrders, 0);
+            decimal PercentOrdersWithDiscount = Math.Round((decimal)Model.TotalDiscountedOrders * 100 / Model.NumberOfOrders, 0);
 
             <h5 class="text-center">Inloggad som administratör</h5>
             <br />
@@ -33,9 +34,19 @@
                         <td class="font-weight-bold pr-4">Total försäljning exklusive frakt</td>
                         <td>@Model.SumOfSales kr</td>
                     </tr>
+
                     <tr>
                         <td class="font-weight-bold pr-4">Totalt antal beställningar</td>
                         <td>@Model.NumberOfOrders st</td>
+                    </tr>
+
+                    <tr>
+                        <td class="font-weight-bold pr-4">Antal ordrar med rabattkod använd</td>
+                        <td>@PercentOrdersWithDiscount% (@Model.TotalDiscountedOrders av @Model.NumberOfOrders)</td>
+                    </tr>
+                    <tr>
+                        <td class="font-weight-bold pr-4">Total rabatt använd</td>
+                        <td>@Model.TotalDiscounted kr</td>
                     </tr>
                     <tr>
                         <td class="font-weight-bold pr-4">Andel beställningar med fraktkostnad</td>
@@ -50,14 +61,6 @@
                         <td>@PercentSignedInOrders% (@Model.NumberOfSignedInOrders av @Model.NumberOfOrders)</td>
                     </tr>
 
-                    <tr>
-                        <td class="font-weight-bold pr-4">Antal ordrar med rabattkod använd</td>
-                        <td>@Model.TotalDiscountedOrders st</td>
-                    </tr>
-                    <tr>
-                        <td class="font-weight-bold pr-4">Total rabatt använd</td>
-                        <td>@Model.TotalDiscounted kr</td>
-                    </tr>
                 </table>
             </div>
             <br />
