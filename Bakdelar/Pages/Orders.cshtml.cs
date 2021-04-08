@@ -20,6 +20,8 @@ namespace Bakdelar.Areas.Identity.Pages.Account
         public bool IsAdmin { get; set; }
 
         public decimal SumOfSales { get; set; }
+        public decimal TotalDiscounted { get; set; }
+        public decimal TotalDiscountedOrders { get; set; }
         public int NumberOfOrders{ get; set; }
         public int NumberOfShippingFees { get; set; }
         public decimal TotalShippingFee { get; set; }
@@ -53,7 +55,11 @@ namespace Bakdelar.Areas.Identity.Pages.Account
             {
                 UserOrders = _orderDbContext.Orders.OrderByDescending(o => o.OrderDate).ToList();
 
-                SumOfSales = UserOrders.Sum(o => o.OrderCost - o.ShippingFee);
+                TotalDiscounted = UserOrders.Sum(o => o.CouponValue);
+
+                TotalDiscountedOrders = UserOrders.Count(o => o.CouponUsed);
+
+                SumOfSales = UserOrders.Sum(o => o.OrderCost - o.ShippingFee) - TotalDiscounted;
 
                 NumberOfOrders = UserOrders.Count;
 
