@@ -44,9 +44,9 @@ namespace Bakdelar.Pages.Shared
 
 
 
-        public AjaxHelperModel(IHttpContextAccessor context, IConfiguration config)
+        public AjaxHelperModel(IConfiguration config, IHttpContextAccessor contextAccessor)
         {
-            _session = context.HttpContext.Session;
+            _session = contextAccessor.HttpContext.Session;
             _configuration = config;
         }
 
@@ -272,9 +272,9 @@ namespace Bakdelar.Pages.Shared
 
 
 
-        public async Task<IActionResult> OnPostChangeCountItemAsync(int id, int newAmount)
+        public async Task<IActionResult> OnPostChangeCountItemAsync(int id, int newAmount, string page)
         {
-
+            bool couponUsed = HttpContext.Session.CouponUsed();
             var shoppingBasket = HttpContext.Session.GetBasket();
             var shoppingItem = shoppingBasket.FirstOrDefault(p => p.ID == id);
 
@@ -298,9 +298,15 @@ namespace Bakdelar.Pages.Shared
 
             decimal costForItems = shoppingItem.Price * shoppingItem.ItemCount;
             decimal totalCostForAllItems = shoppingBasket.Sum(item => item.ItemCount * item.Price);
-            if (totalCostForAllItems < 300)
+
+            switch(page)
             {
-                totalCostForAllItems += StaticValues.ShippingFee;
+                case "/checkout":
+                    totalCostForAllItems = CheckoutPrice(couponUsed, totalCostForAllItems);
+                    break;
+                case "/shoppingbasket":
+                    totalCostForAllItems = ShoppingBasketPrice(couponUsed, totalCostForAllItems);
+                    break;
             }
 
             await GetFromApi.PutProductAsync(Product);
@@ -310,7 +316,36 @@ namespace Bakdelar.Pages.Shared
 
 
 
+        public decimal CheckoutPrice(bool couponUsed, decimal totalCostForAllItems)
+        {
 
+
+            if (couponUsed && totalCostForAllItems < 300)
+            {
+                totalCostForAllItems = Math.Round(totalCostForAllItems *= 0.8M, 2);
+
+                totalCostForAllItems += StaticValues.ShippingFee;
+            }
+            else if (couponUsed && totalCostForAllItems >= 300)
+            {
+                totalCostForAllItems = Math.Round(totalCostForAllItems *= 0.8M, 2);
+            }
+            else if (totalCostForAllItems < 300)
+            {
+                totalCostForAllItems += StaticValues.ShippingFee;
+            }
+
+            return totalCostForAllItems;
+        }
+        public decimal ShoppingBasketPrice(bool couponUsed, decimal totalCostForAllItems)
+        {
+
+            if (totalCostForAllItems < 300)
+            {
+                totalCostForAllItems += StaticValues.ShippingFee;
+            }
+            return totalCostForAllItems;
+        }
 
 
 

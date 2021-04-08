@@ -1,51 +1,55 @@
 ﻿@using Bakdelar.MethodClasses;
 @using Bakdelar.Classes;
+@using Microsoft.AspNetCore.Mvc.RazorPages;
+@using Microsoft.AspNetCore.Mvc;
+@using Microsoft.AspNetCore.Http;
+@inject IHttpContextAccessor contextAccessor;
 @model List<ShoppingBasketItem>
 
 @{
     var userID = 0;
 
     decimal shippingFee = StaticValues.ShippingFee;
+    bool couponUsed = contextAccessor.HttpContext.Session.CouponUsed();
+
+    <div class="flex-column w-100">
+        <div class="justify-content-center w-75 mx-auto">
+            @if (Model != null && Model.Any())
+            {
+                decimal totalPrice = Model.Sum(item => item.ItemCount * item.Price);
 
 
-        <div class="flex-column w-100">
-            <div class="justify-content-center w-75 mx-auto">
-                @if (Model != null && Model.Any())
-                {
-                    decimal totalPrice = Model.Sum(item => item.ItemCount * item.Price);
 
+                <table class="table m-0 border  border-dark">
 
+                    <thead class="thead-dark">
+                        <tr>
+                            <th scope="col">
+                                @Html.DisplayNameFor(model => model.FirstOrDefault().ImageLink)
+                            </th>
+                            <th scope="col">
+                                @Html.DisplayNameFor(model => model.FirstOrDefault().ProductName)
+                            </th>
+                            <th scope="col">
+                                @Html.DisplayNameFor(model => model.FirstOrDefault().ItemCount)
 
-                    <table class="table m-0 border  border-dark">
+                                @*<th>
+                                        @Html.DisplayNameFor(model => model.ShoppingBasket.FirstOrDefault().Discount)
+                                    </th>*@
+                            <th scope="col">
+                                Styckpris
+                            </th>
+                            <th scope="col">
+                                Pris
+                            </th>
+                            <th scope="col">
 
-                        <thead class="thead-dark">
-                            <tr>
-                                <th scope="col">
-                                    @Html.DisplayNameFor(model => model.FirstOrDefault().ImageLink)
-                                </th>
-                                <th scope="col">
-                                    @Html.DisplayNameFor(model => model.FirstOrDefault().ProductName)
-                                </th>
-                                <th scope="col">
-                                    @Html.DisplayNameFor(model => model.FirstOrDefault().ItemCount)
-
-                                    @*<th>
-                                @Html.DisplayNameFor(model => model.ShoppingBasket.FirstOrDefault().Discount)
-                            </th>*@
-                                <th scope="col">
-                                    Styckpris
-                                </th>
-                                <th scope="col">
-                                    Pris
-                                </th>
-                                <th scope="col">
-
-                                </th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach (var item in Model)
-                            {
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
                             <tr>
                                 <td>
                                     <img src="@item.ImageLink" style="height: 50px; height: 50px;" />
@@ -58,7 +62,7 @@
                                 @{
                                     var product = GetFromApi.GetProductAsync(item.ID).Result;
                                     int available = (product.AvailableQuantity.Value - product.NumberOfSold) + item.ItemCount;
-                                        }
+                                }
                                 <td>
                                     <div class="form-inline">
                                         <input class="form-control" id="change-amount-@item.ID" style="border-radius: 1rem; width: 4.5rem;"
@@ -70,8 +74,8 @@
                                     </div>
                                 </td>
                                 @*<td>
-            @Html.DisplayFor(modelItem => item.Discount)
-        </td>*@
+                                        @Html.DisplayFor(modelItem => item.Discount)
+                                    </td>*@
                                 <td>
 
                                     @item.Price kr
@@ -100,88 +104,97 @@
 
 
                             </tr>
-                            }
+                        }
 
-                            @if (totalPrice < 300)
-                            {
-                                <tr id="shipping-cost-row">
-                                    <td>
-                                    </td>
+                        @if (totalPrice < 300)
+                        {
+                            <tr id="shipping-cost-row">
+                                <td>
+                                </td>
 
-                                    <td>
-                                        Frakt
-                                    </td>
-                                    <td>
-                                        1 st
-                                    </td>
-                                    <td>
-                                        @shippingFee kr
-                                    </td>
-                                    <td>
-                                        @shippingFee kr
-                                    </td>
-                                    <td>
-                                    </td>
-                                </tr>
-                            }
-                            else
-                            {
-                                <tr id="shipping-cost-row">
-                                    <td>
-                                    </td>
+                                <td>
+                                    Frakt
+                                </td>
+                                <td>
+                                    1 st
+                                </td>
+                                <td>
+                                    @shippingFee kr
+                                </td>
+                                <td>
+                                    @shippingFee kr
+                                </td>
+                                <td>
+                                </td>
+                            </tr>
+                        }
+                        else
+                        {
+                            <tr id="shipping-cost-row">
+                                <td>
+                                </td>
 
-                                    <td>
-                                        Fri frakt
-                                    </td>
-                                    <td>
-                                        1 st
-                                    </td>
-                                    <td>
-                                        0,00 kr
-                                    </td>
-                                    <td>
-                                        0,00 kr
-                                    </td>
-                                    <td>
-                                    </td>
-                                </tr>
-                            }
-                        </tbody>
-                    </table>
+                                <td>
+                                    Fri frakt
+                                </td>
+                                <td>
+                                    1 st
+                                </td>
+                                <td>
+                                    0,00 kr
+                                </td>
+                                <td>
+                                    0,00 kr
+                                </td>
+                                <td>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
 
-                    if (totalPrice < 300)
-                    {
-
-                        decimal remaining = 300 - totalPrice;
-
-                        <div id="shipping-cost-banner" class="text-warning bg-dark mx-auto w-100 border rounded border-dark m-3 text-center font-weight-bolder h1">Kvar till fri frakt: @remaining kr</div>
-                    }
-                    if (totalPrice >= 300)
-                    {
-
-
-                        <div id="shipping-cost-banner" class="text-dark bg-success w-100 mx-auto border rounded border-dark my-3 text-center font-weight-bolder h1">Du har nu fri frakt!</div>
-                    }
-
-                    <div class="flex-row ">
-                        <div id="total-cost-below" class="mx-auto text-right pt-3 h4 w-100">
-                            @if (totalPrice < 300)
-                            {
-                                totalPrice += shippingFee;
-                            }
-                            Totalt: @totalPrice kr
-                        </div>
-                    </div>
-
-
-                }
-                else
+                if (totalPrice < 300)
                 {
-                    <h1 class="text-center">Tomt!</h1>
+
+                    decimal remaining = 300 - totalPrice;
+
+                    <div id="shipping-cost-banner" class="text-warning bg-dark mx-auto w-100 border rounded border-dark m-3 text-center font-weight-bolder h1">Kvar till fri frakt: @remaining kr</div>
                 }
-            </div>
+                if (totalPrice >= 300)
+                {
 
 
+                    <div id="shipping-cost-banner" class="text-dark bg-success w-100 mx-auto border rounded border-dark my-3 text-center font-weight-bolder h1">Du har nu fri frakt!</div>
+                }
+
+                <div class="flex-row ">
+                    <div id="total-cost-below" class="mx-auto text-right pt-3 h4 w-100">
+                        @if (couponUsed && totalPrice < 300)
+                        {
+                            totalPrice *= 0.8M;
+                            totalPrice = Math.Round(totalPrice, 2);
+
+                            totalPrice += shippingFee;
+                        }
+                        else if (couponUsed)
+                        {
+
+                            totalPrice *= 0.8M;
+                            totalPrice = Math.Round(totalPrice, 2);
+                        }
+                        Totalt: @totalPrice kr
+                    </div>
+                </div>
+
+
+            }
+            else
+            {
+                <h1 class="text-center">Tomt!</h1>
+            }
         </div>
+
+
+    </div>
 
 }

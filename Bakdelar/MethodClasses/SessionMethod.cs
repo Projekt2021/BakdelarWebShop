@@ -38,5 +38,20 @@ namespace Bakdelar.MethodClasses
 
             session.SetString("shopping_basket", JsonSerializer.Serialize(shoppingBasket, Options));
         }
+
+
+
+        public static bool CouponUsed(this ISession session)
+        {
+            var coupon = session.GetString("coupon");
+
+            if (coupon == null || coupon != "bak20")
+            {
+                return false;
+            }
+
+            return true;
+
+        }
     }
 }

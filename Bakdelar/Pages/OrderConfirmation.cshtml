@@ -77,11 +77,28 @@
                         <div class="col-6 d-flex justify-content-end pr-5">
                             <table class="mt-3">
                                 <tbody class=" align-text-top">
-                                    <tr>
-                                        <td class="font-weight-bold pr-4">Betalt</td>
-                                        <td>@Model.Order.OrderCost kr</td>
-                                    </tr>
+                                    @if (Model.Order.CouponUsed)
+                                    {
+                                        decimal costBeforeCoupon = Model.Order.OrderCost + Model.Order.CouponValue;
+                                        <tr>
 
+                                            <td class="font-weight-bold pr-4">Betalt</td>
+                                            <td><del>@costBeforeCoupon kr</del> @Model.Order.OrderCost kr</td>
+
+
+                                        </tr>
+                                        <tr>
+                                            <td class="font-weight-bold pr-4">Rabatt</td>
+                                            <td>@Model.Order.CouponValue kr</td>
+                                        </tr>
+                                    }
+                                    else
+                                    {
+                                <tr>
+                                    <td class="font-weight-bold pr-4">Betalt</td>
+                                    <td>@Model.Order.OrderCost kr</td>
+                                </tr>
+                                }
                                     <tr>
                                         <td class="font-weight-bold pr-4">Varav frakt</td>
                                         @if (Model.Order.ShippingPaid)
@@ -127,8 +144,8 @@
                                         <td class="font-weight-bold"></td>
                                         <td>@Model.Order.CustomerZipCode @Model.Order.CustomerCity</td>
                                     </tr>
-                                </tbody>
-                            </table>
+                                    </tbody>
+                                </table>
 
                         </div>
 
@@ -139,10 +156,10 @@
                             @*<h3 class="text-center pt-4 w-100">Bekräftelse skickad till @Model.Order.CustomerEmail</h3>*@
                         }
                         @*else
-                        {
+                            {
 
-                            <h3 class="text-center pt-4 w-100">Du hittar orderbekräftelsen i din mail</h3>
-                        }*@
+                                <h3 class="text-center pt-4 w-100">Du hittar orderbekräftelsen i din mail</h3>
+                            }*@
                     </div>
 
                 }
