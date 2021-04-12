@@ -25,23 +25,23 @@
 
 
                 <div class="dropdown-menu">
-                    <a class="dropdown-item" id="manage" asp-area="Identity" asp-page="/Account/Manage/Index">Hello @firstName!</a>
+                    <a class="dropdown-item" id="manage" asp-area="Identity" asp-page="/Account/Manage/Index">Hej @firstName!</a>
                     @*<a class="dropdown-item" id="manage" asp-area="Identity" asp-page="/Account/Manage/Index">Hello @UserManager.GetUserId(User)</a>*@
                     <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="@Url.Content("~/Orders")">Ordrar</a>
+                    <a class="dropdown-item" href="@Url.Content("~/Orders")">Visa Ordrar</a>
                     @*<a class="dropdown-item" id="manage" asp-area="Identity" asp-page="/Account/Manage/Index">Hello @UserManager.GetUserId(User)</a>*@
                     <div class="dropdown-divider"></div>
                     <form id="logoutForm" class="dropdown-item" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Page("/Index", new { area = "" })">
-                        <button id="logout" type="submit" class="nav-link btn btn-link text-dark" style="padding:0px; margin:0px;">Logout</button>
+                        <button id="logout" type="submit" class="nav-link btn btn-link text-dark" style="padding:0px; margin:0px;">Logga ut</button>
                     </form>
                 </div>
             }
             else
             {
                 <div class="dropdown-menu">
-                    <a class="dropdown-item" id="login" asp-area="Identity" asp-page="/Account/Login">Login</a>
+                    <a class="dropdown-item" id="login" asp-area="Identity" asp-page="/Account/Login">Logga in</a>
                     <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" id="register" asp-area="Identity" asp-page="/Account/Register">Register</a>
+                    <a class="dropdown-item" id="register" asp-area="Identity" asp-page="/Account/Register">Skapa konto</a>
                 </div>
             }
         </div>
