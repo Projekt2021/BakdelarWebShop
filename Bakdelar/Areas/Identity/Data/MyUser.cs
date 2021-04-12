@@ -13,10 +13,10 @@ namespace Bakdelar.Areas.Identity.Data
 
         //derivative of IdentityUser with more user data
         [Required]
-        [Display(Name = "Förnamn")]
+        [Display(Name = "Förnamn *")]
         public string FirstName { get; set; }
         [Required]
-        [Display(Name = "Efternamn")]
+        [Display(Name = "Efternamn *")]
         public string LastName { get; set; }
         public Address Address { get; set; }
     }
