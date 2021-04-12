@@ -51,6 +51,27 @@ namespace Bakdelar.Areas.Identity.Pages.Account
         [BindProperty]
         public InputModel Input { get; set; }
 
+
+
+
+        [BindProperty]
+        [Required]
+        [Display(Name = "Förnamn")]
+        public string Firstname { get; set; }
+
+
+
+
+        [BindProperty]
+        [Required]
+        [Display(Name = "Efternamn")]
+        public string Lastname { get; set; }
+
+
+
+        [BindProperty]
+        public Address Address { get; set; }
+
         public string ReturnUrl { get; set; }
 
         public class InputModel
@@ -70,6 +91,7 @@ namespace Bakdelar.Areas.Identity.Pages.Account
             [Display(Name = "Confirm password")]
             [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
             public string ConfirmPassword { get; set; }
+
         }
 
         public bool CreateRole()
@@ -109,7 +131,7 @@ namespace Bakdelar.Areas.Identity.Pages.Account
             if (ModelState.IsValid)
             {
                 bool isAdminUser = (CreateRole() || _userManager.Users.Count() == 0);
-                var user = new MyUser { UserName = Input.Email, Email = Input.Email };
+                var user = new MyUser { UserName = Input.Email, Email = Input.Email, FirstName = Firstname, LastName = Lastname, Address = Address };
                 var result = await _userManager.CreateAsync(user, Input.Password);//.ConfigureAwait(false).GetAwaiter().GetResult();
                 if (result.Succeeded)
                 {
