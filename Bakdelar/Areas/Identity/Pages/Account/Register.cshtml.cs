@@ -68,6 +68,9 @@ namespace Bakdelar.Areas.Identity.Pages.Account
         public string Lastname { get; set; }
 
 
+        [BindProperty]
+        [Display(Name = "Telefonnummer")]
+        public string PhoneNumber { get; set; }
 
         [BindProperty]
         public Address Address { get; set; }
@@ -131,7 +134,7 @@ namespace Bakdelar.Areas.Identity.Pages.Account
             if (ModelState.IsValid)
             {
                 bool isAdminUser = (CreateRole() || _userManager.Users.Count() == 0);
-                var user = new MyUser { UserName = Input.Email, Email = Input.Email, FirstName = Firstname, LastName = Lastname, Address = Address };
+                var user = new MyUser { UserName = Input.Email, Email = Input.Email, FirstName = Firstname, LastName = Lastname, Address = Address, PhoneNumber = PhoneNumber };
                 var result = await _userManager.CreateAsync(user, Input.Password);//.ConfigureAwait(false).GetAwaiter().GetResult();
                 if (result.Succeeded)
                 {
