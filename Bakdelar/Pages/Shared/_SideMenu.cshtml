@@ -32,9 +32,14 @@
             @foreach (var category in categories)
             {
                 <div class="ml-7">
-                    <a href="@Url.Content($"~/Category?id={category.CategoryId}")" >@category.CategoryName</a>
+                    <a href="@Url.Content($"~/Category?id={category.CategoryId}")">@category.CategoryName</a>
                 </div>
             }
+
+            <br />
+            <h1 style="font-size: 1.5rem;">Inspiration</h1>
+            <a href="/Recipes">Recept</a>
+
         </div>
     </div>
 </div>
