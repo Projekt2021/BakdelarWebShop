@@ -24,7 +24,7 @@ namespace Bakdelar_API.Controllers
             _context = context;
         }
 
-        // GET: api/Products/5
+        // GET: api/Product/5
         [HttpGet("{id}")]
         public async Task<ActionResult<ProductView>> GetProducts(int id)
         {
@@ -61,7 +61,7 @@ namespace Bakdelar_API.Controllers
 
 
         //Länk för att exponera data externt
-        // GET: api/Products/5
+        // GET: api/Product/all
         [HttpGet("all")]
         public async Task<ActionResult<object>> GetAllProducts()
         {
@@ -92,7 +92,7 @@ namespace Bakdelar_API.Controllers
         }
 
 
-        //// GET: api/Products
+        //// GET: api/Product
         [HttpGet("Search")]
         public async Task<object> SearchProducts(string Name)
         {
@@ -144,11 +144,9 @@ namespace Bakdelar_API.Controllers
             {
                 return new List<ProductView>();
             }
-
-
         }
 
-        //// GET: api/Products
+        //// GET: api/Product
         [HttpGet]
         public async Task<List<ProductView>> GetAllProductsAsync()
         {
@@ -203,7 +201,6 @@ namespace Bakdelar_API.Controllers
                                                      .Include(p => p.ProductImages)
                                                      .Include(p => p.Category)
                                                      .Select(p => new ProductView(p))
-
                                                      .ToListAsync(); 
 
 
