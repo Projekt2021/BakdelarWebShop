@@ -31,7 +31,7 @@ namespace Bakdelar.Areas.Identity.Data
 
         [Display(Name = "Gatuadress")]
         public string Street { get; set; }
-        [Display(Name = "Postkod")]
+        [Display(Name = "Postnummer")]
         public string ZipCode { get; set; }
         [Display(Name = "Postort")]
         public string City { get; set; }
