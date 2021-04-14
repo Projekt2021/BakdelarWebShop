@@ -1,15 +1,15 @@
 ﻿@{
-//if (ViewData.TryGetValue("ParentLayout", out var parentLayout))
-//{
-//    Layout = (string)parentLayout;
-//}
-//else
-//{
-//    Layout = "/Areas/Identity/Pages/_Layout.cshtml";
-//}
+    if (ViewData.TryGetValue("ParentLayout", out var parentLayout))
+    {
+        Layout = (string)parentLayout;
+    }
+    else
+    {
+        Layout = "/Areas/Identity/Pages/_Layout.cshtml";
+    }
 }
 
-<h2>Hantera ditt konto!</h2>
+<h2>Hantera ditt konto</h2>
 
 <div>
     <h4>Ändra kontoinställningar</h4>
@@ -27,4 +27,3 @@
 @section Scripts {
     @RenderSection("Scripts", required: false)
 }
- m
