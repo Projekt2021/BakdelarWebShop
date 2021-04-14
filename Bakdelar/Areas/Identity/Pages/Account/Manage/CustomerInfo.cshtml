@@ -2,7 +2,7 @@
 @model Bakdelar.Areas.Identity.Pages.Account.Manage.UpdateAddressModel
 
 @{
-    ViewData["Title"] = "Update address";
+    ViewData["Title"] = "Uppdatera namn och adress";
     ViewData["ActivePage"] = Bakdelar.Areas.Identity.Pages.Account.Manage.ManageNavPages.CustomerInfo;
 }
 <h4>@ViewData["Title"]</h4>
@@ -12,27 +12,27 @@
         <form id="change-password-form" method="post">
             <div asp-validation-summary="All" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="FirstName">First name</label>
+                <label asp-for="FirstName">Förnamn</label>
                 <input asp-for="FirstName" value="@Model.FirstName" class="form-control" />
                 @*<span asp-validation-for="Input.OldPassword" class="text-danger"></span>*@
             </div>
             <div class="form-group">
-                <label asp-for="LastName">Last name</label>
+                <label asp-for="LastName">Efternamn</label>
                 <input asp-for="LastName" value="@Model.LastName" class="form-control" />
                 @*<span asp-validation-for="Input.OldPassword" class="text-danger"></span>*@
             </div>
             <div class="form-group">
-                <label asp-for="Address.Street">Street address</label>
+                <label asp-for="Address.Street">Gatuadress</label>
                 <input asp-for="Address.Street" value="@Model.Address?.Street" class="form-control" />
                 @*<span asp-validation-for="Input.OldPassword" class="text-danger"></span>*@
             </div>
             <div class="form-group">
-                <label asp-for="Address.ZipCode">Zip code</label>
+                <label asp-for="Address.ZipCode">Postnummer</label>
                 <input asp-for="Address.ZipCode" value="@Model.Address?.ZipCode" class="form-control" />
                 @*<span asp-validation-for="Input.NewPassword" class="text-danger"></span>*@
             </div>
             <div class="form-group">
-                <label asp-for="Address.City">City</label>
+                <label asp-for="Address.City">Stad</label>
                 <input asp-for="Address.City" value="@Model.Address?.City" class="form-control" />
                 @*<span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>*@
             </div>

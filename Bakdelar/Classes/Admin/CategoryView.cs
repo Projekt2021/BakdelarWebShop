@@ -12,7 +12,7 @@ namespace Bakdelar.Classes
         public int CategoryId { get; set; }
 
         [Required]
-        [Display(Name = "Category Name")]
+        [Display(Name = "Namn")]
         public string CategoryName { get; set; }
         //public List<SelectListItem> Categories { set; get; }
     }

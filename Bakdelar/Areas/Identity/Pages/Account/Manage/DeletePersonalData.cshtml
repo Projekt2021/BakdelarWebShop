@@ -1,7 +1,7 @@
 ﻿@page
 @model DeletePersonalDataModel
 @{
-    ViewData["Title"] = "Delete Personal Data";
+    ViewData["Title"] = "Ta bort konto";
     ViewData["ActivePage"] = ManageNavPages.PersonalData;
 }
 
@@ -9,7 +9,7 @@
 
 <div class="alert alert-warning" role="alert">
     <p>
-        <strong>Deleting this data will permanently remove your account, and this cannot be recovered.</strong>
+        <strong>Om du raderar ditt konto tas all information bort och kan ej återskapas.</strong>
     </p>
 </div>
 
@@ -24,7 +24,7 @@
                     <input asp-for="Input.Password" class="form-control" />
                 </div>
             }
-            <button class="btn btn-danger" type="submit">Delete data and close my account</button>
+            <button class="btn btn-danger" type="submit">Radera mitt konto</button>
         </form>
     </div>
 </div>

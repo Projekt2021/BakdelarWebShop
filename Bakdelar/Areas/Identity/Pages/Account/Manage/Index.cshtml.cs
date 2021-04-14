@@ -23,8 +23,9 @@ namespace Bakdelar.Areas.Identity.Pages.Account.Manage
             _signInManager = signInManager;
         }
 
+        [Display(Name = "Användarnamn")]
         public string Username { get; set; }
-
+       
         [TempData]
         public string StatusMessage { get; set; }
 
@@ -34,7 +35,7 @@ namespace Bakdelar.Areas.Identity.Pages.Account.Manage
         public class InputModel
         {
             [Phone]
-            [Display(Name = "Phone number")]
+            [Display(Name = "Telefonnummer")]
             public string PhoneNumber { get; set; }
         }
 
@@ -83,13 +84,13 @@ namespace Bakdelar.Areas.Identity.Pages.Account.Manage
                 var setPhoneResult = await _userManager.SetPhoneNumberAsync(user, Input.PhoneNumber);
                 if (!setPhoneResult.Succeeded)
                 {
-                    StatusMessage = "Unexpected error when trying to set phone number.";
+                    StatusMessage = "Ett fel inträffade. Vänligen försök igen.";
                     return RedirectToPage();
                 }
             }
 
             await _signInManager.RefreshSignInAsync(user);
-            StatusMessage = "Your profile has been updated";
+            StatusMessage = "Informationen i din profil har uppdaterats";
             return RedirectToPage();
         }
     }

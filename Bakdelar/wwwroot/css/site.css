@@ -51,8 +51,8 @@ i {
 
 #body {
     /*background-image: url(../images/body_bg.gif);*/
-    background: rgb(218,197,206);
-    background: radial-gradient(circle, rgba(218,197,206,1) 0%, rgba(171,208,185,1) 100%);
+    background: rgba(238,115,131,255);
+    /*background: radial-gradient(circle, rgba(231,149,179,255) 0%, rgba(98,154,133,255) 100%);*/
     width: 100%;
     height: auto;
     background-size: cover;
@@ -69,9 +69,11 @@ i {
 }
 
 body {
-    background-image: url("../images/cooking.jpg");
+    background-image: url("../images/banner-röd.jpg");
     background-repeat: no-repeat;
-    background-size: cover;
+    background-size: contain;
+
+
 }
 
 .navbar {

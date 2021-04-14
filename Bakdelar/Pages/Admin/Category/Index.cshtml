@@ -7,7 +7,7 @@
 
 
 
-<h1>Kategori</h1>
+<h1>Kategorier</h1>
 
 <p>
     <a asp-page="Create">Skapa Ny</a>
@@ -15,8 +15,8 @@
 
 <form>
     <p>
-        Title: <input type="text" asp-for="SearchString" />
-        <input type="submit" value="Filter" />
+        <input type="text" asp-for="SearchString" />
+        <input type="submit" value="Filtrera" />
     </p>
 </form>
 
@@ -38,8 +38,8 @@
                     @Html.DisplayFor(modelItem => item.CategoryName)
                 </td>
                 <td>
-                    <a asp-page="./Edit" asp-route-id="@item.CategoryId">Edit</a> |
-                    <a asp-page="./Delete" asp-route-id="@item.CategoryId">Delete</a>
+                    <a asp-page="./Edit" asp-route-id="@item.CategoryId">Ändra</a> |
+                    <a asp-page="./Delete" asp-route-id="@item.CategoryId">Ta bort</a>
                 </td>
             </tr>
         }
