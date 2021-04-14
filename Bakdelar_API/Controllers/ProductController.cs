@@ -59,6 +59,39 @@ namespace Bakdelar_API.Controllers
             return productView;
         }
 
+
+        //Länk för att exponera data externt
+        // GET: api/Products/5
+        [HttpGet("all")]
+        public async Task<ActionResult<object>> GetAllProducts()
+        {
+            var productView = await _context.Products.Include(p => p.ProductImages).ToListAsync();
+
+            List<object> objects = new();
+
+            foreach (var product in productView)
+            {
+                string imageLink = "https://localhost:5001" + product.ProductImages.First().ImageURL.Replace("\\", "/");
+
+                objects.Add(new
+                {
+                    Name = product.ProductName,
+                    Price = product.ProductPrice,
+                    Image = imageLink,
+                    Description = product.ProductDescription
+                });
+            }
+
+            // Get product from database
+            if (productView == null)
+            {
+                return NotFound();
+            }
+
+            return objects;
+        }
+
+
         //// GET: api/Products
         [HttpGet("Search")]
         public async Task<object> SearchProducts(string Name)
