@@ -82,7 +82,7 @@ namespace Bakdelar.Areas.Identity.Pages.Account.Manage
             await _authContext.SaveChangesAsync();
             await _signInManager.RefreshSignInAsync(user);
             _logger.LogInformation("User changed their info successfully.");
-            StatusMessage = "Customer info successfully updated.";
+            StatusMessage = "Informationen har uppdaterats.";
 
             return RedirectToPage();
         }
