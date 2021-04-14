@@ -1,4 +1,4 @@
-﻿@page
+﻿@page 
 @model Bakdelar.Pages.CheckoutModel
 
 @using Bakdelar.MethodClasses;
@@ -13,6 +13,7 @@
     decimal? totalPrice = Model.ShoppingBasket?.Sum(item => item.ItemCount * item.Price);
     bool validShoppingBasket = Model.ShoppingBasket != null && Model.ShoppingBasket != null && Model.ShoppingBasket.Any();
     var userID = 0;
+    bool couponUsed = HttpContext.Session.CouponUsed();
 
     decimal shippingFee = StaticValues.ShippingFee;
 
@@ -168,15 +169,56 @@
                                         <div id="shipping-cost-banner" class="text-dark bg-success w-100 mx-auto border rounded border-dark my-3 text-center font-weight-bolder h1">Du har nu fri frakt!</div>
                                     }
 
-                                    <div class="flex-row ">
-                                        <div id="total-cost-below" class="mx-auto text-right pt-3 h4 w-100">
-                                            @if (totalPrice < 300)
-                                            {
-                                                totalPrice += shippingFee;
-                                            }
-                                            Totalt: @totalPrice kr
-                                        </div>
+                            <div class="flex-row ">
+                                @if(!couponUsed)
+                                {
+
+                                <form method="post" asp-page-handler="Coupon">
+
+                                    <div class="font-weight-bold">
+                                        Rabattkod
                                     </div>
+                                    <div class="form-inline">
+                                        <input class="form-control w-25 d-inline-flex" asp-for="Coupon" />
+
+                                        <button type="submit" class="btn text-white">
+
+                                            <i class="material-icons text-success">
+
+                                                check_circle_outline
+
+                                            </i>
+                                        </button>
+                                    </div>
+                                </form>
+
+                                }
+                                else
+                                {
+                            <div class="">20% rabatt!</div>
+                                }
+                            <div id="total-cost-below" class="mx-auto text-right pt-3 h4 w-100">
+                                
+                                @if (couponUsed && totalPrice < 300)
+                                {
+                                    totalPrice *= 0.8M;
+                                    totalPrice = Math.Round(totalPrice.Value, 2);
+
+                                    totalPrice += shippingFee;
+                                }
+                                else if(couponUsed)
+                                {
+
+                                    totalPrice *= 0.8M;
+                                    totalPrice = Math.Round(totalPrice.Value, 2);
+                                }
+                                else if(totalPrice < 300)
+                                {
+                                    totalPrice += shippingFee;
+                                }
+                                Totalt: @totalPrice kr
+                            </div>
+                            </div>
                                 }
                             </div>
                         </div>

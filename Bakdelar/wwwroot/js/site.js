@@ -182,7 +182,8 @@ function changeItemCount(itemID1, amount) {
         var form_data =
         {
             id: itemID1,
-            newAmount: amount
+            newAmount: amount,
+            page: currentPage
         }; //Encode form elements for submission
         $.ajax({
             url: url,

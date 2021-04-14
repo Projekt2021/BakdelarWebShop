@@ -52,13 +52,31 @@ namespace Bakdelar.Pages
 
         }
 
+
+
+
         //för att spara data som användaren skriver in i fältet
         [BindProperty]
         public Customer Customer { get; set; }
 
 
+
+
+        [BindProperty]
+        public string Coupon { get; set; }
+
+
+
+
+
+
+
+
+
         public async Task<IActionResult> OnPost()
         {
+            bool couponUsed = HttpContext.Session.CouponUsed();
+            decimal couponValue = 0;
             var session = HttpContext.Session;
             string paymentMethod = "";
             DateTime orderDate = DateTime.UtcNow;
@@ -68,7 +86,11 @@ namespace Bakdelar.Pages
             decimal orderCost = orderItems.Sum(item => item.ProductPricePaidTotal);
             bool shippingPaid = orderCost < 300;
 
-
+            if(couponUsed)
+            {
+                couponValue = orderCost * 0.2M;
+                orderCost *= 0.8M;
+            }
             string userID = null;
 
 
@@ -103,12 +125,26 @@ namespace Bakdelar.Pages
                 OrderCost = orderCost,
                 OrderItems = orderItems,
                 UserID = userID,
-                HasBeenViewed = false
+                HasBeenViewed = false,
+                CouponUsed = couponUsed,
+                CouponValue = couponValue
             };
             _context.Orders.Add(order);
             await _context.SaveChangesAsync();
             session.Clear();
             return Redirect($"~/OrderConfirmation/{order.OrderID}");
         }
+
+        public IActionResult OnPostCoupon()
+        {
+            if(Coupon.ToLower() == "BAK20".ToLower())
+            {
+                HttpContext.Session.SetString("coupon", "bak20");
+            }
+            return RedirectToPage("/Checkout");
+        }
+
+
+
     }
 }

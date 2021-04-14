@@ -25,6 +25,8 @@ namespace Bakdelar.Models
         public string CustomerCity { get; set; }
         public string CustomerEmail { get; set; }
         public string PaymentMethod { get; set; }
+        public bool CouponUsed { get; set; }
+        public decimal CouponValue { get; set; }
 
         public bool ShippingPaid { get; set; }
         public decimal ShippingFee { get; set; }

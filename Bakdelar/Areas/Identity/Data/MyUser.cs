@@ -13,8 +13,10 @@ namespace Bakdelar.Areas.Identity.Data
 
         //derivative of IdentityUser with more user data
         [Required]
+        [Display(Name = "Förnamn *")]
         public string FirstName { get; set; }
         [Required]
+        [Display(Name = "Efternamn *")]
         public string LastName { get; set; }
         public Address Address { get; set; }
     }
@@ -26,11 +28,12 @@ namespace Bakdelar.Areas.Identity.Data
         public int ID { get; set; }
         [ForeignKey("MyUser")]
         public string MyUserID { get; set; }
-        [Required]
+
+        [Display(Name = "Gatuadress")]
         public string Street { get; set; }
-        [Required]
+        [Display(Name = "Postkod")]
         public string ZipCode { get; set; }
-        [Required]
+        [Display(Name = "Postort")]
         public string City { get; set; }
     }
 }

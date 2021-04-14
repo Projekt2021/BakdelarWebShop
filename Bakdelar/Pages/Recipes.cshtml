@@ -4,8 +4,12 @@
     ViewData["Title"] = "Recept";
 }
 
-<div class="col mt-5 ml-5">
-    <h1>Hitta recept på EDAMAM.com</h1>
+<div class="col-10 mt-5 ml-5">
+    <p>Vi vill med den här sidan visa möjligheten att starta ett samarbete med en receptsite (t.ex. Köket.se) 
+    och visa deras recept via ett API som de gör tillgängligt.</p>
+    <h1>Hitta recept från EDAMAM.com</h1>
+    <p>Vill du få inspiration till ditt nästa bakverk? Skriv in en ingrediensen du har hemma eller varför inte 
+    det du precis beställt från oss och låt dig inspireras.</p>
     <p>Obs! Amerikanska recept, sök på engelska.</p>
 
     <form class="form-inline my-2 my-lg-0 d-inline-flex" method="post">
@@ -19,15 +23,6 @@
         </span>
     </form>
 </div>
-   
-
-    @*@foreach (var recipe in Model.Recipes)
-        {
-            @for (int i = 0; i < recipe.hits.Length; i++)
-            {
-                <p>@recipe.hits[i].recipe.label</p>
-            }
-        }*@
 
 
 <div class="col mx-5">
@@ -38,7 +33,7 @@
             <br />
             <br />
             <div class="col-8 text-left pl-0">
-                <h6>Klicka på recepttiteln för att komma till det fullständiga receptet, du lämnar då Bakdelar.se.</h6>
+                <h6>Klicka på recepttiteln för att komma till det fullständiga receptet, du lämnar då Bakdelar.se (sidan öppnas i en ny flik).</h6>
             </div>
 
             for (int i = 0; i < Model.Recipe.hits.Length; i++)

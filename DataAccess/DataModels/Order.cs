@@ -34,6 +34,12 @@ namespace DataAccess.DataModels
         [Column(TypeName = "decimal(18,2)")]
         public decimal OrderCost { get; set; }
 
+
+        public bool CouponUsed { get; set; }
+
+        [Column(TypeName = "decimal(18,2)")]
+        public decimal CouponValue { get; set; }
+
         public bool HasBeenViewed { get; set; }
 
     }
