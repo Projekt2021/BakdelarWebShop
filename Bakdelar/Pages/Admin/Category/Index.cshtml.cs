@@ -34,7 +34,7 @@ namespace Bakdelar.Pages.Admin.Category
             _userManager = userManager;
             _logger = logger;
         }
-
+                
         public string SearchString { get; set; }
         public IList<CategoryView> Category { get; set; }
         public async Task<IActionResult> OnGet()
